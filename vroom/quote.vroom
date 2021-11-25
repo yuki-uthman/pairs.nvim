@@ -1,0 +1,83 @@
+Plugin and maktaba installation.
+  :set nocompatible
+  :let g:plugindir = fnamemodify($VROOMFILE, ':p:h:h')
+  :let g:bootstrapfile = g:plugindir . '/bootstrap.vim'
+  :execute 'source' g:bootstrapfile
+  :call maktaba#LateLoad()
+  :call Hello()
+  ~ Hello
+
+
+Typing single or double quote inserts 2 quotes and put the cursor in between.
+  > i'Hello
+  'Hello'
+  @end
+  @clear
+
+  > i"Hello
+  "Hello"
+  @end
+  @clear
+
+Pressing backspace deletes both quotes if its empty.
+  > iHello'<bs>
+  Hello
+  @end
+  @clear
+
+  > iHello"<bs>
+  Hello
+  @end
+  @clear
+
+
+Backspace behaves normally if there is some letters inside the quote.
+  > i'Hello world<ESC>
+  'Hello world'
+
+  > a<bs>
+  'Hello worl'
+  @end
+  @clear
+
+  > i"Hello world<ESC>
+  "Hello world"
+
+  > a<bs>
+  "Hello worl"
+  @end
+  @clear
+
+
+Do not auto complete for the following scenarios.
+
+If the next char is a quote then skip over the quote.
+  > i'Hello' .. 'world'
+  'Hello' .. 'world'
+  @end
+  @clear
+
+  > i"Hello" .. "world"
+  "Hello" .. "world"
+  @end
+  @clear
+
+Needs to exit insert mode for the mapping to work for some reason.
+If the quote is typed as an apostrophe...
+  > iI<esc>
+  I
+
+  > a'm fine
+  I'm fine
+  @end
+  @clear
+
+Or after the backslash...
+  > i\<esc>
+  \
+
+  > a'
+  \'
+  @end
+  @clear
+
