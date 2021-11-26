@@ -81,3 +81,12 @@ Or after the backslash...
   @end
   @clear
 
+Also check to see if the quote can be inserted inside the quote.
+  > i'\<esc>
+  '\'
+
+  > a'
+  '\''
+  @end
+  @clear
+

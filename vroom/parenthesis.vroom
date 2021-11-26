@@ -1,0 +1,79 @@
+First make sure the correct indentation is being applied.
+Enter a small, unindented function
+  % void func()<cr>
+  % {<cr>
+  % if (true) {<cr>
+  % printf("hello\n!");<cr>
+  % }<cr>
+  % }<cr>
+Enable cindent and set tabstop and shiftwidth to 2
+  :set cin ts=2 sw=2 et
+  > gg=G
+Now function should have a 2-space indentation:
+  void func()
+  {
+    if (true) {
+      printf("hello\n!");
+    }
+  }
+  &
+  @end
+  @clear
+
+Plugin and maktaba installation.
+  :set nocompatible
+  :let g:plugindir = fnamemodify($VROOMFILE, ':p:h:h')
+  :let g:bootstrapfile = g:plugindir . '/bootstrap.vim'
+  :execute 'source' g:bootstrapfile
+  :call maktaba#LateLoad()
+  :call Hello()
+  ~ Hello
+  @clear
+
+Typing opening curly parenthesis automatically inserts the closing pair and puts the cursor in between.
+  > i(cursor
+  (cursor)
+  @end
+  @clear
+
+
+Typing the closing parenthesis would skip over.
+  > i(cursor)cursor
+  (cursor)cursor
+  @end
+  @clear
+
+
+Deleting the opening curly parenthesis should delete both opening and closing parenthesis if empty.
+  > i(<bs>
+
+  @end
+  @clear
+
+
+Backspace should behave normally if it is not empty.
+  > i(Hello<bs>
+  (Hell)
+  @end
+  @clear
+
+
+Typing space inside the empty parenthesis would insert space on each side.
+  > i(<Space>cursor
+  ( cursor )
+  @end
+  @clear
+
+
+Typing enter in the empty parenthesis inserts a new line with indentation.
+> i(<CR>cursor
+(
+cursor)
+
+
+Also if the next char is a closing parenthesis.
+> i(arg1, arg2<CR>arg3, arg4
+(arg1, arg2,
+arg3, arg4)
+@end
+@clear

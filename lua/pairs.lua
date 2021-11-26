@@ -25,78 +25,110 @@ M.keys = {
 }
 
 local single_quote = {
-  left = "'",
-  right = "'",
+  open = {
+    key = "'",
+    action = function()
+      local right = M.get_right_char()
+      local left = M.get_left_char()
 
-  open = function()
-    local right = M.get_right_char()
-    local left = M.get_left_char()
+      if string.find(left, "[%a\\]") then
+        return "'"
 
-    if right == "'" then
-      return M.keys.right
+      elseif right == "'" then
+        return M.keys.right
 
-    elseif string.find(left, "[%a\\]") then
-      return "'"
+      else
+        return "''" .. M.keys.left
 
-    else
-      return "''" .. M.keys.left
-
+      end
     end
+  },
 
-  end,
+  close = {
+    key = "'"
+  },
+
   backspace = function()
     return M.keys.delete .. M.keys.backspace
   end,
 }
 
 local double_quote = {
-  left = "\"",
-  right = "\"",
+  open = {
+    key = "\"",
+    action = function()
+      local right = M.get_right_char()
+      local left = M.get_left_char()
 
-  open = function()
-    local right = M.get_right_char()
-    local left = M.get_left_char()
-
-    if right == "\"" then
-      return M.keys.right
-
-    elseif string.find(left, "[\\]") then
-      return "\""
-
-    else
-    return "\"\"" .. M.keys.left
-
+      if string.find(left, "[\\]") then
+        return "\""
+      elseif right == "\"" then
+        return M.keys.right
+      else
+        return "\"\"" .. M.keys.left
+      end
     end
-  end,
+  },
+
+  close = {
+    key = "\""
+  },
+
   backspace = function()
     return M.keys.delete .. M.keys.backspace
   end,
 }
 
 local parenthesis = {
-  left = "(",
-  right = ")",
-  open = function()
-    return "()" .. M.keys.left
-  end,
+  open = {
+    key = "(",
+    action = function()
+      return "()" .. M.keys.left
+    end
+  },
+
+  close = {
+    key = ")",
+    action = function()
+      local right = M.get_right_char()
+      if right == ")" then
+        return M.keys.right
+      else
+        return ")"
+      end
+    end
+  },
+
   backspace = function()
     return M.keys.delete .. M.keys.backspace
   end,
+
   enter = function()
+    local right = M.get_right_char()
+
+    if right == ")" then
+      return M.keys.enter .. M.keys.indent
+
+    end
+
     return M.keys.enter .. M.keys.indent
   end,
+
   space = function()
     return "  " .. M.keys.left
   end
-
 }
 
 local curly_braces = {
-  left = "{",
-  right = "}",
-  open = function()
-    return "{}" .. M.keys.left
-  end,
+  open = {
+    key = "{",
+    action = function()
+      return "{}" .. M.keys.left
+    end
+  },
+  close = {
+    key = "}"
+  },
   backspace = function()
     return M.keys.delete .. M.keys.backspace
   end,
@@ -109,27 +141,13 @@ local curly_braces = {
 
 }
 
-local tag = {
-  left = "<",
-  right = ">",
-  open = function()
-    return "<>" .. M.keys.left
-  end,
-  backspace = function()
-    return M.keys.delete .. M.keys.backspace
-  end,
-  enter = function()
-    return M.keys.enter .. M.keys.above .. M.keys.tab
-  end
-}
-
 function M.setup()
   -- Export module
   _G.Pairs = {
       single_quote = single_quote,
       double_quote = double_quote,
+      parenthesis = parenthesis,
       curly_braces = curly_braces,
-      tag = tag,
   }
 
   -- Setup config
@@ -141,8 +159,12 @@ end
 
 function M.apply_mappings()
 
-  for pair, table in pairs(Pairs) do
-    vim.api.nvim_set_keymap("i", table.left, "v:lua.Pairs." .. pair .. ".open()", { expr = true, noremap = true } )
+  for name, table in pairs(Pairs) do
+    vim.api.nvim_set_keymap("i", table.open.key, "v:lua.Pairs." .. name .. ".open.action()", { expr = true, noremap = true } )
+
+    if table.close.action then
+      vim.api.nvim_set_keymap("i", table.close.key, "v:lua.Pairs." .. name .. ".close.action()", { expr = true, noremap = true } )
+    end
   end
 
   vim.api.nvim_set_keymap("i", "<bs>", "v:lua.PairsActions.backspace()", { expr = true, noremap = true } )
@@ -184,8 +206,8 @@ function PairsActions.backspace()
   print("neighbors = " .. neighbors)
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
-    print(neighbors .. " == " .. pair.left .. pair.right)
-    if neighbors == pair.left .. pair.right and pair.backspace then
+    -- print(neighbors .. " == " .. pair.left .. pair.right)
+    if neighbors == pair.open.key .. pair.close.key and pair.backspace then
       return pair:backspace()
     end
   end
@@ -199,7 +221,7 @@ function PairsActions.enter()
 
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
-    if neighbors == pair.left .. pair.right and pair.enter then
+    if neighbors == pair.open.key .. pair.close.key and pair.enter then
       return pair:enter()
     end
   end
@@ -209,12 +231,12 @@ end
 
 function PairsActions.space()
 
-  -- get char left and right of the cursor
+  -- get char open.key and close.key of the cursor
   local neighbors = get_neighbors()
 
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
-    if neighbors == pair.left .. pair.right and pair.space then
+    if neighbors == pair.open.key .. pair.close.key and pair.space then
       return pair:space()
     end
   end
