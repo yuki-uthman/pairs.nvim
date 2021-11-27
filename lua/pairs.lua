@@ -193,10 +193,10 @@ local curly_braces = {
 function M.setup()
   -- Export module
   _G.Pairs = {
-      ["'"]  = single_quote,
-      ["\""] = double_quote,
-      ["("]  = parenthesis,
-      ["{"]  = curly_braces,
+      single_quote  = single_quote,
+      double_quote = double_quote,
+      parenthesis  = parenthesis,
+      curly_braces  = curly_braces,
   }
 
   -- Setup config
@@ -209,13 +209,13 @@ end
 function M.apply_mappings()
 
   for name, table in pairs(Pairs) do
-    local rhs = ("v:lua.PairsActions.open(\"\\%s\")"):format(table.open.key)
+    local rhs = ("v:lua.PairsActions.open(\"%s\")"):format(name)
     vim.api.nvim_set_keymap("i", table.open.key, rhs, { expr = true, noremap = true } )
 
     if table.close.action then
-      local rhs = ("v:lua.PairsActions.close(\"\\%s\")"):format(table.open.key)
+      local rhs = ("v:lua.PairsActions.close(\"%s\")"):format(name)
       vim.api.nvim_set_keymap("i", table.close.key, rhs, { expr = true, noremap = true } )
-      -- print(table.close.key .. " = " .. rhs)
+      print(table.close.key .. " --> " .. rhs)
     end
   end
 
@@ -276,15 +276,12 @@ function PairsActions.backspace()
 
   -- get char left and right of the cursor
   local neighbors = M.get_neighbors()
-  print("neighbors = " .. neighbors)
+
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
     print(neighbors .. " == " .. pair.open.key .. pair.close.key)
-    print(pair.backspace.condition())
-    -- if pair.backspace.condition() 
-    --    pair.backspace.action(which_action)
 
-    if pair.backspace.condition() == true then
+    if pair.backspace.condition() ~= false and pair.backspace.condition() ~= nil then
       return pair.backspace:action()
     end
   end
