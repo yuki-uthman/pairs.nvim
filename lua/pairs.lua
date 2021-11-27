@@ -27,15 +27,17 @@ M.keys = {
 local single_quote = {
   open = {
     key = "'",
-    condition = true,
-    action = function()
+    condition = function()
+      return true
+    end,
+    action = function(self)
       local right = M.get_right_char()
       local left = M.get_left_char()
 
       if string.find(left, "[%a\\]") then
-        return "'"
+        return self.key
 
-      elseif right == "'" then
+      elseif right == self.key then
         return M.keys.right
 
       else
@@ -57,13 +59,18 @@ local single_quote = {
 local double_quote = {
   open = {
     key = "\"",
-    action = function()
+
+    condition = function()
+      return true
+    end,
+
+    action = function(self)
       local right = M.get_right_char()
       local left = M.get_left_char()
 
       if string.find(left, "[\\]") then
-        return "\""
-      elseif right == "\"" then
+        return self.key
+      elseif right == self.key then
         return M.keys.right
       else
         return "\"\"" .. M.keys.left
@@ -83,6 +90,11 @@ local double_quote = {
 local parenthesis = {
   open = {
     key = "(",
+
+    condition = function()
+      return true
+    end,
+
     action = function()
       return "()" .. M.keys.left
     end
@@ -90,6 +102,11 @@ local parenthesis = {
 
   close = {
     key = ")",
+
+    condition = function()
+      return true
+    end,
+
     action = function()
       local right = M.get_right_char()
       if right == ")" then
@@ -129,13 +146,31 @@ local parenthesis = {
 local curly_braces = {
   open = {
     key = "{",
+    condition = function()
+      return true
+    end,
     action = function()
       return "{}" .. M.keys.left
     end
   },
+
   close = {
-    key = "}"
+    key = "}",
+
+    condition = function()
+      return true
+    end,
+
+    action = function()
+      local right = M.get_right_char()
+      if right == "}" then
+        return M.keys.right
+      else
+        return "}"
+      end
+    end
   },
+
   backspace = function()
     return M.keys.delete .. M.keys.backspace
   end,
@@ -152,9 +187,9 @@ function M.setup()
   -- Export module
   _G.Pairs = {
       ["'"] = single_quote,
-      double_quote = double_quote,
-      parenthesis = parenthesis,
-      curly_braces = curly_braces,
+      ["\""] = double_quote,
+      ["("] = parenthesis,
+      ["{"] = curly_braces,
   }
 
   -- Setup config
@@ -172,7 +207,9 @@ function M.apply_mappings()
     vim.api.nvim_set_keymap("i", table.open.key, rhs, { expr = true, noremap = true } )
 
     if table.close.action then
-      vim.api.nvim_set_keymap("i", table.close.key, "v:lua.Pairs." .. name .. ".close.action()", { expr = true, noremap = true } )
+      local rhs = ("v:lua.PairsActions.close(\"\\%s\")"):format(table.open.key)
+      vim.api.nvim_set_keymap("i", table.close.key, rhs, { expr = true, noremap = true } )
+      print(table.close.key .. " = " .. rhs)
     end
   end
 
@@ -210,21 +247,39 @@ PairsActions = {}
 
 function PairsActions.open( arg )
 
-  -- check what was typed
+  -- return the pair table to open
+  -- eg. single_quote, parenthesis, etc
   local pair = Pairs[arg]
 
-  local condition = pair.open.condition or true
+  -- configurable condition to open the pair
+  -- different action can be triggered
+  local condition = pair.open.condition 
 
-  local result
   if condition then
-    result = pair.open.action(condition())
+    return pair.open:action(condition())
   else
-    result = arg
+    return arg
   end
 
-  return result
 end
 
+function PairsActions.close( arg )
+
+  -- return the pair table to close
+  -- eg. single_quote, parenthesis, etc
+  local pair = Pairs[arg]
+
+  -- configurable condition to close the pair
+  -- different action can be triggered
+  local condition = pair.close.condition 
+
+  if condition then
+    return pair.close:action(condition())
+  else
+    return arg
+  end
+
+end
 
 
 function PairsActions.backspace()
@@ -275,17 +330,4 @@ function PairsActions.space()
   return escape(' ')
 end
 
-
-
--- vim.api.nvim_set_keymap("i", single_quote.left, single_quote:open(), { noremap = true } )
--- vim.api.nvim_set_keymap("i", tag.left, "v:lua.tag.open()", { expr = true, noremap = true } )
--- vim.api.nvim_set_keymap("i", "<bs>", "v:lua.close_pair()", { expr = true, noremap = true } )
--- vim.api.nvim_set_keymap("i", "<cr>", "v:lua.cr()", { expr = true, noremap = true } )
-
-
--- vim.api.nvim_set_keymap("i", "'", "v:lua.PairsActions.open()", { expr = true, noremap = true } )
--- vim.api.nvim_set_keymap("n", "<leader>p", "v:lua.PairsActions.get_cursor_neigh(0,1)", { expr = true, noremap = true } )
--- vim.api.nvim_set_keymap("i", ")", "hello<bs>", { noremap = true } )
-
--- print("'" .. M.get_arrow_key("left"))
 return M
