@@ -108,8 +108,7 @@ local parenthesis = {
     key = ")",
 
     action = function()
-      local right = M.get_right_char()
-      if right == ")" then
+      if M.get_right_char() == ")" then
         return M.keys.right
       else
         return ")"
@@ -131,12 +130,9 @@ local parenthesis = {
 
   enter = {
     condition = function()
-      local right = M.get_right_char()
-
-      if right == ")" then
+      if M.get_right_char() == ")" then
         return true
       end
-      
     end,
 
     action = function()
@@ -170,8 +166,7 @@ local curly_braces = {
     key = "}",
 
     action = function()
-      local right = M.get_right_char()
-      if right == "}" then
+      if M.get_right_char() == "}" then
         return M.keys.right
       else
         return "}"
@@ -193,13 +188,9 @@ local curly_braces = {
 
   enter = {
     condition = function()
-
-      local neighbours = M.get_neighbours()
-
-      if neighbours == "{}" then
+      if M.get_neighbours() == "{}" then
         return true
       end
-
     end,
 
     action = function(self)
@@ -208,12 +199,9 @@ local curly_braces = {
   },
   space = {
     condition = function()
-      local neighbours = M.get_neighbours()
-
-      if neighbours == "{}" then
+      if M.get_neighbours() == "{}" then
         return true
       end
-
     end,
 
     action = function()
