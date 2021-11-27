@@ -181,6 +181,7 @@ local curly_braces = {
       return M.keys.delete .. M.keys.backspace
     end,
   },
+
   enter = function()
     return M.keys.enter .. M.keys.enter .. M.keys.up .. M.keys.indent
   end,
@@ -215,7 +216,7 @@ function M.apply_mappings()
     if table.close.action then
       local rhs = ("v:lua.PairsActions.close(\"%s\")"):format(name)
       vim.api.nvim_set_keymap("i", table.close.key, rhs, { expr = true, noremap = true } )
-      print(table.close.key .. " --> " .. rhs)
+      -- print(table.close.key .. " --> " .. rhs)
     end
   end
 
@@ -279,11 +280,19 @@ function PairsActions.backspace()
 
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
-    print(neighbors .. " == " .. pair.open.key .. pair.close.key)
+    -- print(neighbors .. " == " .. pair.open.key .. pair.close.key)
 
-    if pair.backspace.condition() ~= false and pair.backspace.condition() ~= nil then
+    -- skip if backspace is not implemented
+    if not pair.backspace then
+      goto next
+    end
+
+    -- if condition is nil or false no action
+    if pair.backspace.condition and pair.backspace.condition() then
       return pair.backspace:action()
     end
+
+    ::next::
   end
 
   return escape('<bs>')
