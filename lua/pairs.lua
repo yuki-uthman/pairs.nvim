@@ -50,7 +50,7 @@ local single_quote = {
 
   backspace = {
     condition = function()
-      if M.get_neighbors() == "''" then
+      if M.get_neighbours() == "''" then
         return true
       end
     end,
@@ -85,7 +85,7 @@ local double_quote = {
 
   backspace = {
     condition = function()
-      if M.get_neighbors() == "\"\"" then
+      if M.get_neighbours() == "\"\"" then
         return true
       end
     end,
@@ -119,7 +119,7 @@ local parenthesis = {
 
   backspace = {
     condition = function()
-      if M.get_neighbors() == "()" then
+      if M.get_neighbours() == "()" then
         return true
       end
     end,
@@ -146,7 +146,7 @@ local parenthesis = {
 
   space = {
     condition = function()
-      if M.get_neighbors() == "()" then
+      if M.get_neighbours() == "()" then
         return true
       end
     end,
@@ -181,7 +181,7 @@ local curly_braces = {
 
   backspace = {
     condition = function()
-      if M.get_neighbors() == "{}" then
+      if M.get_neighbours() == "{}" then
         return true
       end
     end,
@@ -194,9 +194,9 @@ local curly_braces = {
   enter = {
     condition = function()
 
-      local neighbors = M.get_neighbors()
+      local neighbours = M.get_neighbours()
 
-      if neighbors == "{}" then
+      if neighbours == "{}" then
         return true
       end
 
@@ -208,9 +208,9 @@ local curly_braces = {
   },
   space = {
     condition = function()
-      local neighbors = M.get_neighbors()
+      local neighbours = M.get_neighbours()
 
-      if neighbors == "{}" then
+      if neighbours == "{}" then
         return true
       end
 
@@ -258,7 +258,7 @@ function M.apply_mappings()
 
 end
 
-function M.get_neighbors()
+function M.get_neighbours()
 
   return M.get_left_char() .. M.get_right_char()
 end
@@ -308,11 +308,11 @@ end
 function PairsActions.backspace()
 
   -- get char left and right of the cursor
-  local neighbors = M.get_neighbors()
+  local neighbours = M.get_neighbours()
 
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
-    -- print(neighbors .. " == " .. pair.open.key .. pair.close.key)
+    -- print(neighbours .. " == " .. pair.open.key .. pair.close.key)
 
     -- skip if backspace is not implemented
     if not pair.backspace then
@@ -333,7 +333,7 @@ end
 function PairsActions.enter()
 
   -- get char left and right of the cursor
-  local neighbors = M.get_neighbors()
+  local neighbours = M.get_neighbours()
 
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
@@ -356,7 +356,7 @@ end
 function PairsActions.space()
 
   -- get char open.key and close.key of the cursor
-  local neighbors = M.get_neighbors()
+  local neighbours = M.get_neighbours()
 
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
@@ -366,7 +366,7 @@ function PairsActions.space()
       goto next
     end
 
-    -- if neighbors == pair.open.key .. pair.close.key and pair.space then
+    -- if neighbours == pair.open.key .. pair.close.key and pair.space then
     if pair.space.condition and pair.space.condition() then
       return pair.space.action()
     end
