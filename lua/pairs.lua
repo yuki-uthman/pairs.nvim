@@ -130,15 +130,16 @@ local parenthesis = {
   },
 
   enter = {
-
-    action = function()
+    condition = function()
       local right = M.get_right_char()
 
       if right == ")" then
-        return M.keys.enter .. M.keys.indent
-
+        return true
       end
+      
+    end,
 
+    action = function()
       return M.keys.enter .. M.keys.indent
     end
   },
@@ -182,9 +183,21 @@ local curly_braces = {
     end,
   },
 
-  enter = function()
-    return M.keys.enter .. M.keys.enter .. M.keys.up .. M.keys.indent
-  end,
+  enter = {
+    condition = function()
+
+      local neighbors = M.get_neighbors()
+
+      if neighbors == "{}" then
+        return true
+      end
+
+    end,
+
+    action = function(self)
+      return M.keys.enter .. M.keys.enter .. M.keys.up .. M.keys.indent
+    end
+  },
   space = function()
     return "  " .. M.keys.left
   end
@@ -305,9 +318,17 @@ function PairsActions.enter()
 
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
-    if neighbors == pair.open.key .. pair.close.key and pair.enter then
-      return pair:enter()
+
+    -- skip if enter is not implemented
+    if not pair.enter then
+      goto next
     end
+
+    if pair.enter.condition and pair.enter.condition() then
+      return pair.enter:action()
+    end
+
+    ::next::
   end
 
   return escape('<cr>')
