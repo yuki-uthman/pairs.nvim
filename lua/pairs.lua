@@ -27,9 +27,6 @@ M.keys = {
 local single_quote = {
   open = {
     key = "'",
-    condition = function()
-      return true
-    end,
     action = function(self)
       local right = M.get_right_char()
       local left = M.get_left_char()
@@ -60,10 +57,6 @@ local double_quote = {
   open = {
     key = "\"",
 
-    condition = function()
-      return true
-    end,
-
     action = function(self)
       local right = M.get_right_char()
       local left = M.get_left_char()
@@ -90,11 +83,6 @@ local double_quote = {
 local parenthesis = {
   open = {
     key = "(",
-
-    condition = function()
-      return true
-    end,
-
     action = function()
       return "()" .. M.keys.left
     end
@@ -102,10 +90,6 @@ local parenthesis = {
 
   close = {
     key = ")",
-
-    condition = function()
-      return true
-    end,
 
     action = function()
       local right = M.get_right_char()
@@ -122,9 +106,6 @@ local parenthesis = {
   end,
 
   enter = {
-    condition = function()
-
-    end,
 
     action = function()
       local right = M.get_right_char()
@@ -146,9 +127,7 @@ local parenthesis = {
 local curly_braces = {
   open = {
     key = "{",
-    condition = function()
-      return true
-    end,
+
     action = function()
       return "{}" .. M.keys.left
     end
@@ -156,10 +135,6 @@ local curly_braces = {
 
   close = {
     key = "}",
-
-    condition = function()
-      return true
-    end,
 
     action = function()
       local right = M.get_right_char()
@@ -186,10 +161,10 @@ local curly_braces = {
 function M.setup()
   -- Export module
   _G.Pairs = {
-      ["'"] = single_quote,
+      ["'"]  = single_quote,
       ["\""] = double_quote,
-      ["("] = parenthesis,
-      ["{"] = curly_braces,
+      ["("]  = parenthesis,
+      ["{"]  = curly_braces,
   }
 
   -- Setup config
@@ -202,14 +177,13 @@ end
 function M.apply_mappings()
 
   for name, table in pairs(Pairs) do
-    -- vim.api.nvim_set_keymap("i", table.open.key, "v:lua.Pairs." .. name .. ".open.action()", { expr = true, noremap = true } )
     local rhs = ("v:lua.PairsActions.open(\"\\%s\")"):format(table.open.key)
     vim.api.nvim_set_keymap("i", table.open.key, rhs, { expr = true, noremap = true } )
 
     if table.close.action then
       local rhs = ("v:lua.PairsActions.close(\"\\%s\")"):format(table.open.key)
       vim.api.nvim_set_keymap("i", table.close.key, rhs, { expr = true, noremap = true } )
-      print(table.close.key .. " = " .. rhs)
+      -- print(table.close.key .. " = " .. rhs)
     end
   end
 
@@ -251,15 +225,7 @@ function PairsActions.open( arg )
   -- eg. single_quote, parenthesis, etc
   local pair = Pairs[arg]
 
-  -- configurable condition to open the pair
-  -- different action can be triggered
-  local condition = pair.open.condition 
-
-  if condition then
-    return pair.open:action(condition())
-  else
-    return arg
-  end
+  return pair.open:action()
 
 end
 
@@ -269,15 +235,7 @@ function PairsActions.close( arg )
   -- eg. single_quote, parenthesis, etc
   local pair = Pairs[arg]
 
-  -- configurable condition to close the pair
-  -- different action can be triggered
-  local condition = pair.close.condition 
-
-  if condition then
-    return pair.close:action(condition())
-  else
-    return arg
-  end
+  return pair.close:action()
 
 end
 
