@@ -48,9 +48,17 @@ local single_quote = {
     key = "'"
   },
 
-  backspace = function()
-    return M.keys.delete .. M.keys.backspace
-  end,
+  backspace = {
+    condition = function()
+      if M.get_neighbors() == "''" then
+        return true
+      end
+    end,
+
+    action = function(self)
+      return M.keys.delete .. M.keys.backspace
+    end
+  },
 }
 
 local double_quote = {
@@ -75,9 +83,17 @@ local double_quote = {
     key = "\""
   },
 
-  backspace = function()
-    return M.keys.delete .. M.keys.backspace
-  end,
+  backspace = {
+    condition = function()
+      if M.get_neighbors() == "\"\"" then
+        return true
+      end
+    end,
+
+    action = function(self)
+      return M.keys.delete .. M.keys.backspace
+    end
+  },
 }
 
 local parenthesis = {
@@ -101,9 +117,17 @@ local parenthesis = {
     end
   },
 
-  backspace = function()
-    return M.keys.delete .. M.keys.backspace
-  end,
+  backspace = {
+    condition = function()
+      if M.get_neighbors() == "()" then
+        return true
+      end
+    end,
+
+    action = function(self)
+      return M.keys.delete .. M.keys.backspace
+    end
+  },
 
   enter = {
 
@@ -146,9 +170,17 @@ local curly_braces = {
     end
   },
 
-  backspace = function()
-    return M.keys.delete .. M.keys.backspace
-  end,
+  backspace = {
+    condition = function()
+      if M.get_neighbors() == "{}" then
+        return true
+      end
+    end,
+
+    action = function(self)
+      return M.keys.delete .. M.keys.backspace
+    end,
+  },
   enter = function()
     return M.keys.enter .. M.keys.enter .. M.keys.up .. M.keys.indent
   end,
@@ -193,7 +225,7 @@ function M.apply_mappings()
 
 end
 
-local function get_neighbors()
+function M.get_neighbors()
 
   return M.get_left_char() .. M.get_right_char()
 end
@@ -243,25 +275,27 @@ end
 function PairsActions.backspace()
 
   -- get char left and right of the cursor
-  local neighbors = get_neighbors()
+  local neighbors = M.get_neighbors()
   print("neighbors = " .. neighbors)
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
-    -- print(neighbors .. " == " .. pair.left .. pair.right)
-    -- if pair.backspace and pair.backspace.condition then
-    -- if pair.backspace.condition(line) then or just get the line inside the backspace.condition
+    print(neighbors .. " == " .. pair.open.key .. pair.close.key)
+    print(pair.backspace.condition())
+    -- if pair.backspace.condition() 
     --    pair.backspace.action(which_action)
-    if neighbors == pair.open.key .. pair.close.key and pair.backspace then
-      return pair:backspace()
+
+    if pair.backspace.condition() == true then
+      return pair.backspace:action()
     end
   end
+
   return escape('<bs>')
 end
 
 function PairsActions.enter()
 
   -- get char left and right of the cursor
-  local neighbors = get_neighbors()
+  local neighbors = M.get_neighbors()
 
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
@@ -276,7 +310,7 @@ end
 function PairsActions.space()
 
   -- get char open.key and close.key of the cursor
-  local neighbors = get_neighbors()
+  local neighbors = M.get_neighbors()
 
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
