@@ -144,9 +144,17 @@ local parenthesis = {
     end
   },
 
-  space = function()
-    return "  " .. M.keys.left
-  end
+  space = {
+    condition = function()
+      if M.get_neighbors() == "()" then
+        return true
+      end
+    end,
+
+    action = function()
+      return "  " .. M.keys.left
+    end
+  }
 }
 
 local curly_braces = {
@@ -198,9 +206,20 @@ local curly_braces = {
       return M.keys.enter .. M.keys.enter .. M.keys.up .. M.keys.indent
     end
   },
-  space = function()
-    return "  " .. M.keys.left
-  end
+  space = {
+    condition = function()
+      local neighbors = M.get_neighbors()
+
+      if neighbors == "{}" then
+        return true
+      end
+
+    end,
+
+    action = function()
+      return "  " .. M.keys.left
+    end
+  }
 
 }
 
@@ -341,9 +360,18 @@ function PairsActions.space()
 
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
-    if neighbors == pair.open.key .. pair.close.key and pair.space then
-      return pair:space()
+
+    -- skip if space is not implemented
+    if not pair.space then
+      goto next
     end
+
+    -- if neighbors == pair.open.key .. pair.close.key and pair.space then
+    if pair.space.condition and pair.space.condition() then
+      return pair.space.action()
+    end
+
+    ::next::
   end
 
   return escape(' ')
