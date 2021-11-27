@@ -27,6 +27,7 @@ M.keys = {
 local single_quote = {
   open = {
     key = "'",
+    condition = true,
     action = function()
       local right = M.get_right_char()
       local left = M.get_left_char()
@@ -103,16 +104,22 @@ local parenthesis = {
     return M.keys.delete .. M.keys.backspace
   end,
 
-  enter = function()
-    local right = M.get_right_char()
+  enter = {
+    condition = function()
 
-    if right == ")" then
+    end,
+
+    action = function()
+      local right = M.get_right_char()
+
+      if right == ")" then
+        return M.keys.enter .. M.keys.indent
+
+      end
+
       return M.keys.enter .. M.keys.indent
-
     end
-
-    return M.keys.enter .. M.keys.indent
-  end,
+  },
 
   space = function()
     return "  " .. M.keys.left
@@ -144,7 +151,7 @@ local curly_braces = {
 function M.setup()
   -- Export module
   _G.Pairs = {
-      single_quote = single_quote,
+      ["'"] = single_quote,
       double_quote = double_quote,
       parenthesis = parenthesis,
       curly_braces = curly_braces,
@@ -160,7 +167,9 @@ end
 function M.apply_mappings()
 
   for name, table in pairs(Pairs) do
-    vim.api.nvim_set_keymap("i", table.open.key, "v:lua.Pairs." .. name .. ".open.action()", { expr = true, noremap = true } )
+    -- vim.api.nvim_set_keymap("i", table.open.key, "v:lua.Pairs." .. name .. ".open.action()", { expr = true, noremap = true } )
+    local rhs = ("v:lua.PairsActions.open(\"\\%s\")"):format(table.open.key)
+    vim.api.nvim_set_keymap("i", table.open.key, rhs, { expr = true, noremap = true } )
 
     if table.close.action then
       vim.api.nvim_set_keymap("i", table.close.key, "v:lua.Pairs." .. name .. ".close.action()", { expr = true, noremap = true } )
@@ -199,6 +208,25 @@ end
 
 PairsActions = {}
 
+function PairsActions.open( arg )
+
+  -- check what was typed
+  local pair = Pairs[arg]
+
+  local condition = pair.open.condition or true
+
+  local result
+  if condition then
+    result = pair.open.action(condition())
+  else
+    result = arg
+  end
+
+  return result
+end
+
+
+
 function PairsActions.backspace()
 
   -- get char left and right of the cursor
@@ -207,6 +235,9 @@ function PairsActions.backspace()
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs) do
     -- print(neighbors .. " == " .. pair.left .. pair.right)
+    -- if pair.backspace and pair.backspace.condition then
+    -- if pair.backspace.condition(line) then or just get the line inside the backspace.condition
+    --    pair.backspace.action(which_action)
     if neighbors == pair.open.key .. pair.close.key and pair.backspace then
       return pair:backspace()
     end
