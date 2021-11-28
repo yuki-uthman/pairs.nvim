@@ -1,5 +1,4 @@
-local default_pairs = require 'pairs.default.pairs'
-local fallback = require 'pairs.default.fallback'
+local default = require 'pairs.default'
 local actions = require 'pairs.actions'
 local helper  = require 'pairs.helper'
 local keys    = require 'pairs.keys'
@@ -11,9 +10,9 @@ function M.setup()
 
   _G.Pairs = {}
 
-  _G.Pairs.pairs    = default_pairs
   _G.Pairs.actions  = actions
-  _G.Pairs.fallback = fallback
+  _G.Pairs.fallback = default.fallback
+  _G.Pairs.pairs    = default.pairs
 
   -- Setup config
 
