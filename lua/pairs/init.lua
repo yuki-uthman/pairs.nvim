@@ -1,4 +1,5 @@
-local default = require 'pairs.default'
+local default_pairs = require 'pairs.default.pairs'
+local fallback = require 'pairs.default.fallback'
 local actions = require 'pairs.actions'
 local helper  = require 'pairs.helper'
 local keys    = require 'pairs.keys'
@@ -9,10 +10,10 @@ function M.setup()
   -- Export module
 
   _G.Pairs = {}
-  _G.Pairs.pairs = default
-  _G.Pairs.actions = actions
 
-  -- print(vim.inspect(_G.Pairs.actions))
+  _G.Pairs.pairs    = default_pairs
+  _G.Pairs.actions  = actions
+  _G.Pairs.fallback = fallback
 
   -- Setup config
 

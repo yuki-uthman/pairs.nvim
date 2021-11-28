@@ -1,5 +1,6 @@
-local helper = require 'pairs.helper'
-local keys    = require 'pairs.keys'
+local fallback = require 'pairs.default.fallback'
+local helper   = require 'pairs.helper'
+local keys     = require 'pairs.keys'
 
 M = {}
 
@@ -42,7 +43,12 @@ function M.backspace()
     ::next::
   end
 
-  return keys.backspace
+  if fallback.backspace then
+    return fallback.backspace()
+  else
+    return keys.backspace
+  end
+
 end
 
 function M.enter()
@@ -65,7 +71,11 @@ function M.enter()
     ::next::
   end
 
-  return keys.enter
+  if fallback.enter then
+    return fallback.enter()
+  else
+    return keys.enter
+  end
 end
 
 function M.space()
@@ -88,7 +98,11 @@ function M.space()
     ::next::
   end
 
-  return keys.space
+  if fallback.space then
+    return fallback.space()
+  else
+    return keys.space
+  end
 end
 
 return M
