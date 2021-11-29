@@ -22,29 +22,35 @@ M.open = function(pair)
   local move_left = string.rep(keys.left, #pair.right)
 
   -- if the left and right are the same chars
-  -- then this condition provides the skip over action
   if pair.left == pair.right then
+    --  skip over action
     if helper.get_right_char() == pair.right then
       return keys.right
 
+    -- no autocomplete if there is letters, digits or symbols
     elseif string.find(helper.get_left_char(), "[%w%p]") then
       return pair.left
 
     end
   end
 
-  -- if pair.left == pair.right and helper.get_right_char() == pair.right then
-  --   return keys.right
-
-  -- elseif pair.left == pair.right and string.find(helper.get_left_char(), "[%w%p]") then
-  --   return pair.left
-
-  -- else
-  --   return pair.left .. pair.right .. move_left
-  -- end
-
   return pair.left .. pair.right .. move_left
 
 end
+
+M.backspace = {
+
+  condition = function(pair)
+    local neighbours = helper.get_neighbours()
+    if neighbours == pair.left .. pair.right then
+      return true
+    end
+  end,
+
+  action = function(pair)
+    return keys.delete .. keys.backspace
+  end,
+}
+
 
 return M

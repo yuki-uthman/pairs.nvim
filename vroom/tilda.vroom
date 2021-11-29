@@ -50,3 +50,19 @@ Do not autocomplete if there is any character before the tilda.
   @end
   @clear
 
+
+Pressing backspace deletes both tilda if its empty.
+  > iHello`<bs>
+  Hello
+  @end
+  @clear
+
+
+Backspace behaves normally if there is some letters inside the quote.
+  > i`Hello world<ESC>
+  `Hello world`
+
+  > a<bs>
+  `Hello worl`
+  @end
+  @clear

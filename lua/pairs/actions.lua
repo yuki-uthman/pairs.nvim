@@ -37,8 +37,12 @@ function M.backspace()
 
   for _, pair in pairs(Pairs.pairs) do
 
-    -- skip if backspace is not implemented
+    -- if custom backspace is not implemented
+    -- check for fallback backspace condition
     if not pair.backspace then
+      if neighbours == pair.left .. pair.right then
+        return fallback.backspace.action(pair)
+      end
       goto next
     end
 
@@ -49,11 +53,7 @@ function M.backspace()
     ::next::
   end
 
-  if fallback.backspace then
-    return fallback.backspace()
-  else
-    return keys.backspace
-  end
+  return keys.backspace
 
 end
 
