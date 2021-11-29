@@ -1,3 +1,4 @@
+local default  = require 'pairs.default.actions'
 local fallback = require 'pairs.default.fallback'
 local helper   = require 'pairs.helper'
 local keys     = require 'pairs.keys'
@@ -13,10 +14,8 @@ function M.open(type)
   if pair.open and pair.open.action then
     return pair.open.action(pair)
   else
-    return fallback.open(pair)
+    return default.open(pair)
   end
-
-
 
 end
 
@@ -40,8 +39,8 @@ function M.backspace()
     -- if custom backspace is not implemented
     -- check for fallback backspace condition
     if not pair.backspace then
-      if neighbours == pair.left .. pair.right then
-        return fallback.backspace.action(pair)
+      if default.backspace.condition(pair) then
+        return default.backspace.action(pair)
       end
       goto next
     end
@@ -53,7 +52,11 @@ function M.backspace()
     ::next::
   end
 
-  return keys.backspace
+  if fallback.backspace then
+    return fallback.backspace()
+  else
+    return keys.backspace
+  end
 
 end
 
