@@ -63,6 +63,7 @@ If the next char is a quote then skip over the quote.
   @clear
 
 Needs to exit insert mode for the mapping to work for some reason.
+
 If the quote is typed as an apostrophe...
   > iI<esc>
   I
@@ -81,12 +82,29 @@ Or after the backslash...
   @end
   @clear
 
+  > i\<esc>
+  \
+
+  > a"
+  \"
+  @end
+  @clear
+
+
 Also check to see if the quote can be inserted inside the quote.
   > i'\<esc>
   '\'
 
   > a'
   '\''
+  @end
+  @clear
+
+  > i"\<esc>
+  "\"
+
+  > a"
+  "\""
   @end
   @clear
 

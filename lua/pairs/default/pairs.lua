@@ -12,11 +12,14 @@ M.single_quote = {
       local right = helper.get_right_char()
       local left = helper.get_left_char()
 
-      if string.find(left, "[%a\\]") then
+      if string.find(left, "[\\]") then
         return pair.left
 
       elseif right == pair.left then
         return keys.right
+
+      elseif string.find(left, "[%w%p]") then
+        return pair.left
 
       else
         return pair.left .. pair.right .. keys.left
@@ -47,11 +50,17 @@ M.double_quote = {
       local left = helper.get_left_char()
 
       if string.find(left, "[\\]") then
-        return pair.right
-      elseif right == pair.right then
+        return pair.left
+
+      elseif right == pair.left then
         return keys.right
+
+      elseif string.find(left, "[%w%p]") then
+        return pair.left
+
       else
         return pair.left .. pair.right .. keys.left
+
       end
     end
   },
