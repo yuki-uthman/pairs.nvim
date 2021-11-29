@@ -1,7 +1,5 @@
 local default = require 'pairs.default'
 local actions = require 'pairs.actions'
-local helper  = require 'pairs.helper'
-local keys    = require 'pairs.keys'
 
 local M = {}
 

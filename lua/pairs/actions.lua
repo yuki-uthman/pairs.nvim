@@ -3,7 +3,7 @@ local fallback = require 'pairs.default.fallback'
 local helper   = require 'pairs.helper'
 local keys     = require 'pairs.keys'
 
-M = {}
+local M = {}
 
 function M.open(type)
 
