@@ -16,4 +16,10 @@ M.enter = function()
   return ""
 end
 
+M.open = function(pair)
+  local move_left = string.rep(keys.left, #pair.right)
+  return pair.left .. pair.right .. move_left
+end
+
+
 return M

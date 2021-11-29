@@ -1,0 +1,14 @@
+Plugin and maktaba installation.
+  :set nocompatible
+  :let g:plugindir = fnamemodify($VROOMFILE, ':p:h:h')
+  :let g:bootstrapfile = g:plugindir . '/bootstrap.vim'
+  :execute 'source' g:bootstrapfile
+  :call maktaba#LateLoad()
+  :call Hello()
+  ~ Hello
+  @clear
+
+Typing ` automatically inserts another ` and puts the cursor in the middle.
+  > i`cursor
+  `cursor`
+

@@ -196,4 +196,10 @@ M.curly_braces = {
 
 }
 
+M.tilda = {
+  left = "`",
+  right = "`",
+}
+
+
 return M

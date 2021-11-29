@@ -10,7 +10,13 @@ function M.open(type)
   -- eg. single_quote, parenthesis, etc
   local pair = Pairs.pairs[type]
 
-  return pair.open.action(pair)
+  if pair.open and pair.open.action then
+    return pair.open.action(pair)
+  else
+    return fallback.open(pair)
+  end
+
+
 
 end
 
