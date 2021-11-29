@@ -1,5 +1,5 @@
 
-local helper = require 'pairs.helper'
+local utils = require 'pairs.utils'
 local keys   = require 'pairs.keys'
 
 local M = {}
@@ -9,8 +9,8 @@ M.single_quote = {
   right = "'",
   open = {
     action = function(pair)
-      local right = helper.get_right_char()
-      local left = helper.get_left_char()
+      local right = utils.get_right_char()
+      local left = utils.get_left_char()
 
       if string.find(left, "[\\]") then
         return pair.left
@@ -30,7 +30,7 @@ M.single_quote = {
 
   backspace = {
     condition = function()
-      if helper.get_neighbours() == "''" then
+      if utils.get_neighbours() == "''" then
         return true
       end
     end,
@@ -46,8 +46,8 @@ M.double_quote = {
   right = "\"",
   open = {
     action = function(pair)
-      local right = helper.get_right_char()
-      local left = helper.get_left_char()
+      local right = utils.get_right_char()
+      local left = utils.get_left_char()
 
       if string.find(left, "[\\]") then
         return pair.left
@@ -67,7 +67,7 @@ M.double_quote = {
 
   backspace = {
     condition = function()
-      if helper.get_neighbours() == "\"\"" then
+      if utils.get_neighbours() == "\"\"" then
         return true
       end
     end,
@@ -89,7 +89,7 @@ M.parenthesis = {
 
   close = {
     action = function(pair)
-      if helper.get_right_char() == ")" then
+      if utils.get_right_char() == ")" then
         return keys.right
       else
         return ")"
@@ -99,7 +99,7 @@ M.parenthesis = {
 
   backspace = {
     condition = function()
-      if helper.get_neighbours() == "()" then
+      if utils.get_neighbours() == "()" then
         return true
       end
     end,
@@ -111,7 +111,7 @@ M.parenthesis = {
 
   enter = {
     condition = function()
-      if helper.get_right_char() == ")" then
+      if utils.get_right_char() == ")" then
         return true
       end
     end,
@@ -137,7 +137,7 @@ M.parenthesis = {
 
   space = {
     condition = function()
-      if helper.get_neighbours() == "()" then
+      if utils.get_neighbours() == "()" then
         return true
       end
     end,
@@ -160,7 +160,7 @@ M.curly_braces = {
 
   close = {
     action = function()
-      if helper.get_right_char() == "}" then
+      if utils.get_right_char() == "}" then
         return keys.right
       else
         return "}"
@@ -170,7 +170,7 @@ M.curly_braces = {
 
   backspace = {
     condition = function()
-      if helper.get_neighbours() == "{}" then
+      if utils.get_neighbours() == "{}" then
         return true
       end
     end,
@@ -182,7 +182,7 @@ M.curly_braces = {
 
   enter = {
     condition = function()
-      if helper.get_neighbours() == "{}" then
+      if utils.get_neighbours() == "{}" then
         return true
       end
     end,
@@ -193,7 +193,7 @@ M.curly_braces = {
   },
   space = {
     condition = function()
-      if helper.get_neighbours() == "{}" then
+      if utils.get_neighbours() == "{}" then
         return true
       end
     end,

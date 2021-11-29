@@ -1,6 +1,6 @@
 local default  = require 'pairs.default.actions'
 local fallback = require 'pairs.default.fallback'
-local helper   = require 'pairs.helper'
+local utils   = require 'pairs.utils'
 local keys     = require 'pairs.keys'
 
 local M = {}
@@ -32,7 +32,7 @@ end
 
 function M.backspace()
 
-  local neighbours = helper.get_neighbours()
+  local neighbours = utils.get_neighbours()
 
   for _, pair in pairs(Pairs.pairs) do
 
@@ -63,7 +63,7 @@ end
 function M.enter()
 
   -- get char left and right of the cursor
-  local neighbours = helper.get_neighbours()
+  local neighbours = utils.get_neighbours()
 
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs.pairs) do
@@ -90,7 +90,7 @@ end
 function M.space()
 
   -- get char open.key and close.key of the cursor
-  local neighbours = helper.get_neighbours()
+  local neighbours = utils.get_neighbours()
 
   -- if the pair matches any pairs
   for _, pair in pairs(Pairs.pairs) do

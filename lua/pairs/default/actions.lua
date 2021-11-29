@@ -1,4 +1,4 @@
-local helper   = require 'pairs.helper'
+local utils   = require 'pairs.utils'
 local keys     = require 'pairs.keys'
 
 local M = {}
@@ -10,11 +10,11 @@ M.open = function(pair)
   -- if the left and right are the same chars
   if pair.left == pair.right then
     --  skip over action
-    if helper.get_right_char() == pair.right then
+    if utils.get_right_char() == pair.right then
       return keys.right
 
     -- no autocomplete if there is letters, digits or symbols
-    elseif string.find(helper.get_left_char(), "[%w%p]") then
+    elseif string.find(utils.get_left_char(), "[%w%p]") then
       return pair.left
 
     end
@@ -27,7 +27,7 @@ end
 M.backspace = {
 
   condition = function(pair)
-    local neighbours = helper.get_neighbours()
+    local neighbours = utils.get_neighbours()
     if neighbours == pair.left .. pair.right then
       return true
     end
