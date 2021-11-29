@@ -11,4 +11,42 @@ Plugin and maktaba installation.
 Typing ` automatically inserts another ` and puts the cursor in the middle.
   > i`cursor
   `cursor`
+  @end
+  @clear
+
+
+If the next char is the tilda then skip over.
+  > i`Hello` .. `world`
+  `Hello` .. `world`
+  @end
+  @clear
+
+Do not autocomplete if there is any character before the tilda.
+1. Any letters
+  > iabc<esc>
+  abc
+
+  > a`
+  abc`
+  @end
+  @clear
+
+
+2. Any digits
+  > i123<esc>
+  123
+
+  > a`
+  123`
+  @end
+  @clear
+
+3. Any punctuation characters
+  > i\<esc>
+  \
+
+  > a`
+  \`
+  @end
+  @clear
 
