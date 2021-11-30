@@ -1,6 +1,6 @@
 local default  = require 'pairs.default.actions'
 local fallback = require 'pairs.default.fallback'
-local utils   = require 'pairs.utils'
+local utils    = require 'pairs.utils'
 local keys     = require 'pairs.keys'
 
 local M = {}

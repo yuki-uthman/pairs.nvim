@@ -1,4 +1,4 @@
-local pairs = require 'pairs.default.pairs'
+local pairs    = require 'pairs.default.pairs'
 local fallback = require 'pairs.default.fallback'
 
 local M = {

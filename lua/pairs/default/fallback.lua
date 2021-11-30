@@ -1,4 +1,4 @@
-local keys   = require 'pairs.keys'
+local keys  = require 'pairs.keys'
 local utils = require 'pairs.utils'
 
 local M = {}

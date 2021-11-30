@@ -1,4 +1,4 @@
-local default = require 'pairs.default'
+local default  = require 'pairs.default'
 local mappings = require 'pairs.mappings'
 
 local M = {}

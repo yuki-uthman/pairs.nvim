@@ -1,8 +1,11 @@
-local utils   = require 'pairs.utils'
-local keys     = require 'pairs.keys'
+local utils = require 'pairs.utils'
+local keys  = require 'pairs.keys'
 
 local M = {}
 
+-- Default
+-- if left and right are of the same char eg. quote
+-- it would skip over if another pair is on the right of the cursor
 M.open = function(pair)
 
   local move_left = string.rep(keys.left, #pair.right)
@@ -24,7 +27,8 @@ M.open = function(pair)
 
 end
 
--- by default if closing pair is on the right of the cursor
+-- Default
+-- if closing pair is on the right of the cursor
 -- it would skip over without inserting another closing pair
 M.close = function(pair)
   if utils.get_right_char() == pair.right then
