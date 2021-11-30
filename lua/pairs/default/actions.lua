@@ -24,6 +24,16 @@ M.open = function(pair)
 
 end
 
+-- by default if closing pair is on the right of the cursor
+-- it would skip over without inserting another closing pair
+M.close = function(pair)
+  if utils.get_right_char() == pair.right then
+    return keys.right
+  else
+    return pair.right
+  end
+end
+
 M.backspace = {
 
   condition = function(pair)

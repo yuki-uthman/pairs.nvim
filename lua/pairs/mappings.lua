@@ -25,10 +25,15 @@ function M.close(type)
   -- eg. single_quote, parenthesis, etc
   local pair = Pairs.pairs[type]
 
-  return pair.close.action(pair)
+  if pair.close and pair.close.action then
+    print("calling pair close")
+    return pair.close.action(pair)
+  else
+    print("calling default close")
+    return default.close(pair)
+  end
 
 end
-
 
 function M.backspace()
 

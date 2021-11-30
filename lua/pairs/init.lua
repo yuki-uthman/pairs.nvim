@@ -25,7 +25,7 @@ function M.apply_mappings()
     local rhs = ("v:lua.Pairs.mappings.open(\"%s\")"):format(name)
     vim.api.nvim_set_keymap("i", pair.left, rhs, { expr = true, noremap = true } )
 
-    if pair.close and pair.close.action then
+    if pair.left ~= pair.right then
       local rhs = ("v:lua.Pairs.mappings.close(\"%s\")"):format(name)
       vim.api.nvim_set_keymap("i", pair.right, rhs, { expr = true, noremap = true } )
       -- print(pair.close.key .. " --> " .. rhs)
