@@ -3,16 +3,39 @@ local mappings = require 'pairs.mappings'
 
 local M = {}
 
-function M.setup()
-  -- Export module
+function M.setup(user_config)
 
+  -- Export module
   _G.Pairs = {}
+
+
+  -- Setup user config
+  user_config = user_config or {}
+
+  if user_config.pairs then
+    for key, table in pairs(user_config.pairs) do
+      if default.pairs[key] then
+        default.pairs[key] = vim.tbl_deep_extend("force", default.pairs[key], table)
+      else
+        default.pairs[key] = table
+      end
+    end
+  end
+
+  if user_config.fallback then
+    for key, table in pairs(user_config.pairs) do
+      if default.pairs[key] then
+        default.pairs[key] = vim.tbl_deep_extend("force", default.pairs[key], table)
+      else
+        default.pairs[key] = table
+      end
+    end
+  end
 
   _G.Pairs.mappings = mappings
   _G.Pairs.fallback = default.fallback
   _G.Pairs.pairs    = default.pairs
 
-  -- Setup config
 
   -- Apply config
   M.apply_mappings()
