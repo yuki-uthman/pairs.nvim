@@ -19,12 +19,12 @@ In the /config/tag.vim the tag was added as a new pair like so:
 ```
 lua << EOF
 require 'pairs'.setup {
-  pairs = {
-    tags = {
-      left = "<",
-      right = ">"
-    }
-  }
+--pairs = {
+----tags = {
+------left = "<",
+------right = ">"
+----}
+--}
 }
 ```
 
@@ -32,34 +32,34 @@ The following features are provided just by specifying the left and the right ch
 
 1. Auto close
 Typing the opening pair automatically inserts the closing pair and puts the cursor in between.
-  > i[cursor
-  [cursor]
+  > i<cursor
+  <cursor>
   @end
   @clear
 
 
 2. Skip over
 Typing the closing pair would skip over if the next char is the closing pair.
-  > i[cursor]cursor
-  [cursor]cursor
+  > i<cursor>cursor
+  <cursor>cursor
   @end
   @clear
 
 
 3. Delete the empty pair
 Deleting the opening pair should delete both opening and closing pair if empty.
-  > i[<bs>
+  > i<<bs>
   
   @end
   @clear
 
 
 Backspace should behave normally if it is not empty.
-  > i[Hello<esc>
-  [Hello]
+  > i<Hello<esc>
+  <Hello>
 
   > a<bs>
-  [Hell]
+  <Hell>
   @end
   @clear
 
