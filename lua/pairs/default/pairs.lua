@@ -9,7 +9,7 @@ M.single_quote = {
   open = {
     action = function(pair)
       local right = utils.get_right_char()
-      local left = utils.get_left_char()
+      local left  = utils.get_left_char()
 
       if string.find(left, "[\\]") then
         return pair.left
@@ -17,7 +17,7 @@ M.single_quote = {
       elseif right == pair.left then
         return keys.right
 
-      elseif string.find(left, "[%w%p]") then
+      elseif string.find(left, "[%w]") then
         return pair.left
 
       else
@@ -46,7 +46,7 @@ M.double_quote = {
   open = {
     action = function(pair)
       local right = utils.get_right_char()
-      local left = utils.get_left_char()
+      local left  = utils.get_left_char()
 
       if string.find(left, "[\\]") then
         return pair.left
@@ -54,7 +54,7 @@ M.double_quote = {
       elseif right == pair.left then
         return keys.right
 
-      elseif string.find(left, "[%w%p]") then
+      elseif string.find(left, "[%w]") then
         return pair.left
 
       else
