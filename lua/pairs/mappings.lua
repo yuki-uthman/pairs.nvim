@@ -42,7 +42,7 @@ function M.backspace()
   for _, pair in pairs(Pairs.pairs) do
 
     -- if custom backspace is not implemented
-    -- check for fallback backspace condition
+    -- check for default backspace condition
     if not pair.backspace then
       if default.backspace.condition(pair) then
         return default.backspace.action(pair)
@@ -50,9 +50,15 @@ function M.backspace()
       goto next
     end
 
-    if pair.backspace.condition and pair.backspace.condition() then
-      return pair.backspace.action(pair)
+    for _, condition in ipairs(pair.backspace.conditions) do
+      if condition(pair) then
+        return condition(pair)
+      end
     end
+
+    -- if pair.backspace.condition and pair.backspace.condition() then
+    --   return pair.backspace.action(pair)
+    -- end
 
     ::next::
   end

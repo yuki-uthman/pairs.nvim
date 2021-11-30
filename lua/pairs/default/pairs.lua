@@ -28,48 +28,19 @@ M.single_quote = {
   },
 
   backspace = {
-    condition = function()
-      if utils.get_neighbours() == "''" then
-        return true
-      end
-    end,
+    conditions = {
+      function(pair)
+        if utils.get_neighbours() == "''" then
+          return keys.delete .. keys.backspace
+        end
+      end,
+    },
 
-    action = function(self)
-      return keys.delete .. keys.backspace
-    end
-  },
-}
-
-M.double_quote = {
-  left = "\"",
-  right = "\"",
-  open = {
-    action = function(pair)
-      local right = utils.get_right_char()
-      local left  = utils.get_left_char()
-
-      if string.find(left, "[\\]") then
-        return pair.left
-
-      elseif right == pair.left then
-        return keys.right
-
-      elseif string.find(left, "[%w]") then
-        return pair.left
-
-      else
-        return pair.left .. pair.right .. keys.left
-
-      end
-    end
-  },
-
-  backspace = {
-    condition = function()
-      if utils.get_neighbours() == "\"\"" then
-        return true
-      end
-    end,
+    -- condition = function()
+    --   if utils.get_neighbours() == "''" then
+    --     return true
+    --   end
+    -- end,
 
     action = function(self)
       return keys.delete .. keys.backspace
