@@ -26,10 +26,8 @@ function M.close(type)
   local pair = Pairs.pairs[type]
 
   if pair.close and pair.close.action then
-    print("calling pair close")
     return pair.close.action(pair)
   else
-    print("calling default close")
     return default.close(pair)
   end
 
@@ -42,11 +40,14 @@ function M.backspace()
   for _, pair in pairs(Pairs.pairs) do
 
     -- if custom backspace is not implemented
-    -- check for default backspace condition
     if not pair.backspace then
+
+      -- check for default backspace condition
       if default.backspace.condition(pair) then
         return default.backspace.action(pair)
       end
+
+      -- if no default backspace skip to the next pair
       goto next
     end
 
@@ -56,10 +57,6 @@ function M.backspace()
         return pair.backspace.actions[condition](pair)
       end
     end
-
-    -- if pair.backspace.condition and pair.backspace.condition() then
-    --   return pair.backspace.action(pair)
-    -- end
 
     ::next::
   end

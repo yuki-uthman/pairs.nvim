@@ -1,5 +1,5 @@
+local custom_actions    = require "pairs.custom.actions"
 local custom_conditions = require "pairs.custom.conditions"
-local custom_actions = require "pairs.custom.actions"
 
 local utils = require 'pairs.utils'
 local keys  = require 'pairs.keys'
