@@ -133,15 +133,13 @@ M.parenthesis = {
   },
 
   space = {
-    condition = function()
-      if utils.get_neighbours() == "()" then
-        return true
-      end
-    end,
+    conditions = {
+      custom_conditions.empty
+    },
 
-    action = function()
-      return "  " .. keys.left
-    end
+    actions = {
+      empty = custom_actions.expand_with_space
+    }
   }
 }
 
@@ -184,16 +182,15 @@ M.curly_braces = {
       empty = custom_actions.enter_and_indent
     }
   },
-  space = {
-    condition = function()
-      if utils.get_neighbours() == "{}" then
-        return true
-      end
-    end,
 
-    action = function()
-      return "  " .. keys.left
-    end
+  space = {
+    conditions = {
+      custom_conditions.empty
+    },
+
+    actions = {
+      empty = custom_actions.expand_with_space
+    }
   }
 
 }
