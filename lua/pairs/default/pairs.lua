@@ -1,3 +1,5 @@
+local custom_conditions = require "pairs.custom.conditions"
+
 local utils = require 'pairs.utils'
 local keys  = require 'pairs.keys'
 
@@ -29,22 +31,51 @@ M.single_quote = {
 
   backspace = {
     conditions = {
-      function(pair)
-        if utils.get_neighbours() == "''" then
-          return keys.delete .. keys.backspace
-        end
-      end,
+      custom_conditions.empty,
     },
 
-    -- condition = function()
-    --   if utils.get_neighbours() == "''" then
-    --     return true
-    --   end
-    -- end,
+    actions = {
+      empty = function()
+        return keys.delete .. keys.backspace
+      end
+    }
+  },
+}
 
-    action = function(self)
-      return keys.delete .. keys.backspace
+M.double_quote = {
+  left = "\"",
+  right = "\"",
+  open = {
+    action = function(pair)
+      local right = utils.get_right_char()
+      local left  = utils.get_left_char()
+
+      if string.find(left, "[\\]") then
+        return pair.left
+
+      elseif right == pair.left then
+        return keys.right
+
+      elseif string.find(left, "[%w]") then
+        return pair.left
+
+      else
+        return pair.left .. pair.right .. keys.left
+
+      end
     end
+  },
+
+  backspace = {
+    conditions = {
+      custom_conditions.empty,
+    },
+
+    actions = {
+      empty = function()
+        return keys.delete .. keys.backspace
+      end
+    }
   },
 }
 
@@ -68,15 +99,14 @@ M.parenthesis = {
   },
 
   backspace = {
-    condition = function()
-      if utils.get_neighbours() == "()" then
-        return true
+    conditions = {
+      custom_conditions.empty,
+    },
+    actions = {
+      empty = function(pair)
+        return keys.delete .. keys.backspace
       end
-    end,
-
-    action = function(self)
-      return keys.delete .. keys.backspace
-    end
+    }
   },
 
   enter = {
@@ -139,15 +169,14 @@ M.curly_braces = {
   },
 
   backspace = {
-    condition = function()
-      if utils.get_neighbours() == "{}" then
-        return true
+    conditions = {
+      custom_conditions.empty,
+    },
+    actions = {
+      empty = function(pair)
+        return keys.delete .. keys.backspace
       end
-    end,
-
-    action = function()
-      return keys.delete .. keys.backspace
-    end,
+    }
   },
 
   enter = {

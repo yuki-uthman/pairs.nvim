@@ -51,8 +51,9 @@ function M.backspace()
     end
 
     for _, condition in ipairs(pair.backspace.conditions) do
-      if condition(pair) then
-        return condition(pair)
+      local condition = condition(pair)
+      if condition then
+        return pair.backspace.actions[condition](pair)
       end
     end
 
