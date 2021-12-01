@@ -99,37 +99,37 @@ M.parenthesis = {
     conditions = {
       custom_conditions.empty,
     },
+
     actions = {
-      empty = function(pair)
-        return keys.delete .. keys.backspace
-      end
+      empty = custom_actions.delete_left_and_right
     }
   },
 
   enter = {
-    condition = function()
-      if utils.get_right_char() == ")" then
-        return true
+    conditions = {
+      custom_conditions.right_is_close_pair
+    },
+
+    actions = {
+        right_is_close_pair = function(pair)
+        -- find the position of opening parenthesis
+        local pos = vim.fn.searchpairpos('(', '', ')', 'bn')
+        local line, col = pos[1], pos[2]
+
+        local current_line = vim.api.nvim_win_get_cursor(0)[1]
+
+        local indent_level = current_line - line + 1
+        local indent = string.rep("  ", indent_level)
+
+        -- next line starts from the opening parenthesis col like in cindent
+        local extra_space = string.rep(" ", col - 1) .. indent
+
+        -- delete the whole line and add the space to accomodate
+        -- different indent styles across file types
+        return keys.enter .. keys.delete_line .. extra_space
       end
-    end,
+    }
 
-    action = function(pair)
-      -- find the position of opening parenthesis
-      local pos = vim.fn.searchpairpos('(', '', ')', 'bn')
-      local line, col = pos[1], pos[2]
-
-      local current_line = vim.api.nvim_win_get_cursor(0)[1]
-
-      local indent_level = current_line - line + 1
-      local indent = string.rep("  ", indent_level)
-
-      -- next line starts from the opening parenthesis col like in cindent
-      local extra_space = string.rep(" ", col - 1) .. indent
-
-      -- delete the whole line and add the space to accomodate
-      -- different indent styles across file types
-      return keys.enter .. keys.delete_line .. extra_space
-    end
   },
 
   space = {
@@ -169,23 +169,20 @@ M.curly_braces = {
     conditions = {
       custom_conditions.empty,
     },
+
     actions = {
-      empty = function(pair)
-        return keys.delete .. keys.backspace
-      end
+      empty = custom_actions.delete_left_and_right
     }
   },
 
   enter = {
-    condition = function()
-      if utils.get_neighbours() == "{}" then
-        return true
-      end
-    end,
-
-    action = function(self)
-      return keys.enter .. keys.enter .. keys.up .. keys.indent
-    end
+    conditions = {
+      custom_conditions.empty
+    },
+    
+    actions = {
+      empty = custom_actions.enter_and_indent
+    }
   },
   space = {
     condition = function()

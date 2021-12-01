@@ -82,8 +82,11 @@ function M.enter()
       goto next
     end
 
-    if pair.enter.condition and pair.enter.condition() then
-      return pair.enter.action(pair)
+    for _, condition in ipairs(pair.enter.conditions) do
+      local condition = condition(pair)
+      if condition then
+        return pair.enter.actions[condition](pair)
+      end
     end
 
     ::next::
