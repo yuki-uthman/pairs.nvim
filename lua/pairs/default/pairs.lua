@@ -1,4 +1,5 @@
 local custom_conditions = require "pairs.custom.conditions"
+local custom_actions = require "pairs.custom.actions"
 
 local utils = require 'pairs.utils'
 local keys  = require 'pairs.keys'
@@ -35,9 +36,7 @@ M.single_quote = {
     },
 
     actions = {
-      empty = function()
-        return keys.delete .. keys.backspace
-      end
+      empty = custom_actions.delete_left_and_right
     }
   },
 }
@@ -72,9 +71,7 @@ M.double_quote = {
     },
 
     actions = {
-      empty = function()
-        return keys.delete .. keys.backspace
-      end
+      empty = custom_actions.delete_left_and_right
     }
   },
 }
