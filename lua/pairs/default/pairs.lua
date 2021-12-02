@@ -74,15 +74,6 @@ M.parenthesis = {
   left = "(",
   right = ")",
 
-  close = {
-    conditions = {
-      custom_conditions.right_is_close_pair
-    },
-    actions = {
-      right_is_close_pair = custom_actions.jump_over
-    }
-  },
-
   backspace = {
     conditions = {
       custom_conditions.empty,
@@ -134,15 +125,6 @@ M.parenthesis = {
 M.curly_braces = {
   left = "{",
   right = "}",
-
-  close = {
-    conditions = {
-      custom_conditions.right_is_close_pair
-    },
-    actions = {
-      right_is_close_pair = custom_actions.jump_over
-    }
-  },
 
   backspace = {
     conditions = {
