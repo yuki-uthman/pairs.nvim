@@ -17,6 +17,4 @@ M.enter = function()
   return ""
 end
 
-
-
 return M

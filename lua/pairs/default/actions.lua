@@ -5,37 +5,36 @@ local keys              = require 'pairs.keys'
 
 local M = {}
 
+local function open_pair(pair)
+  local move_left = string.rep(keys.left, #pair.right)
+  return pair.left .. pair.right .. move_left
+end
+
+local function right_is_close_pair(pair)
+  if pair.left == pair.right and utils.get_right_char() == pair.right then
+      return "right_is_close_pair"
+  end
+end
+
+local function left_is_alpha_or_punc(pair)
+  if pair.left == pair.right and string.find(utils.get_left_char(), "[%w%p]") then
+    return "left_is_alpha_or_punc"
+  end
+end
+
 -- Default
 -- if left and right are of the same char eg. quote
 -- it would skip over if another pair is on the right of the cursor
 M.open = {
-
   conditions = {
-
-    function(pair)
-      if pair.left == pair.right and 
-        utils.get_right_char() == pair.right then
-          return "right_is_close_pair"
-      end
-    end,
-
-    function(pair)
-      if pair.left == pair.right and 
-        string.find(utils.get_left_char(), "[%w%p]") then
-        return "left_is_alpha_or_punc"
-      end
-    end,
-
+    right_is_close_pair,
+    left_is_alpha_or_punc,
     function() return "always" end,
   },
-
   actions = {
-    right_is_close_pair = custom_actions.jump_over,
+    right_is_close_pair   = custom_actions.jump_over,
     left_is_alpha_or_punc = custom_actions.no_auto_close,
-    always = function(pair)
-      local move_left = string.rep(keys.left, #pair.right)
-      return pair.left .. pair.right .. move_left
-    end
+    always                = open_pair
   }
 }
 
@@ -53,14 +52,12 @@ M.close = {
 }
 
 M.backspace = {
-
   condition = function(pair)
     local neighbours = utils.get_neighbours()
     if neighbours == pair.left .. pair.right then
       return true
     end
   end,
-
   action = function(pair)
     return keys.delete .. keys.backspace
   end,
