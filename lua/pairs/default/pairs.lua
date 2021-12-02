@@ -10,24 +10,21 @@ M.single_quote = {
   left = "'",
   right = "'",
   open = {
-    action = function(pair)
-      local right = utils.get_right_char()
-      local left  = utils.get_left_char()
+    conditions = {
+      custom_conditions.left_is_backward_slash,
+      custom_conditions.right_is_close_pair,
+      custom_conditions.left_is_alhanumeric,
+      function() return "all" end,
+    },
 
-      if string.find(left, "[\\]") then
-        return pair.left
-
-      elseif right == pair.left then
-        return keys.right
-
-      elseif string.find(left, "[%w]") then
-        return pair.left
-
-      else
+    actions = {
+      left_is_backward_slash = custom_actions.no_auto_close,
+      right_is_close_pair    = custom_actions.jump_over,
+      left_is_alhanumeric    = custom_actions.no_auto_close,
+      all = function(pair)
         return pair.left .. pair.right .. keys.left
-
       end
-    end
+    }
   },
 
   backspace = {
@@ -45,24 +42,21 @@ M.double_quote = {
   left = "\"",
   right = "\"",
   open = {
-    action = function(pair)
-      local right = utils.get_right_char()
-      local left  = utils.get_left_char()
+    conditions = {
+      custom_conditions.left_is_backward_slash,
+      custom_conditions.right_is_close_pair,
+      custom_conditions.left_is_alhanumeric,
+      function() return "all" end,
+    },
 
-      if string.find(left, "[\\]") then
-        return pair.left
-
-      elseif right == pair.left then
-        return keys.right
-
-      elseif string.find(left, "[%w]") then
-        return pair.left
-
-      else
+    actions = {
+      left_is_backward_slash = custom_actions.no_auto_close,
+      right_is_close_pair    = custom_actions.jump_over,
+      left_is_alhanumeric    = custom_actions.no_auto_close,
+      all = function(pair)
         return pair.left .. pair.right .. keys.left
-
       end
-    end
+    }
   },
 
   backspace = {
@@ -79,11 +73,11 @@ M.double_quote = {
 M.parenthesis = {
   left = "(",
   right = ")",
-  open = {
-    action = function(pair)
-      return "()" .. keys.left
-    end
-  },
+  -- open = {
+  --   action = function(pair)
+  --     return "()" .. keys.left
+  --   end
+  -- },
 
   close = {
     action = function(pair)
@@ -147,11 +141,11 @@ M.curly_braces = {
   left = "{",
   right = "}",
 
-  open = {
-    action = function()
-      return "{}" .. keys.left
-    end
-  },
+  -- open = {
+  --   action = function()
+  --     return "{}" .. keys.left
+  --   end
+  -- },
 
   close = {
     action = function()

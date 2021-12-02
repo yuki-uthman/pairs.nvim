@@ -15,5 +15,13 @@ function M.expand_with_space()
   return "  " .. keys.left
 end
 
+function M.jump_over(pair)
+  return keys.right
+end
+
+function M.no_auto_close(pair)
+  return pair.right
+end
+
 
 return M
