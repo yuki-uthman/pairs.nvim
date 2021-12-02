@@ -27,15 +27,6 @@ M.single_quote = {
     }
   },
 
-  backspace = {
-    conditions = {
-      custom_conditions.empty,
-    },
-
-    actions = {
-      empty = custom_actions.delete_left_and_right
-    }
-  },
 }
 
 M.double_quote = {
@@ -58,31 +49,11 @@ M.double_quote = {
       end
     }
   },
-
-  backspace = {
-    conditions = {
-      custom_conditions.empty,
-    },
-
-    actions = {
-      empty = custom_actions.delete_left_and_right
-    }
-  },
 }
 
 M.parenthesis = {
   left = "(",
   right = ")",
-
-  backspace = {
-    conditions = {
-      custom_conditions.empty,
-    },
-
-    actions = {
-      empty = custom_actions.delete_left_and_right
-    }
-  },
 
   enter = {
     conditions = {
@@ -125,16 +96,6 @@ M.parenthesis = {
 M.curly_braces = {
   left = "{",
   right = "}",
-
-  backspace = {
-    conditions = {
-      custom_conditions.empty,
-    },
-
-    actions = {
-      empty = custom_actions.delete_left_and_right
-    }
-  },
 
   enter = {
     conditions = {
