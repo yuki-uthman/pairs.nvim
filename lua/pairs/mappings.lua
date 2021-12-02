@@ -19,7 +19,13 @@ function M.open(type)
       end
     end
   else
-    return default.open(pair)
+    for _, condition in ipairs(default.open.conditions) do
+      local condition = condition(pair)
+      if condition then
+        return default.open.actions[condition](pair)
+      end
+    end
+    return pair.left
   end
 
 end
