@@ -29,12 +29,12 @@ M.open = {
   conditions = {
     right_is_close_pair,
     left_is_alpha_or_punc,
-    function() return "always" end,
+    function() return "default" end,
   },
   actions = {
     right_is_close_pair   = custom_actions.jump_over,
     left_is_alpha_or_punc = custom_actions.no_auto_close,
-    always                = open_pair
+    default               = open_pair
   }
 }
 
@@ -43,11 +43,13 @@ M.open = {
 -- it would skip over without inserting another closing pair
 M.close = {
   conditions = {
-    custom_conditions.right_is_close_pair
+    custom_conditions.right_is_close_pair,
+    function() return "default" end
   },
 
   actions = {
-    right_is_close_pair = custom_actions.jump_over
+    right_is_close_pair = custom_actions.jump_over,
+    default = function(pair) return pair.right end
   }
 }
 

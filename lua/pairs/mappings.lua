@@ -25,7 +25,6 @@ function M.open(type)
         return default.open.actions[condition](pair)
       end
     end
-    return pair.left
   end
 
 end
@@ -52,7 +51,6 @@ function M.close(type)
         return default.close.actions[condition](pair)
       end
     end
-    return pair.right
   end
 
 end
