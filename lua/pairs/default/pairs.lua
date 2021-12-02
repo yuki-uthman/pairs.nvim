@@ -73,11 +73,6 @@ M.double_quote = {
 M.parenthesis = {
   left = "(",
   right = ")",
-  -- open = {
-  --   action = function(pair)
-  --     return "()" .. keys.left
-  --   end
-  -- },
 
   close = {
     action = function(pair)
@@ -140,12 +135,6 @@ M.parenthesis = {
 M.curly_braces = {
   left = "{",
   right = "}",
-
-  -- open = {
-  --   action = function()
-  --     return "{}" .. keys.left
-  --   end
-  -- },
 
   close = {
     action = function()

@@ -12,16 +12,16 @@ M.open = {
   conditions = {
 
     function(pair)
-      if pair.left == pair.right then
-        if utils.get_right_char() == pair.right then
-          return "jump"
-        end
+      if pair.left == pair.right and 
+        utils.get_right_char() == pair.right then
+          return "right_is_close_pair"
       end
     end,
 
     function(pair)
-      if pair.left == pair.right and string.find(utils.get_left_char(), "[%w%p]") then
-        return "no_auto_close"
+      if pair.left == pair.right and 
+        string.find(utils.get_left_char(), "[%w%p]") then
+        return "left_is_alpha_or_punc"
       end
     end,
 
@@ -29,8 +29,8 @@ M.open = {
   },
 
   actions = {
-    jump = custom_actions.jump_over,
-    no_auto_close = custom_actions.no_auto_close,
+    right_is_close_pair = custom_actions.jump_over,
+    left_is_alpha_or_punc = custom_actions.no_auto_close,
     always = function(pair)
       local move_left = string.rep(keys.left, #pair.right)
       return pair.left .. pair.right .. move_left
