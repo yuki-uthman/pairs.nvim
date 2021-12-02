@@ -75,13 +75,12 @@ M.parenthesis = {
   right = ")",
 
   close = {
-    action = function(pair)
-      if utils.get_right_char() == ")" then
-        return keys.right
-      else
-        return ")"
-      end
-    end
+    conditions = {
+      custom_conditions.right_is_close_pair
+    },
+    actions = {
+      right_is_close_pair = custom_actions.jump_over
+    }
   },
 
   backspace = {
@@ -137,13 +136,12 @@ M.curly_braces = {
   right = "}",
 
   close = {
-    action = function()
-      if utils.get_right_char() == "}" then
-        return keys.right
-      else
-        return "}"
-      end
-    end
+    conditions = {
+      custom_conditions.right_is_close_pair
+    },
+    actions = {
+      right_is_close_pair = custom_actions.jump_over
+    }
   },
 
   backspace = {

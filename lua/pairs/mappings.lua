@@ -36,10 +36,18 @@ function M.close(type)
   -- eg. single_quote, parenthesis, etc
   local pair = Pairs.pairs[type]
 
-  if pair.close and pair.close.action then
-    return pair.close.action(pair)
+  if pair.close then
+
+    for _, condition in ipairs(pair.close.conditions) do
+      local condition = condition(pair)
+      if condition then
+        return pair.close.actions[condition](pair)
+      end
+    end
+
   else
     return default.close(pair)
+
   end
 
 end
