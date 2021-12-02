@@ -44,12 +44,10 @@ M.open = {
 M.close = {
   conditions = {
     custom_conditions.right_is_close_pair,
-    function() return "default" end
   },
 
   actions = {
     right_is_close_pair = custom_actions.jump_over,
-    default = function(pair) return pair.right end
   }
 }
 

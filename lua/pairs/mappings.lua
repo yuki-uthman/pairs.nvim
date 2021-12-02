@@ -53,6 +53,7 @@ function M.close(type)
     end
   end
 
+  return pair.right
 end
 
 function M.backspace()
