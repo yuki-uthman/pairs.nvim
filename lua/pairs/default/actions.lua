@@ -1,6 +1,7 @@
-local custom_actions  = require 'pairs.custom.actions'
-local utils = require 'pairs.utils'
-local keys  = require 'pairs.keys'
+local custom_actions    = require 'pairs.custom.actions'
+local custom_conditions = require 'pairs.custom.conditions'
+local utils             = require 'pairs.utils'
+local keys              = require 'pairs.keys'
 
 local M = {}
 
@@ -41,13 +42,15 @@ M.open = {
 -- Default
 -- if closing pair is on the right of the cursor
 -- it would skip over without inserting another closing pair
-M.close = function(pair)
-  if utils.get_right_char() == pair.right then
-    return keys.right
-  else
-    return pair.right
-  end
-end
+M.close = {
+  conditions = {
+    custom_conditions.right_is_close_pair
+  },
+
+  actions = {
+    right_is_close_pair = custom_actions.jump_over
+  }
+}
 
 M.backspace = {
 

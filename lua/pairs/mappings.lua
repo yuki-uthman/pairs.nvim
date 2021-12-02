@@ -46,8 +46,13 @@ function M.close(type)
     end
 
   else
-    return default.close(pair)
-
+    for _, condition in ipairs(default.close.conditions) do
+      local condition = condition(pair)
+      if condition then
+        return default.close.actions[condition](pair)
+      end
+    end
+    return pair.right
   end
 
 end
