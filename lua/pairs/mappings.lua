@@ -142,10 +142,6 @@ function M.space()
       end
     end
 
-    -- if pair.space.condition and pair.space.condition() then
-    --   return pair.space.action(pair)
-    -- end
-
     ::next::
   end
 
