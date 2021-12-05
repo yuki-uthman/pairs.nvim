@@ -29,4 +29,8 @@ function M.feedkey(key, mode)
     mode, true)
 end
 
+function M.escape(s)
+  return vim.api.nvim_replace_termcodes(s, true, true, true)
+end
+
 return M
