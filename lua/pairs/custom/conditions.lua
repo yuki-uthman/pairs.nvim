@@ -14,11 +14,13 @@ function M.left_is_open_pair(pair)
   end
 end
 
-function M.left_is_alhanumeric(pair)
+function M.left_is_alphanumeric(pair)
   local left  = utils.get_left_char()
 
   if string.find(left, "[%w]") then
-    return "left_is_alhanumeric"
+    return "left_is_alphanumeric"
+  else
+    return false
   end
 
 end
