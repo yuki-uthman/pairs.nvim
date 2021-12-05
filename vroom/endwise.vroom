@@ -1,0 +1,50 @@
+Make sure that normal <CR> behaviour stays without the endwise option turned off.
+  :set ft=vim
+
+  > iif<CR>some code
+  if
+  some code
+  @end
+  @clear
+
+Plugin and maktaba installation.
+  :set nocompatible
+  :let g:plugindir = fnamemodify($VROOMFILE, ':p:h:h')
+  :let g:bootstrapfile = g:plugindir . '/bootstrap.vim'
+  :execute 'source' g:bootstrapfile
+
+Install endwise.
+  :let g:packdir = fnamemodify($VROOMFILE, ':p:h:h:h')
+  :echom g:packdir
+  ~ /Users/Yuki/.local/share/nvim/site/pack/github/opt
+
+  :echom g:packdir .. '/vim-endwise'
+  ~ /Users/Yuki/.local/share/nvim/site/pack/github/opt/vim-endwise
+
+  :call maktaba#plugin#GetOrInstall(g:packdir .. '/vim-endwise')
+
+  :call maktaba#LateLoad()
+
+  :call Hello()
+  ~ Hello
+  @clear
+
+
+It should still call the pairs.nvim mapping for the pairs eg. parenthesis.
+  > i{<CR>key = value
+  {
+  	key = value
+  }
+  @end
+  @clear
+
+Setting the endwise option in the setup should invoke endwise when <CR> is pressed as a fallback.
+> iif<ESC>
+if
+
+> a<CR>some code
+if
+some code
+
+:scriptnames
+~ 
