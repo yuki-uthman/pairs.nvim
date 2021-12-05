@@ -13,6 +13,7 @@ M.single_quote = {
     conditions = {
       custom_conditions.left_is_backward_slash,
       custom_conditions.right_is_close_pair,
+      custom_conditions.right_is_letter,
       custom_conditions.left_is_alphanumeric,
       function() return "all" end,
     },
@@ -20,6 +21,7 @@ M.single_quote = {
     actions = {
       left_is_backward_slash = custom_actions.no_auto_close,
       right_is_close_pair    = custom_actions.jump_over,
+      right_is_letter        = custom_actions.no_auto_close,
       left_is_alphanumeric   = custom_actions.no_auto_close,
       all                    = function(pair)
         return pair.left .. pair.right .. keys.left
@@ -36,15 +38,17 @@ M.double_quote = {
     conditions = {
       custom_conditions.left_is_backward_slash,
       custom_conditions.right_is_close_pair,
-      custom_conditions.left_is_alhanumeric,
+      custom_conditions.right_is_letter,
+      custom_conditions.left_is_alphanumeric,
       function() return "all" end,
     },
 
     actions = {
       left_is_backward_slash = custom_actions.no_auto_close,
       right_is_close_pair    = custom_actions.jump_over,
-      left_is_alhanumeric    = custom_actions.no_auto_close,
-      all = function(pair)
+      right_is_letter        = custom_actions.no_auto_close,
+      left_is_alphanumeric   = custom_actions.no_auto_close,
+      all                    = function(pair)
         return pair.left .. pair.right .. keys.left
       end
     }

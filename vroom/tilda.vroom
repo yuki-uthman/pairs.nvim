@@ -22,7 +22,7 @@ If the next char is the tilda then skip over.
   @clear
 
 Do not autocomplete if there is any character before the tilda.
-1. Any letters
+1. Any letters before the cursor
   > iabc<esc>
   abc
 
@@ -32,7 +32,7 @@ Do not autocomplete if there is any character before the tilda.
   @clear
 
 
-2. Any digits
+2. Any digits before the cursor
   > i123<esc>
   123
 
@@ -41,12 +41,18 @@ Do not autocomplete if there is any character before the tilda.
   @end
   @clear
 
-3. Any punctuation characters
+3. Any punctuation characters before the cursor
   > i\<esc>
   \
 
   > a`
   \`
+  @end
+  @clear
+
+4. Any letters after the tilda
+  > ihello<Esc>I`
+  `hello
   @end
   @clear
 

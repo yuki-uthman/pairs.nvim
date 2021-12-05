@@ -19,6 +19,30 @@ Typing single or double quote inserts 2 quotes and put the cursor in between.
   @end
   @clear
 
+
+If the next char is a quote then skip over the quote.
+  > i'Hello' .. 'world'
+  'Hello' .. 'world'
+  @end
+  @clear
+
+  > i"Hello" .. "world"
+  "Hello" .. "world"
+  @end
+  @clear
+
+
+No auto close if there is a letter in front of the cursor.
+  > ihello<Esc>I'
+  'hello
+  @end
+  @clear
+
+  > ihello<Esc>I"
+  "hello
+  @end
+  @clear
+
 Pressing backspace deletes both quotes if its empty.
   > iHello'<bs>
   Hello
@@ -49,20 +73,7 @@ Backspace behaves normally if there is some letters inside the quote.
   @clear
 
 
-Do not auto complete for the following scenarios.
-
-If the next char is a quote then skip over the quote.
-  > i'Hello' .. 'world'
-  'Hello' .. 'world'
-  @end
-  @clear
-
-  > i"Hello" .. "world"
-  "Hello" .. "world"
-  @end
-  @clear
-
-Needs to exit insert mode for the mapping to work for some reason.
+Needs to exit insert mode for the following mapping to work for some reason.
 
 If the quote is typed as an apostrophe...
   > iI<esc>

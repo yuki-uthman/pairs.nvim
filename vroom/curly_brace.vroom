@@ -38,10 +38,17 @@ Typing opening curly braces automatically inserts the closing pair and puts the 
 
 
 Typing the closing braces would skip over.
-> i{cursor}cursor
-{cursor}cursor
-@end
-@clear
+  > i{cursor}cursor
+  {cursor}cursor
+  @end
+  @clear
+
+
+No auto close if there is a letter in front of the cursor.
+  > ihello<Esc>I{
+  {hello
+  @end
+  @clear
 
 
 Deleting the opening curly braces should delete both opening and closing braces if empty.
@@ -65,7 +72,7 @@ Typing space inside the empty braces would insert space on each side.
   @clear
 
 Typing enter inside the empty braces would insert 2 new lines and put the cursor in
-middle with one correct indentation.
+middle with correct indentation.
   > i{<CR>cursor
   {
     cursor

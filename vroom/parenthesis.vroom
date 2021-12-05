@@ -44,6 +44,12 @@ Typing the closing parenthesis would skip over.
   @clear
 
 
+No auto close if there is a letter in front of the cursor.
+  > ihello<Esc>I(
+  (hello
+  @end
+  @clear
+
 Deleting the opening curly parenthesis should delete both opening and closing parenthesis if empty.
   > i(<bs>
 
@@ -79,3 +85,5 @@ Typing enter would indent the next line from the col position of the opening par
                   arg3, arg4)
   @end
   @clear
+
+
