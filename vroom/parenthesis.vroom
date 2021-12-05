@@ -65,6 +65,14 @@ Typing space inside the empty parenthesis would insert space on each side.
   @clear
 
 
+Typing enter on an empty pair should not do anything special.
+  > i(<CR>
+  (
+   )
+  @end
+  @clear
+
+
 Typing enter would indent the next line from the col position of the opening parenthesis.
   > ifunction hello(arg1, arg2,<CR>arg3, arg4<ESC>
   function hello(arg1, arg2,

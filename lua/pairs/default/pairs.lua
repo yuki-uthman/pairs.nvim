@@ -57,11 +57,15 @@ M.parenthesis = {
 
   enter = {
     conditions = {
+      custom_conditions.empty,
       custom_conditions.right_is_close_pair
     },
 
     actions = {
-        right_is_close_pair = function(pair)
+      empty = function()
+        return keys.enter
+      end,
+      right_is_close_pair = function(pair)
         -- find the position of opening parenthesis
         local pos = vim.fn.searchpairpos('(', '', ')', 'bn')
         local line, col = pos[1], pos[2]
