@@ -8,7 +8,7 @@ function M.delete_left_and_right()
 end
 
 function M.enter_and_indent()
-  return keys.enter .. keys.enter .. keys.up .. keys.indent
+  return keys.enter .. keys.enter .. keys.up .. keys.tab
 end
 
 function M.expand_with_space()
