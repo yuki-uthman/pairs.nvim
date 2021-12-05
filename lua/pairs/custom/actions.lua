@@ -20,7 +20,7 @@ function M.jump_over(pair)
 end
 
 function M.no_auto_close(pair)
-  return pair.right
+  return pair.left
 end
 
 
