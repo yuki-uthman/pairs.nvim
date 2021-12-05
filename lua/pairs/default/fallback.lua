@@ -3,18 +3,16 @@ local utils = require 'pairs.utils'
 
 local M = {}
 
-local feedkey = function(key, mode)
-  vim.api.nvim_feedkeys(
-    vim.api.nvim_replace_termcodes(key, true, true, true),
-    mode, true)
+M.enter = function()
+  return keys.enter
 end
 
-M.enter = function()
+M.backspace = function()
+  return keys.backspace
+end
 
-  feedkey("<CR>", "n")
-  feedkey("<Plug>DiscretionaryEnd" , "")
-
-  return ""
+M.space = function()
+  return keys.space
 end
 
 return M
