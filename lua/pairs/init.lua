@@ -23,12 +23,8 @@ function M.setup(user_config)
   end
 
   if user_config.fallback then
-    for key, table in pairs(user_config.fallback) do
-      if default.fallback[key] then
-        default.fallback[key] = vim.tbl_deep_extend("force", default.fallback[key], table)
-      else
-        default.fallback[key] = table
-      end
+    for key, func in pairs(user_config.fallback) do
+      default.fallback[key] = func
     end
   end
 
