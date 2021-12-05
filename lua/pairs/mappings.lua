@@ -84,11 +84,7 @@ function M.backspace()
     ::next::
   end
 
-  if fallback.backspace then
-    return fallback.backspace()
-  else
-    return keys.backspace
-  end
+  return keys.backspace
 
 end
 
@@ -115,11 +111,7 @@ function M.enter()
     ::next::
   end
 
-  if fallback.enter then
-    return fallback.enter()
-  else
-    return keys.enter
-  end
+  return fallback.enter()
 end
 
 function M.space()
@@ -145,11 +137,7 @@ function M.space()
     ::next::
   end
 
-  if fallback.space then
-    return fallback.space()
-  else
-    return keys.space
-  end
+  return fallback.space()
 end
 
 return M
