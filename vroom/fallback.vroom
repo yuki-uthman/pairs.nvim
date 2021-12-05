@@ -1,0 +1,47 @@
+Plugin and maktaba installation.
+  :set nocompatible
+  :let g:plugindir = fnamemodify($VROOMFILE, ':p:h:h')
+  :let g:bootstrapfile = g:plugindir . '/bootstrap.vim'
+  :execute 'source' g:bootstrapfile
+  :call maktaba#LateLoad()
+
+You can add custom fallback for <BS>, <CR> and space in the user config setup.
+By default they are not mapped to anything.
+
+  > ichecking<BS>backspace
+  checkinbackspace
+  @end
+  @clear
+
+  > ichecking<CR>enter
+  checking
+  enter
+  @end
+  @clear
+
+  > ichecking space
+  checking space
+  @end
+  @clear
+
+
+Source the user config to add custom fallback.
+  :execute 'source' .. g:plugindir .. '/vroom/config/fallback.vim'
+
+
+  > ichecking<BS>backspace
+  checking<Backspace>backspace
+  @end
+  @clear
+
+  > ichecking<CR>enter
+  checking<Enter>enter
+  @end
+  @clear
+
+  > ichecking space
+  checking<Space>space
+  @end
+  @clear
+
+

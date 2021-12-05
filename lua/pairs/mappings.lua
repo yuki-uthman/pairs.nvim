@@ -84,7 +84,7 @@ function M.backspace()
     ::next::
   end
 
-  return keys.backspace
+  return fallback.backspace()
 
 end
 
