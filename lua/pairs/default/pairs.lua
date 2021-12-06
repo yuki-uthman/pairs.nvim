@@ -115,7 +115,28 @@ M.curly_braces = {
     actions = {
       empty = custom_actions.expand_with_space
     }
+  },
+
+  backspace = {
+    conditions = {
+      custom_conditions.empty,
+
+      function(pair)
+        if utils.get_neighbours(2) == pair.left .. "  ".. pair.right then
+          return true
+        else
+          return false
+        end
+      end,
+    },
+
+    actions = {
+      custom_actions.delete_left_and_right,
+      custom_actions.delete_left_and_right,
+    }
   }
+
+
 
 }
 

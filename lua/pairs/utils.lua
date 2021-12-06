@@ -1,24 +1,33 @@
 
 local M = {}
 
-function M.get_neighbours()
-  return M.get_left_char() .. M.get_right_char()
+function M.get_neighbours(len)
+
+  len = len or 1
+
+  return M.get_left_char(len) .. M.get_right_char(len)
 end
 
-function M.get_right_char()
+function M.get_right_char(len)
+
+  len = len or 1
+
   local line = vim.api.nvim_get_current_line()
   local col  = vim.api.nvim_win_get_cursor(0)[2]
 
-  local right = vim.fn.strpart(line, col, 1)
+  local right = vim.fn.strpart(line, col, len)
 
   return right
 end
 
-function M.get_left_char()
+function M.get_left_char(len)
+
+  len = len or 1
+
   local line = vim.api.nvim_get_current_line()
   local col  = vim.api.nvim_win_get_cursor(0)[2]
 
-  local left  = vim.fn.strpart(line, col - 1, 1)
+  local left  = vim.fn.strpart(line, col - len, len)
 
   return left
 end

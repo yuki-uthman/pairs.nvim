@@ -66,10 +66,20 @@ Backspace should behave normally if it is not empty.
 
 
 Typing space inside the empty braces would insert space on each side.
-  > i{<Space>cursor
-  { cursor }
+  > i{<Space>
+  {  }
   @end
   @clear
+
+Pressing backspace should delete the space on both side.
+  > i{<Space>
+  {  }
+
+  > <bs>
+  {}
+  @end
+  @clear
+
 
 Typing enter inside the empty braces would insert 2 new lines and put the cursor in
 middle with correct indentation.
