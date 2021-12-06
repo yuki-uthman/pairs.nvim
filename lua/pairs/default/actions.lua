@@ -53,15 +53,12 @@ M.close = {
 }
 
 M.backspace = {
-  condition = function(pair)
-    local neighbours = utils.get_neighbours()
-    if neighbours == pair.left .. pair.right then
-      return true
-    end
-  end,
-  action = function(pair)
-    return keys.delete .. keys.backspace
-  end,
+  conditions = {
+    custom_conditions.empty
+  },
+  actions = {
+    custom_actions.delete_left_and_right
+  },
 }
 
 return M

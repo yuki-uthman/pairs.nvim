@@ -65,19 +65,23 @@ function M.backspace()
     -- if custom backspace is not implemented
     if not pair.backspace then
 
-      -- check for default backspace condition
-      if default.backspace.condition(pair) then
-        return default.backspace.action(pair)
+      -- check for default backspace conditions
+      -- ie. if it is an empty pair
+      for number, condition in ipairs(default.backspace.conditions) do
+        local condition = condition(pair)
+        if condition then
+          return default.backspace.actions[number](pair)
+        end
       end
 
-      -- if no default backspace skip to the next pair
+      -- if no it is not an empty pair skip to the next pair
       goto next
     end
 
-    for _, condition in ipairs(pair.backspace.conditions) do
+    for number, condition in ipairs(pair.backspace.conditions) do
       local condition = condition(pair)
       if condition then
-        return pair.backspace.actions[condition](pair)
+        return pair.backspace.actions[number](pair)
       end
     end
 
