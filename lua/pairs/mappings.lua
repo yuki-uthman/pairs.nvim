@@ -12,17 +12,17 @@ function M.open(type)
   local pair = Pairs.pairs[type]
 
   if pair.open then
-    for _, condition in ipairs(pair.open.conditions) do
+    for number, condition in ipairs(pair.open.conditions) do
       local condition = condition(pair)
       if condition then
-        return pair.open.actions[condition](pair)
+        return pair.open.actions[number](pair)
       end
     end
   else
-    for _, condition in ipairs(default.open.conditions) do
+    for number, condition in ipairs(default.open.conditions) do
       local condition = condition(pair)
       if condition then
-        return default.open.actions[condition](pair)
+        return default.open.actions[number](pair)
       end
     end
   end

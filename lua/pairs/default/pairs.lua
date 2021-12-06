@@ -18,10 +18,10 @@ M.single_quote = {
     },
 
     actions = {
-      left_is_backward_slash = custom_actions.no_auto_close,
-      right_is_close_pair    = custom_actions.jump_over,
-      right_is_letter        = custom_actions.no_auto_close,
-      left_is_alphanumeric   = custom_actions.no_auto_close,
+      custom_actions.no_auto_close,
+      custom_actions.jump_over,
+      custom_actions.no_auto_close,
+      custom_actions.no_auto_close,
     }
   },
 
@@ -39,10 +39,10 @@ M.double_quote = {
     },
 
     actions = {
-      left_is_backward_slash = custom_actions.no_auto_close,
-      right_is_close_pair    = custom_actions.jump_over,
-      right_is_letter        = custom_actions.no_auto_close,
-      left_is_alphanumeric   = custom_actions.no_auto_close,
+      custom_actions.no_auto_close,
+      custom_actions.jump_over,
+      custom_actions.no_auto_close,
+      custom_actions.no_auto_close,
     }
   },
 }
