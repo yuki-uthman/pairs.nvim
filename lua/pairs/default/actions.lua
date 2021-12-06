@@ -48,7 +48,7 @@ M.close = {
   },
 
   actions = {
-    right_is_close_pair = custom_actions.jump_over,
+    custom_actions.jump_over,
   }
 }
 

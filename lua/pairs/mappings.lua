@@ -38,19 +38,17 @@ function M.close(type)
   local pair = Pairs.pairs[type]
 
   if pair.close then
-
-    for _, condition in ipairs(pair.close.conditions) do
+    for number, condition in ipairs(pair.close.conditions) do
       local condition = condition(pair)
       if condition then
-        return pair.close.actions[condition](pair)
+        return pair.close.actions[number](pair)
       end
     end
-
   else
-    for _, condition in ipairs(default.close.conditions) do
+    for number, condition in ipairs(default.close.conditions) do
       local condition = condition(pair)
       if condition then
-        return default.close.actions[condition](pair)
+        return default.close.actions[number](pair)
       end
     end
   end
