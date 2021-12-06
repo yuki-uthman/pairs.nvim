@@ -30,13 +30,12 @@ M.open = {
     right_is_close_pair,
     left_is_alpha_or_punc,
     custom_conditions.right_is_letter,
-    function() return "default" end,
   },
   actions = {
     right_is_close_pair   = custom_actions.jump_over,
     left_is_alpha_or_punc = custom_actions.no_auto_close,
     right_is_letter       = custom_actions.no_auto_close,
-    default               = open_pair
+    fallback              = open_pair
   }
 }
 

@@ -15,7 +15,6 @@ M.single_quote = {
       custom_conditions.right_is_close_pair,
       custom_conditions.right_is_letter,
       custom_conditions.left_is_alphanumeric,
-      function() return "all" end,
     },
 
     actions = {
@@ -23,9 +22,6 @@ M.single_quote = {
       right_is_close_pair    = custom_actions.jump_over,
       right_is_letter        = custom_actions.no_auto_close,
       left_is_alphanumeric   = custom_actions.no_auto_close,
-      all                    = function(pair)
-        return pair.left .. pair.right .. keys.left
-      end
     }
   },
 
@@ -40,7 +36,6 @@ M.double_quote = {
       custom_conditions.right_is_close_pair,
       custom_conditions.right_is_letter,
       custom_conditions.left_is_alphanumeric,
-      function() return "all" end,
     },
 
     actions = {
@@ -48,9 +43,6 @@ M.double_quote = {
       right_is_close_pair    = custom_actions.jump_over,
       right_is_letter        = custom_actions.no_auto_close,
       left_is_alphanumeric   = custom_actions.no_auto_close,
-      all                    = function(pair)
-        return pair.left .. pair.right .. keys.left
-      end
     }
   },
 }

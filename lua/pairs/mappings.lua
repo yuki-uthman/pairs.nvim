@@ -27,6 +27,8 @@ function M.open(type)
     end
   end
 
+  return default.open.actions.fallback(pair)
+
 end
 
 function M.close(type)
