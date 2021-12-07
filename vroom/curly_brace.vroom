@@ -80,12 +80,60 @@ Pressing backspace should delete the space on both side.
   @end
   @clear
 
-
 Typing enter inside the empty braces would insert 2 new lines and put the cursor in
-middle with correct indentation.
-  > i{<CR>cursor
+the middle with correct indentation.
+  > i{<CR><ESC>
+  {
+    
+  }
+  @end
+  @clear
+
+  > i{<CR>cursor<ESC>
   {
     cursor
   }
   @end
   @clear
+
+Pressing backspace in front puts the brackets back on the same line.
+  > i{<CR><ESC>
+  {
+    
+  }
+
+  > I<BS>
+  {}
+  @end
+  @clear
+
+  > i{<CR>cursor<ESC>
+  {
+    cursor
+  }
+
+  > I<BS>
+  {cursor}
+
+The cursor should be placed in the begining of the word.
+  > Here is the 
+  {Here is the cursor}
+  @end
+  @clear
+
+
+This should work also on nested pairs.
+  > i{<CR>{<CR><BS>
+  {
+    {}
+  }
+  @end
+  @clear
+
+  > i{<CR>{<CR>key = value<ESC>I<BS>
+  {
+    {key = value}
+  }
+  @end
+  @clear
+

@@ -4,6 +4,13 @@ local custom_conditions = require "pairs.custom.conditions"
 local utils = require 'pairs.utils'
 local keys  = require 'pairs.keys'
 
+local function trim(input)
+  if not input then
+    return false
+  end
+  return string.match(input, '^%s*(.-)%s*$')
+end
+
 local M = {}
 
 M.single_quote = {
@@ -128,15 +135,56 @@ M.curly_braces = {
           return false
         end
       end,
+
+      function(pair)
+
+        local above = trim(utils.get_line(-1))
+        local below = trim(utils.get_line(1))
+
+        if not above or not below then
+          return false
+        end
+
+        local before_cursor = trim(utils.get_line_before_cursor())
+
+        if above .. before_cursor .. below ==  "{}" then
+          return true
+        else
+          return false
+        end
+      end
+
     },
 
     actions = {
       custom_actions.delete_left_and_right,
       custom_actions.delete_left_and_right,
+      function(pair)
+
+        utils.feedkey("<C-G>u", "n")
+
+        -- remove all indent and join with the line above
+        utils.feedkey("0<C-D>", "n")
+        utils.feedkey("<C-U>", "n")
+
+        utils.feedkey("<down>", "n")
+        utils.feedkey("<left>", "n")
+
+        -- remove all indent and join with the line above
+        utils.feedkey("0<C-D>", "n")
+        utils.feedkey("<C-U>", "n")
+
+        -- restore the cursor inside the opening brace
+        utils.feedkey("<C-O>", "n")
+        utils.feedkey("^", "n")
+        utils.feedkey("<right>", "n")
+
+
+        return ""
+      end,
+
     }
   }
-
-
 
 }
 
@@ -147,3 +195,5 @@ M.tilda = {
 
 
 return M
+
+
