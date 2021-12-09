@@ -37,6 +37,15 @@ Typing the opening pair automatically inserts the closing pair and puts the curs
   @end
   @clear
 
+No auto close if there is a letter after the cursor.
+  > ihello<Esc>I<<ESC>
+  <hello
+
+Or before the cursor.
+  > A<
+  <hello<
+  @end
+  @clear
 
 2. Skip over
 Typing the closing pair would skip over if the next char is the closing pair.

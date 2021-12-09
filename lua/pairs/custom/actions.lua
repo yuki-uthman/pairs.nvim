@@ -3,6 +3,11 @@ local keys  = require 'pairs.keys'
 
 local M = {}
 
+function M.open_pair(pair)
+  local move_left = string.rep(keys.left, #pair.right)
+  return pair.left .. pair.right .. move_left
+end
+
 function M.delete_left_and_right()
   return keys.delete .. keys.backspace
 end

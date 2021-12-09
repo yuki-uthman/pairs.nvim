@@ -31,22 +31,28 @@ Plugin and maktaba installation.
 
 
 Typing opening curly braces automatically inserts the closing pair and puts the cursor in between.
-  > i{cursor
-  {cursor}
+  > i{key = value
+  {key = value}
   @end
   @clear
 
 
 Typing the closing braces would skip over.
-  > i{cursor}cursor
-  {cursor}cursor
+  > i{key = value}.method
+  {key = value}.method
   @end
   @clear
 
 
-No auto close if there is a letter in front of the cursor.
+No auto close if there is a letter after the cursor.
   > ihello<Esc>I{
   {hello
+  @end
+  @clear
+
+Or before the cursor.
+  > ihello{
+  hello{
   @end
   @clear
 
@@ -82,42 +88,52 @@ Pressing backspace should delete the space on both side.
 
 Typing enter inside the empty braces would insert 2 new lines and put the cursor in
 the middle with correct indentation.
-  > i{<CR><ESC>
+> i{<CR><ESC>
+{
+
+}
+@end
+@clear
+
+  > i{<CR>key = value<ESC>
   {
-    
+    key = value
   }
   @end
   @clear
 
-  > i{<CR>cursor<ESC>
+Should also work on pairs that are nested.
+  > i{<CR>{<CR>key = value<ESC>
   {
-    cursor
+    {
+      key = value
+    }
   }
   @end
   @clear
 
 Pressing backspace in front puts the brackets back on the same line.
-  > i{<CR><ESC>
+> i{<CR><ESC>
+{
+
+}
+
+> I<BS>
+{}
+@end
+@clear
+
+  > i{<CR>key = value<ESC>
   {
-    
+    key = value
   }
 
   > I<BS>
-  {}
-  @end
-  @clear
-
-  > i{<CR>cursor<ESC>
-  {
-    cursor
-  }
-
-  > I<BS>
-  {cursor}
+  {key = value}
 
 The cursor should be placed in the begining of the word.
   > Here is the 
-  {Here is the cursor}
+  {Here is the key = value}
   @end
   @clear
 

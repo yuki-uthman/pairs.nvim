@@ -22,7 +22,7 @@ function M.left_is_alphanumeric(pair)
   local left  = utils.get_left_char()
 
   if string.find(left, "[%w]") then
-    return "left_is_alphanumeric"
+    return true
   else
     return false
   end
@@ -50,12 +50,22 @@ function M.right_is_letter(pair)
   local right  = utils.get_right_char()
 
   if string.find(right, "[%a]") then
-    return "right_is_letter"
+    return true
   else
     return false
   end
 
 end
 
+function M.left_is_letter(pair)
+  local left  = utils.get_left_char()
+
+  if string.find(left, "[%a]") then
+    return true
+  else
+    return false
+  end
+
+end
 
 return M

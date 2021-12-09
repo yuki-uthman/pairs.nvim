@@ -30,9 +30,11 @@ M.open = {
     right_is_close_pair,
     left_is_alpha_or_punc,
     custom_conditions.right_is_letter,
+    custom_conditions.left_is_letter,
   },
   actions = {
     custom_actions.jump_over,
+    custom_actions.no_auto_close,
     custom_actions.no_auto_close,
     custom_actions.no_auto_close,
     fallback = open_pair
