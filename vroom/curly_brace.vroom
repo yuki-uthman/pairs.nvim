@@ -88,12 +88,12 @@ Pressing backspace should delete the space on both side.
 
 Typing enter inside the empty braces would insert 2 new lines and put the cursor in
 the middle with correct indentation.
-> i{<CR><ESC>
-{
-
-}
-@end
-@clear
+  > i{<CR>
+  {
+    
+  }
+  @end
+  @clear
 
   > i{<CR>key = value<ESC>
   {
@@ -112,17 +112,20 @@ Should also work on pairs that are nested.
   @end
   @clear
 
-Pressing backspace in front puts the brackets back on the same line.
-> i{<CR><ESC>
-{
+Pressing backspace on a empty pair puts closing pair back on the same line.
+  > i{<CR>
+  {
+    
+  }
 
-}
+  > <BS>
+  {}
+  @end
+  @clear
 
-> I<BS>
-{}
-@end
-@clear
 
+When there are items in the pair you can achieve the same effect by pressing
+backspace in the beginning of the line, here before the letter k.
   > i{<CR>key = value<ESC>
   {
     key = value
@@ -131,7 +134,7 @@ Pressing backspace in front puts the brackets back on the same line.
   > I<BS>
   {key = value}
 
-The cursor should be placed in the begining of the word.
+The cursor should be placed in the begining of the line when they are put back.
   > Here is the 
   {Here is the key = value}
   @end
