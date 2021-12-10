@@ -53,6 +53,17 @@ function M.get_line_before_cursor()
   return before_cursor
 end
 
+function M.get_line_after_cursor()
+
+  local offset = 0
+  local cursor  = vim.api.nvim_win_get_cursor(0)
+  local row, col = cursor[1], cursor[2]
+  local line = vim.api.nvim_buf_get_lines(0, row + offset - 1, row + offset, false)[1]
+
+  local after_cursor = string.sub(line, col + 1, -1)
+
+  return after_cursor
+end
 
 function M.feedkey(key, mode)
   vim.api.nvim_feedkeys(

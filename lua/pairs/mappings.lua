@@ -105,10 +105,10 @@ function M.enter()
       goto next
     end
 
-    for _, condition in ipairs(pair.enter.conditions) do
+    for number, condition in ipairs(pair.enter.conditions) do
       local condition = condition(pair)
       if condition then
-        return pair.enter.actions[condition](pair)
+        return pair.enter.actions[number](pair)
       end
     end
 
