@@ -31,15 +31,17 @@ Plugin and maktaba installation.
   @clear
 
 Typing opening curly parenthesis automatically inserts the closing pair and puts the cursor in between.
-  > i(cursor
+  > i(
+  ()
+
+  > cursor
   (cursor)
-  @end
-  @clear
 
 
 Typing the closing parenthesis would skip over.
-  > i(cursor)cursor
-  (cursor)cursor
+  > )
+  >  .. now the cursor is outside
+  (cursor) .. now the cursor is outside
   @end
   @clear
 
@@ -51,28 +53,32 @@ No auto close if there is a letter in front of the cursor.
   @clear
 
 Deleting the opening curly parenthesis should delete both opening and closing parenthesis if empty.
-  > i(<bs>
+  > i(
+  > <bs>
 
   @end
   @clear
 
 
 Backspace should behave normally if it is not empty.
-  > i(Hello<bs>
+  > i(
+  > Hello<bs>
   (Hell)
   @end
   @clear
 
 
 Typing space inside the empty parenthesis would insert space on each side.
-  > i(<Space>cursor
+  > i(
+  > <Space>cursor
   ( cursor )
   @end
   @clear
 
 
 Typing enter on an empty pair should not do anything special.
-  > i(<CR>
+  > i(
+  > <CR>
   (
    )
   @end
@@ -80,7 +86,8 @@ Typing enter on an empty pair should not do anything special.
 
 
 Typing enter would indent the next line from the col position of the opening parenthesis.
-  > ifunction hello(arg1, arg2,<CR>arg3, arg4<ESC>
+  > ifunction hello(
+  > arg1, arg2,<CR>arg3, arg4<ESC>
   function hello(arg1, arg2,
                   arg3, arg4)
   @end
