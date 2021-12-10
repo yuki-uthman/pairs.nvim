@@ -27,11 +27,11 @@ function M.expand_with_space()
 end
 
 function M.jump_over(pair)
-  return keys.right
+  utils.feedkey("<right>", "n")
 end
 
 function M.no_auto_close(pair)
-  return pair.left
+  utils.feedkey(pair.left, "n")
 end
 
 
