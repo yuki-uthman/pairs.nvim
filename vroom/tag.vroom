@@ -32,13 +32,15 @@ The following features are provided just by specifying the left and the right ch
 
 1. Auto close
 Typing the opening pair automatically inserts the closing pair and puts the cursor in between.
-  > i<cursor
+  > i<
+  > cursor
   <cursor>
   @end
   @clear
 
 No auto close if there is a letter after the cursor.
-  > ihello<Esc>I<<ESC>
+  > ihello<Esc>I<
+  > <ESC>
   <hello
 
 Or before the cursor.
@@ -49,25 +51,27 @@ Or before the cursor.
 
 2. Skip over
 Typing the closing pair would skip over if the next char is the closing pair.
-  > i<cursor>cursor
-  <cursor>cursor
+  > i<
+  > cursor>
+  >  now it is outside
+  <cursor> now it is outside
   @end
   @clear
 
 
 3. Delete the empty pair
 Deleting the opening pair should delete both opening and closing pair if empty.
-  > i<<bs>
+  > i<
+  > <bs>
   
   @end
   @clear
 
 
 Backspace should behave normally if it is not empty.
-  > i<Hello<esc>
-  <Hello>
-
-  > a<bs>
+  > i<
+  > Hello
+  > <bs>
   <Hell>
   @end
   @clear
