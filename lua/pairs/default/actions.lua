@@ -5,11 +5,6 @@ local keys              = require 'pairs.keys'
 
 local M = {}
 
-local function open_pair(pair)
-  local move_left = string.rep(keys.left, #pair.right)
-  return pair.left .. pair.right .. move_left
-end
-
 local function right_is_close_pair(pair)
   if pair.left == pair.right and utils.get_right_char() == pair.right then
       return "right_is_close_pair"
@@ -37,7 +32,7 @@ M.open = {
     custom_actions.no_auto_close,
     custom_actions.no_auto_close,
     custom_actions.no_auto_close,
-    fallback = open_pair
+    fallback = custom_actions.open_pair
   }
 }
 

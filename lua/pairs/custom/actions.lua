@@ -1,11 +1,17 @@
 local keys  = require 'pairs.keys'
+local utils = require 'pairs.utils'
 
 
 local M = {}
 
 function M.open_pair(pair)
-  local move_left = string.rep(keys.left, #pair.right)
-  return pair.left .. pair.right .. move_left
+
+  utils.feedkey(pair.left .. pair.right, "n")
+
+  for i = 1, #pair.right do
+    utils.feedkey("<left>", "n")
+  end
+
 end
 
 function M.delete_left_and_right()
