@@ -9,15 +9,18 @@ Plugin and maktaba installation.
   @clear
 
 Typing ` automatically inserts another ` and puts the cursor in the middle.
-  > i`cursor
+  > i`
+  > cursor
   `cursor`
   @end
   @clear
 
 
 If the next char is the tilda then skip over.
-  > i`Hello` .. `world`
-  `Hello` .. `world`
+  > i`
+  > Hello`
+  >  .. cursor is not outside
+  `Hello` .. cursor is not outside
   @end
   @clear
 
@@ -58,17 +61,17 @@ Do not autocomplete if there is any character before the tilda.
 
 
 Pressing backspace deletes both tilda if its empty.
-  > iHello`<bs>
+  > iHello`
+  > <bs>
   Hello
   @end
   @clear
 
 
 Backspace behaves normally if there is some letters inside the quote.
-  > i`Hello world<ESC>
-  `Hello world`
-
-  > a<bs>
+  > i`
+  > Hello world
+  > <bs>
   `Hello worl`
   @end
   @clear
