@@ -8,18 +8,15 @@ require 'pairs'.setup {
 
   fallback = {
     enter = function()
-
-      return "<Enter>"
+      utils.feedkey("-Enter-", "n")
     end,
 
     backspace = function()
-
-      return "<Backspace>"
+      utils.feedkey("-Backspace-", "n")
     end,
 
     space = function()
-
-      return "<Space>"
+      utils.feedkey("-Space-", "n")
     end
 
   }

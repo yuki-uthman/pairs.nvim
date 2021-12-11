@@ -8,7 +8,7 @@ M.enter = function()
 end
 
 M.backspace = function()
-  return keys.backspace
+  utils.feedkey("<BS>", "n")
 end
 
 M.space = function()

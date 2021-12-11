@@ -8,7 +8,9 @@ Plugin and maktaba installation.
 You can add custom fallback for <BS>, <CR> and space in the user config setup.
 By default they are not mapped to anything.
 
-  > ichecking<BS>backspace
+  > ichecking
+  > <BS>
+  > backspace
   checkinbackspace
   @end
   @clear
@@ -29,19 +31,23 @@ Source the user config to add custom fallback.
   :execute 'source' .. g:plugindir .. '/vroom/config/fallback.vim'
 
 
-  > ichecking<BS>backspace
-  checking<Backspace>backspace
+  > ichecking
+  > <BS>
+  > backspace
+  checking-Backspace-backspace
   @end
   @clear
 
-  > ichecking<CR>enter
-  checking<Enter>enter
-  @end
-  @clear
+> ichecking
+> <CR>
+> enter
+checking-Enter-enter
+@end
+@clear
 
-  > ichecking space
-  checking<Space>space
-  @end
-  @clear
+> ichecking space
+checking-Space-space
+@end
+@clear
 
 

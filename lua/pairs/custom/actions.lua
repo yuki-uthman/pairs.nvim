@@ -15,7 +15,8 @@ function M.open_pair(pair)
 end
 
 function M.delete_left_and_right()
-  return keys.delete .. keys.backspace
+  utils.feedkey("<Del>", "n")
+  utils.feedkey("<BS>", "n")
 end
 
 function M.enter_and_indent()
