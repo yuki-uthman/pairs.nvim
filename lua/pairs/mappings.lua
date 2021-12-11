@@ -53,7 +53,7 @@ function M.close(type)
     end
   end
 
-  return pair.right
+  utils.feedkey(pair.right, "n")
 end
 
 function M.backspace()
