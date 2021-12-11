@@ -171,7 +171,6 @@ M.curly_braces = {
         utils.feedkey("<C-O>", "n")
         utils.feedkey("^", "n")
 
-        return ""
       end
 
     }
@@ -261,8 +260,6 @@ M.curly_braces = {
         utils.feedkey("F" .. pair.left, "n")
         utils.feedkey("<right>", "n")
 
-
-        return ""
       end,
 
     }
