@@ -5,10 +5,6 @@ local M = {}
 
 function M.setup(user_config)
 
-  -- Export module
-  _G.Pairs = {}
-
-
   -- Setup user config
   user_config = user_config or {}
 
@@ -28,6 +24,8 @@ function M.setup(user_config)
     end
   end
 
+  -- Export module
+  _G.Pairs = {}
   _G.Pairs.mappings = mappings
   _G.Pairs.fallback = default.fallback
   _G.Pairs.pairs    = default.pairs
@@ -40,7 +38,7 @@ end
 
 function M.apply_mappings()
 
-  for name, pair in pairs(Pairs.pairs) do
+  for name, pair in pairs(default.pairs) do
     local rhs = ("<cmd>call v:lua.Pairs.mappings.open(\"%s\")<CR>"):format(name)
     vim.api.nvim_set_keymap("i", pair.left, rhs, { expr = false, noremap = true } )
 
@@ -51,7 +49,9 @@ function M.apply_mappings()
   end
 
   vim.api.nvim_set_keymap("i", "<bs>", "<cmd>call v:lua.Pairs.mappings.backspace()<CR>", { expr = false, noremap = true } )
-  vim.api.nvim_set_keymap("i", "<cr>", "<cmd>call v:lua.Pairs.mappings.enter()<CR>", { expr = false, noremap = true } )
+  vim.api.nvim_set_keymap("i", "<cr>", "<cmd>call v:lua.Pairs.mappings.enter()<CR>",     { expr = false, noremap = true } )
+
+  -- keeping it as expr because testing becomes tedius
   vim.api.nvim_set_keymap("i", " ", "v:lua.Pairs.mappings.space()", { expr = true, noremap = true } )
 
 end
