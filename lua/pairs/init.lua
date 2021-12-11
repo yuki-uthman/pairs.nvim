@@ -27,8 +27,6 @@ function M.setup(user_config)
   -- Export module
   _G.Pairs = {}
   _G.Pairs.mappings = mappings
-  _G.Pairs.fallback = default.fallback
-  _G.Pairs.pairs    = default.pairs
 
 
   -- Apply config
