@@ -4,7 +4,7 @@ local utils = require 'pairs.utils'
 local M = {}
 
 M.enter = function()
-  return keys.enter
+  utils.feedkey("<CR>", "n")
 end
 
 M.backspace = function()

@@ -15,7 +15,8 @@ By default they are not mapped to anything.
   @end
   @clear
 
-  > ichecking<CR>enter
+  > ichecking<CR>
+  > enter
   checking
   enter
   @end

@@ -104,7 +104,8 @@ the middle with correct indentation.
   @clear
 
   > i{
-  > <CR>key = value<ESC>
+  > <CR>
+  > key = value<ESC>
   {
     key = value
   }
@@ -152,8 +153,10 @@ Should not have any trailing whitespaces.
 
 Should also work on pairs that are nested.
   > i{
-  > <CR>{
-  > <CR>key = value<ESC>
+  > <CR>
+  > {
+  > <CR>
+  > key = value<ESC>
   {
     {
       key = value
@@ -177,7 +180,8 @@ Pressing backspace on a empty pair puts closing pair back on the same line.
 When there are items in the pair you can achieve the same effect by pressing
 backspace in the beginning of the line, here before the letter k.
   > i{
-  > <CR>key = value<ESC>
+  > <CR>
+  > key = value<ESC>
   {
     key = value
   }
@@ -196,7 +200,8 @@ The cursor should be placed in the begining of the line when they are put back.
 This should work even if there is any punctuation symbol after the closing pair.
   > i{
   > }
-  > ,<Left><Left><CR>key = value<ESC>
+  > ,<Left><Left><CR>
+  > key = value<ESC>
   {
     key = value
   },
@@ -210,8 +215,10 @@ This should work even if there is any punctuation symbol after the closing pair.
 
 This should work also on nested pairs.
   > i{
-  > <CR>{
-  > <CR><BS>
+  > <CR>
+  > {
+  > <CR>
+  > <BS>
   {
     {}
   }

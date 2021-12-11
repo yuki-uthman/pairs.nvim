@@ -87,10 +87,12 @@ Typing enter on an empty pair should not do anything special.
 
 Typing enter would indent the next line from the col position of the opening parenthesis.
   > ifunction hello(
-  > arg1, arg2,<CR>arg3, arg4<ESC>
+  > arg1, arg2,<CR>
+  > arg3, arg4<ESC>
   function hello(arg1, arg2,
-                  arg3, arg4)
+      arg3, arg4)
   @end
   @clear
+
 
 

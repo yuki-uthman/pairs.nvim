@@ -20,7 +20,9 @@ function M.delete_left_and_right()
 end
 
 function M.enter_and_indent()
-  return keys.enter .. keys.enter .. keys.up .. keys.indent
+  utils.feedkey("<CR><CR>", "n")
+  utils.feedkey("<Up>", "n")
+  utils.feedkey("<C-F>", "n")
 end
 
 function M.expand_with_space()

@@ -51,7 +51,7 @@ function M.apply_mappings()
   end
 
   vim.api.nvim_set_keymap("i", "<bs>", "<cmd>call v:lua.Pairs.mappings.backspace()<CR>", { expr = false, noremap = true } )
-  vim.api.nvim_set_keymap("i", "<cr>", "v:lua.Pairs.mappings.enter()", { expr = true, noremap = true } )
+  vim.api.nvim_set_keymap("i", "<cr>", "<cmd>call v:lua.Pairs.mappings.enter()<CR>", { expr = false, noremap = true } )
   vim.api.nvim_set_keymap("i", " ", "v:lua.Pairs.mappings.space()", { expr = true, noremap = true } )
 
 end
