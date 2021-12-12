@@ -49,11 +49,11 @@ end
 function M.apply_mappings()
 
   for name, pair in pairs(default.pairs.global) do
-    local rhs = ("<cmd>call v:lua.Pairs.mappings.open(\"%s\")<CR>"):format(name)
+    local rhs = ("<cmd>call v:lua.Pairs.mappings.open(\"\\%s\")<CR>"):format(name)
     vim.api.nvim_set_keymap("i", pair.left, rhs, { expr = false, noremap = true } )
 
     if pair.left ~= pair.right then
-    local rhs = ("<cmd>call v:lua.Pairs.mappings.close(\"%s\")<CR>"):format(name)
+    local rhs = ("<cmd>call v:lua.Pairs.mappings.close(\"\\%s\")<CR>"):format(name)
       vim.api.nvim_set_keymap("i", pair.right, rhs, { expr = false, noremap = true } )
     end
   end
@@ -65,11 +65,11 @@ function M.apply_mappings()
     if filetype ~= "global" then
 
       for name, pair in pairs(table) do
-        local rhs = ("<cmd>call v:lua.Pairs.mappings.open(\"%s\")<CR>"):format(name)
+        local rhs = ("<cmd>call v:lua.Pairs.mappings.open(\"\\%s\")<CR>"):format(name)
         vim.api.nvim_set_keymap("i", pair.left, rhs, { expr = false, noremap = true } )
 
         if pair.left ~= pair.right then
-        local rhs = ("<cmd>call v:lua.Pairs.mappings.close(\"%s\")<CR>"):format(name)
+        local rhs = ("<cmd>call v:lua.Pairs.mappings.close(\"\\%s\")<CR>"):format(name)
           vim.api.nvim_set_keymap("i", pair.right, rhs, { expr = false, noremap = true } )
         end
       end

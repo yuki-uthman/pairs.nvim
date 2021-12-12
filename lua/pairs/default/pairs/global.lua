@@ -13,7 +13,7 @@ end
 
 local M = {}
 
-M.single_quote = {
+M["'"] = {
   left = "'",
   right = "'",
   open = {
@@ -34,7 +34,7 @@ M.single_quote = {
 
 }
 
-M.double_quote = {
+M["\""] = {
   left = "\"",
   right = "\"",
   open = {
@@ -54,7 +54,7 @@ M.double_quote = {
   },
 }
 
-M.parenthesis = {
+M["("] = {
   left = "(",
   right = ")",
 
@@ -114,7 +114,7 @@ M.parenthesis = {
   }
 }
 
-M.curly_braces = {
+M["{"] = {
   left = "{",
   right = "}",
 
@@ -267,7 +267,7 @@ M.curly_braces = {
 
 }
 
-M.tilda = {
+M["`"] = {
   left = "`",
   right = "`",
 }
