@@ -6,8 +6,7 @@ local utils    = require 'pairs.utils'
 
 local M = {}
 
-function M.open(type)
-
+local function find_pair(type)
   local ft = vim.bo.filetype
   local pair
   if pairz[ft] and pairz[ft][type] then
@@ -15,15 +14,20 @@ function M.open(type)
   elseif pairz["global"][type] then
     pair = pairz["global"][type]
   else
-    utils.feedkey("*", "n")
-    return
+    pair = nil
   end
 
-  -- print(vim.inspect(pair))
+  return pair
+end
 
-  -- return the pair table
-  -- eg. single_quote, parenthesis, etc
-  -- local pair = global[type]
+
+function M.open(type)
+
+  local pair = find_pair(type)
+  if not pair then
+    utils.feedkey(type, "n")
+    return
+  end
 
   if pair.open then
     for number, condition in ipairs(pair.open.conditions) do
@@ -41,17 +45,18 @@ function M.open(type)
         return
       end
     end
-
-    actions.open.actions.fallback(pair)
   end
 
+  actions.open.actions.fallback(pair)
 end
 
 function M.close(type)
 
-  -- return the pair table
-  -- eg. single_quote, parenthesis, etc
-  local pair = global[type]
+  local pair = find_pair(type)
+  if not pair then
+    utils.feedkey(type, "n")
+    return
+  end
 
   if pair.close then
     for number, condition in ipairs(pair.close.conditions) do
