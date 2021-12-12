@@ -83,34 +83,43 @@ function M.backspace()
 
   local neighbours = utils.get_neighbours()
 
-  for _, pair in pairs(global) do
+  for _, ft in pairs({vim.bo.filetype, "global"}) do
 
-    -- if custom backspace is not implemented
-    if not pair.backspace then
+    if not pairz[ft] then
+      goto to_global
+    end
 
-      -- check for default backspace conditions
-      -- ie. if it is an empty pair
-      for number, condition in ipairs(actions.backspace.conditions) do
+    for _, pair in pairs(pairz[ft]) do
+
+      -- if custom backspace is not implemented
+      if not pair.backspace then
+
+        -- check for default backspace conditions
+        -- ie. if it is an empty pair
+        for number, condition in ipairs(actions.backspace.conditions) do
+          local condition = condition(pair)
+          if condition then
+            actions.backspace.actions[number](pair)
+            return
+          end
+        end
+
+        -- if no it is not an empty pair skip to the next pair
+        goto next
+      end
+
+      for number, condition in ipairs(pair.backspace.conditions) do
         local condition = condition(pair)
         if condition then
-          actions.backspace.actions[number](pair)
+          pair.backspace.actions[number](pair)
           return
         end
       end
 
-      -- if no it is not an empty pair skip to the next pair
-      goto next
+      ::next::
     end
 
-    for number, condition in ipairs(pair.backspace.conditions) do
-      local condition = condition(pair)
-      if condition then
-        pair.backspace.actions[number](pair)
-        return
-      end
-    end
-
-    ::next::
+    ::to_global::
   end
 
   fallback.backspace()

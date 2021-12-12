@@ -16,11 +16,21 @@ Source the user config to add the star pair to just markdown files.
 
 Now star should auto complete just any others.
   :set filetype=markdown
-  > i* (0.1s)
+  > i*
   > hello
   *hello*
   @end
   @clear
+
+Delete empty pairs.
+  > i* (0.1s)
+  > <BS>
+
+  @end
+  @clear
+
+
+
 
 But only for markdown files.
   :set filetype=vim
@@ -29,4 +39,5 @@ But only for markdown files.
   *hello
   @end
   @clear
+
 
