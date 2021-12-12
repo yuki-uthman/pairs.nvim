@@ -1,6 +1,5 @@
-local pairz = require 'pairs.default.pairs'
-
-local default  = require 'pairs.default.actions'
+local global   = require 'pairs.default.pairs.global'
+local actions  = require 'pairs.default.actions'
 local fallback = require 'pairs.default.fallback'
 local utils    = require 'pairs.utils'
 local keys     = require 'pairs.keys'
@@ -11,7 +10,7 @@ function M.open(type)
 
   -- return the pair table
   -- eg. single_quote, parenthesis, etc
-  local pair = pairz[type]
+  local pair = global[type]
 
   if pair.open then
     for number, condition in ipairs(pair.open.conditions) do
@@ -22,23 +21,23 @@ function M.open(type)
       end
     end
   else
-    for number, condition in ipairs(default.open.conditions) do
+    for number, condition in ipairs(actions.open.conditions) do
       local condition = condition(pair)
       if condition then
-        default.open.actions[number](pair)
+        actions.open.actions[number](pair)
         return
       end
     end
   end
 
-  default.open.actions.fallback(pair)
+  actions.open.actions.fallback(pair)
 end
 
 function M.close(type)
 
   -- return the pair table
   -- eg. single_quote, parenthesis, etc
-  local pair = pairz[type]
+  local pair = global[type]
 
   if pair.close then
     for number, condition in ipairs(pair.close.conditions) do
@@ -49,10 +48,10 @@ function M.close(type)
       end
     end
   else
-    for number, condition in ipairs(default.close.conditions) do
+    for number, condition in ipairs(actions.close.conditions) do
       local condition = condition(pair)
       if condition then
-        default.close.actions[number](pair)
+        actions.close.actions[number](pair)
         return
       end
     end
@@ -65,17 +64,17 @@ function M.backspace()
 
   local neighbours = utils.get_neighbours()
 
-  for _, pair in pairs(pairz) do
+  for _, pair in pairs(global) do
 
     -- if custom backspace is not implemented
     if not pair.backspace then
 
       -- check for default backspace conditions
       -- ie. if it is an empty pair
-      for number, condition in ipairs(default.backspace.conditions) do
+      for number, condition in ipairs(actions.backspace.conditions) do
         local condition = condition(pair)
         if condition then
-          default.backspace.actions[number](pair)
+          actions.backspace.actions[number](pair)
           return
         end
       end
@@ -104,7 +103,7 @@ function M.enter()
   local neighbours = utils.get_neighbours()
 
   -- if the pair matches any pairs
-  for _, pair in pairs(pairz) do
+  for _, pair in pairs(global) do
 
     -- skip if enter is not implemented
     if not pair.enter then
@@ -131,7 +130,7 @@ function M.space()
   local neighbours = utils.get_neighbours()
 
   -- if the pair matches any pairs
-  for _, pair in pairs(pairz) do
+  for _, pair in pairs(global) do
 
     -- skip if space is not implemented
     if not pair.space then

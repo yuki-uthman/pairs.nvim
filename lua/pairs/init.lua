@@ -10,10 +10,10 @@ function M.setup(user_config)
 
   if user_config.pairs then
     for key, table in pairs(user_config.pairs) do
-      if default.pairs[key] then
-        default.pairs[key] = vim.tbl_deep_extend("force", default.pairs[key], table)
+      if default.pairs.global[key] then
+        default.pairs.global[key] = vim.tbl_deep_extend("force", default.pairs.global[key], table)
       else
-        default.pairs[key] = table
+        default.pairs.global[key] = table
       end
     end
   end
@@ -36,7 +36,7 @@ end
 
 function M.apply_mappings()
 
-  for name, pair in pairs(default.pairs) do
+  for name, pair in pairs(default.pairs.global) do
     local rhs = ("<cmd>call v:lua.Pairs.mappings.open(\"%s\")<CR>"):format(name)
     vim.api.nvim_set_keymap("i", pair.left, rhs, { expr = false, noremap = true } )
 
