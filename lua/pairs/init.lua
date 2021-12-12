@@ -10,10 +10,13 @@ function M.setup(user_config)
 
   if user_config.pairs then
 
-
     for filetype, table in pairs(user_config.pairs) do
 
       -- filetype = global
+
+      if not default.pairs[filetype] then
+        default.pairs[filetype] = {}
+      end
 
       for key, table in pairs(table) do
         if default.pairs[filetype][key] then
@@ -55,6 +58,24 @@ function M.apply_mappings()
     end
   end
 
+  -- apply mappings for other filetypes if not set by global
+
+  for filetype, table in pairs(default.pairs) do
+
+    if filetype ~= "global" then
+
+      for name, pair in pairs(table) do
+        local rhs = ("<cmd>call v:lua.Pairs.mappings.open(\"%s\")<CR>"):format(name)
+        vim.api.nvim_set_keymap("i", pair.left, rhs, { expr = false, noremap = true } )
+
+        if pair.left ~= pair.right then
+        local rhs = ("<cmd>call v:lua.Pairs.mappings.close(\"%s\")<CR>"):format(name)
+          vim.api.nvim_set_keymap("i", pair.right, rhs, { expr = false, noremap = true } )
+        end
+      end
+
+    end
+  end
   vim.api.nvim_set_keymap("i", "<bs>", "<cmd>call v:lua.Pairs.mappings.backspace()<CR>", { expr = false, noremap = true } )
   vim.api.nvim_set_keymap("i", "<cr>", "<cmd>call v:lua.Pairs.mappings.enter()<CR>",     { expr = false, noremap = true } )
 

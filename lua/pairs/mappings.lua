@@ -1,16 +1,29 @@
-local global   = require 'pairs.default.pairs.global'
 local actions  = require 'pairs.default.actions'
 local fallback = require 'pairs.default.fallback'
-local utils    = require 'pairs.utils'
 local keys     = require 'pairs.keys'
+local pairz    = require 'pairs.default.pairs'
+local utils    = require 'pairs.utils'
 
 local M = {}
 
 function M.open(type)
 
+  local ft = vim.bo.filetype
+  local pair
+  if pairz[ft] and pairz[ft][type] then
+    pair = pairz[ft][type]
+  elseif pairz["global"][type] then
+    pair = pairz["global"][type]
+  else
+    utils.feedkey("*", "n")
+    return
+  end
+
+  -- print(vim.inspect(pair))
+
   -- return the pair table
   -- eg. single_quote, parenthesis, etc
-  local pair = global[type]
+  -- local pair = global[type]
 
   if pair.open then
     for number, condition in ipairs(pair.open.conditions) do
@@ -28,9 +41,10 @@ function M.open(type)
         return
       end
     end
+
+    actions.open.actions.fallback(pair)
   end
 
-  actions.open.actions.fallback(pair)
 end
 
 function M.close(type)

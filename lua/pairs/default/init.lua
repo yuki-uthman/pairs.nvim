@@ -1,10 +1,8 @@
-local global   = require 'pairs.default.pairs.global'
+local pairs   = require 'pairs.default.pairs'
 local fallback = require 'pairs.default.fallback'
 
 local M = {
-  pairs    = {
-    global = global
-  },
+  pairs    = pairs,
   fallback = fallback
 }
 

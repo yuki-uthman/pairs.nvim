@@ -1,0 +1,32 @@
+Plugin and maktaba installation.
+  :set nocompatible
+  :let g:plugindir = fnamemodify($VROOMFILE, ':p:h:h')
+  :let g:bootstrapfile = g:plugindir . '/bootstrap.vim'
+  :execute 'source' g:bootstrapfile
+  :call maktaba#LateLoad()
+
+By default star symbol (*) is not being mapped to anything.
+  > i*hello
+  *hello
+  @end
+  @clear
+
+Source the user config to add the star pair to just markdown files.
+  :execute 'source' .. g:plugindir .. '/vroom/config/markdown.vim'
+
+Now star should auto complete just any others.
+  :set filetype=markdown
+  > i* (0.1s)
+  > hello
+  *hello*
+  @end
+  @clear
+
+But only for markdown files.
+  :set filetype=vim
+  > i*
+  > hello
+  *hello
+  @end
+  @clear
+
