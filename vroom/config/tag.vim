@@ -1,7 +1,7 @@
 
 lua << EOF
 
-local custom_pair = {
+local global = {
     tags = {
       left = "<",
       right = ">"
@@ -9,5 +9,7 @@ local custom_pair = {
   }
 
 require 'pairs'.setup {
-  pairs = custom_pair
+  pairs = {
+    global = global
+  }
 }

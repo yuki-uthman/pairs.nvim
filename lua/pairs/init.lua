@@ -9,13 +9,22 @@ function M.setup(user_config)
   user_config = user_config or {}
 
   if user_config.pairs then
-    for key, table in pairs(user_config.pairs) do
-      if default.pairs.global[key] then
-        default.pairs.global[key] = vim.tbl_deep_extend("force", default.pairs.global[key], table)
-      else
-        default.pairs.global[key] = table
+
+
+    for filetype, table in pairs(user_config.pairs) do
+
+      -- filetype = global
+
+      for key, table in pairs(table) do
+        if default.pairs[filetype][key] then
+          default.pairs[filetype][key] = vim.tbl_deep_extend("force", default.pairs[filetype][key], table)
+        else
+          default.pairs[filetype][key] = table
+        end
       end
+
     end
+
   end
 
   if user_config.fallback then
