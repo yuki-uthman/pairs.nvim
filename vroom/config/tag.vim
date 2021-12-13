@@ -2,7 +2,7 @@
 lua << EOF
 
 local global = {
-    tags = {
+    ["<"] = {
       left = "<",
       right = ">"
     }

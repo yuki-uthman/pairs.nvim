@@ -140,7 +140,6 @@ M["{"] = {
     actions = {
       custom_actions.enter_and_indent,
       function(pair)
-
         local before_cursor = utils.get_line_before_cursor()
         local before_cursor = string.match(before_cursor, "%s*$")
 

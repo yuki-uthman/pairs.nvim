@@ -14,7 +14,19 @@ By default star symbol (*) is not being mapped to anything.
 Source the user config to add the star pair to just markdown files.
   :execute 'source' .. g:plugindir .. '/vroom/config/markdown.vim'
 
-Now star should auto complete just any others.
+
+Still no auto close for files other than markdown.
+  :set filetype=vim
+  > i*
+  > hello
+  *hello
+  @end
+  @clear
+
+But for markdown the star should be registered as a pair.
+
+1. Auto close
+Typing the opening pair automatically inserts the closing pair and puts the cursor in between.
   :set filetype=markdown
   > i*
   > hello
@@ -22,22 +34,58 @@ Now star should auto complete just any others.
   @end
   @clear
 
-Delete empty pairs.
+No auto close if there is a letter after the cursor.
+  :set filetype=markdown
+  > ihello<Esc>I*
+  > <ESC>
+  *hello
+
+Or before the cursor.
+  :set filetype=markdown
+  > A*
+  *hello*
+  @end
+  @clear
+
+
+2. Skip over
+Typing the closing pair would skip over if the next char is the closing pair.
+  :set filetype=markdown
+  > i*
+  > cursor* (0.1s)
+  >  now it is outside
+  *cursor* now it is outside
+  @end
+  @clear
+
+
+3. Delete empty pairs.
+  :set filetype=markdown
   > i* (0.1s)
   > <BS>
+  
+  @end
+  @clear
 
+Backspace should behave normally if it is not empty.
+  :set filetype=markdown
+  > i* (0.1s)
+  > Hello
+  > <bs>
+  *Hell*
+  @end
+  @clear
+
+4. Enter key should behave as it is.
+  :set filetype=markdown
+  > i* (0.1s)
+  > <CR>
+  *
+  *
   @end
   @clear
 
 
 
-
-But only for markdown files.
-  :set filetype=vim
-  > i*
-  > hello
-  *hello
-  @end
-  @clear
 
 

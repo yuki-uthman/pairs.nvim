@@ -81,10 +81,9 @@ end
 
 function M.backspace()
 
-  local neighbours = utils.get_neighbours()
-
   for _, ft in pairs({vim.bo.filetype, "global"}) do
 
+    -- filetype not found
     if not pairz[ft] then
       goto to_global
     end
@@ -127,26 +126,33 @@ end
 
 function M.enter()
 
-  -- get char left and right of the cursor
-  local neighbours = utils.get_neighbours()
+  for _, ft in pairs({vim.bo.filetype, "global"}) do
 
-  -- if the pair matches any pairs
-  for _, pair in pairs(global) do
-
-    -- skip if enter is not implemented
-    if not pair.enter then
-      goto next
+    -- filetype not found
+    if not pairz[ft] then
+      goto to_global
     end
 
-    for number, condition in ipairs(pair.enter.conditions) do
-      local condition = condition(pair)
-      if condition then
-        pair.enter.actions[number](pair)
-        return
+    -- if the pair matches any pairs
+    for name, pair in pairs(pairz[ft]) do
+
+      -- skip if enter is not implemented
+      if not pair.enter then
+        goto next
       end
+
+      for number, condition in ipairs(pair.enter.conditions) do
+        local condition = condition(pair)
+        if condition then
+          pair.enter.actions[number](pair)
+          return
+        end
+      end
+
+      ::next::
     end
 
-    ::next::
+    ::to_global::
   end
 
   fallback.enter()
@@ -154,25 +160,32 @@ end
 
 function M.space()
 
-  -- get char open.key and close.key of the cursor
-  local neighbours = utils.get_neighbours()
+  for _, ft in pairs({vim.bo.filetype, "global"}) do
 
-  -- if the pair matches any pairs
-  for _, pair in pairs(global) do
-
-    -- skip if space is not implemented
-    if not pair.space then
-      goto next
+    -- filetype not found
+    if not pairz[ft] then
+      goto to_global
     end
 
-    for _, condition in ipairs(pair.space.conditions) do
-      local condition = condition(pair)
-      if condition then
-        return pair.space.actions[condition](pair)
+    -- if the pair matches any pairs
+    for _, pair in pairs(pairz[ft]) do
+
+      -- skip if space is not implemented
+      if not pair.space then
+        goto next
       end
+
+      for _, condition in ipairs(pair.space.conditions) do
+        local condition = condition(pair)
+        if condition then
+          return pair.space.actions[condition](pair)
+        end
+      end
+
+      ::next::
     end
 
-    ::next::
+    ::to_global::
   end
 
   return fallback.space()
