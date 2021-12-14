@@ -200,7 +200,28 @@ M["{"] = {
       custom_conditions.empty,
 
       function(pair)
-        if utils.get_neighbours(2) == pair.left .. "  ".. pair.right then
+
+        local before_cursor = utils.get_line_before_cursor(pair)
+        if not before_cursor then
+          return false
+        end
+
+        local before_cursor = string.match(before_cursor, "({%s*)$")
+        if not before_cursor then
+          return false
+        end
+
+        local after_cursor = utils.get_line_after_cursor(pair)
+        if not after_cursor then
+          return false
+        end
+
+        local after_cursor = string.match(after_cursor, "(%s*})%p*$")
+        if not before_cursor then
+          return false
+        end
+
+        if #before_cursor == #after_cursor then
           return true
         else
           return false
@@ -245,7 +266,14 @@ M["{"] = {
 
     actions = {
       custom_actions.delete_left_and_right,
-      custom_actions.delete_left_and_right,
+      function(pair)
+        local pos = vim.fn.searchpos(pair.right, 'nc', vim.fn.line('.'))
+        local lnum, col = pos[1], pos[2]
+
+        vim.api.nvim_buf_set_text(0, lnum - 1, col - 2, lnum - 1, col - 1, {''} )
+
+        utils.feedkey("<bs>", "n")
+      end,
       function(pair)
 
         utils.feedkey("<C-G>u", "n")

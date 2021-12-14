@@ -86,6 +86,10 @@ Typing space inside the empty braces would insert space on each side.
   > i{
   > <Space>
   {  }
+
+Pressing backspace should delete the space on both side.
+  > <bs>
+  {}
   @end
   @clear
 
@@ -97,16 +101,9 @@ Even with key = value within the bracket.
   > Fki
   > <Space>
   { key = value }
-  @end
-  @clear
-
-Pressing backspace should delete the space on both side.
-  > i{
-  > <Space>
-  {  }
 
   > <bs>
-  {}
+  {key = value}
   @end
   @clear
 
@@ -180,8 +177,6 @@ Should not have any trailing whitespaces.
   }
   @end
   @clear
-
-
 
 Should also work on pairs that are nested.
   > i{
@@ -278,4 +273,5 @@ This should work also on nested pairs.
   }
   @end
   @clear
+
 
