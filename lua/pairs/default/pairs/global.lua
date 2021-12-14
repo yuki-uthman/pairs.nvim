@@ -175,11 +175,23 @@ M["{"] = {
 
   space = {
     conditions = {
-      custom_conditions.empty
+      custom_conditions.empty,
+      function()
+
+        local before_cursor = utils.get_left_char()
+
+        local after_cursor = utils.get_line_after_cursor()
+        local after_cursor = string.match(after_cursor, "%S(})%p*")
+
+        if before_cursor == "{" and after_cursor == "}" then
+          return "empty"
+        end
+
+      end
     },
 
-    actions = {
-      empty = custom_actions.expand_with_space
+    actions= {
+      empty = custom_actions.expand_with_space,
     }
   },
 

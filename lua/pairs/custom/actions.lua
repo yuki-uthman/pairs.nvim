@@ -25,9 +25,14 @@ function M.enter_and_indent()
   utils.feedkey("<C-F>", "n")
 end
 
-function M.expand_with_space()
-  utils.feedkey("  ", "n")
-  utils.feedkey("<left>", "n")
+function M.expand_with_space(pair)
+
+  local pos = vim.fn.searchpos(pair.right, 'nc', vim.fn.line('.'))
+  local lnum, col = pos[1], pos[2]
+
+  vim.api.nvim_buf_set_text(0, lnum - 1, col - 1, lnum - 1, col - 1, {' '} )
+
+  utils.feedkey(" ", "n")
 end
 
 function M.jump_over(pair)

@@ -89,14 +89,16 @@ Typing space inside the empty braces would insert space on each side.
   @end
   @clear
 
-And with key = value within the bracket.
-> i{
-> key = value
-> Fki
-> <Space>
-{ key = value }
-@end
-@clear
+Even with key = value within the bracket.
+  > i{
+  > key 
+  > = 
+  > value<ESC>
+  > Fki
+  > <Space>
+  { key = value }
+  @end
+  @clear
 
 Pressing backspace should delete the space on both side.
   > i{
@@ -276,3 +278,4 @@ This should work also on nested pairs.
   }
   @end
   @clear
+
