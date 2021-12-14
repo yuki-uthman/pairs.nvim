@@ -9,12 +9,13 @@ local M = {}
 local function find_pair(type)
   local ft = vim.bo.filetype
   local pair
-  if pairz[ft] and pairz[ft][type] then
-    pair = pairz[ft][type]
-  elseif pairz["global"][type] then
+
+  if pairz[ft] == nil then
     pair = pairz["global"][type]
-  else
+  elseif pairz[ft][type] == false then
     pair = nil
+  else
+    pair = pairz[ft][type]
   end
 
   return pair
@@ -24,6 +25,7 @@ end
 function M.open(type)
 
   local pair = find_pair(type)
+
   if not pair then
     utils.feedkey(type, "n")
     return
@@ -90,6 +92,10 @@ function M.backspace()
 
     for _, pair in pairs(pairz[ft]) do
 
+      -- pair has been disabled
+      if not pair then
+        goto next
+      end
       -- if custom backspace is not implemented
       if not pair.backspace then
 
@@ -137,7 +143,7 @@ function M.enter()
     for name, pair in pairs(pairz[ft]) do
 
       -- skip if enter is not implemented
-      if not pair.enter then
+      if not pair or not pair.enter then
         goto next
       end
 
@@ -171,7 +177,7 @@ function M.space()
     for _, pair in pairs(pairz[ft]) do
 
       -- skip if space is not implemented
-      if not pair.space then
+      if not pair or not pair.space then
         goto next
       end
 

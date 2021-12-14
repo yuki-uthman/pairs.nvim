@@ -1,0 +1,47 @@
+Plugin and maktaba installation.
+  :set nocompatible
+  :let g:plugindir = fnamemodify($VROOMFILE, ':p:h:h')
+  :let g:bootstrapfile = g:plugindir . '/bootstrap.vim'
+  :execute 'source' g:bootstrapfile
+  :call maktaba#LateLoad()
+
+
+Disabling some pairs globally.
+
+Source the user config to disable.
+  :execute 'source' .. g:plugindir .. '/vroom/config/disable.vim'
+
+Now the parenthesis should not auto close.
+  > i(
+  > arg1, arg2
+  (arg1, arg2
+  @end
+  @clear
+
+  > i()<Left>
+  > <BS>
+  )
+  @end
+  @clear
+
+Disabling some pairs just for markdown.
+
+Check that the curly braces still work in non-markdown files.
+  :set filetype=vim
+  > i{
+  > hello
+  {hello}
+  @end
+  @clear
+
+
+It should be disabled When the file changes to markdown.
+  :set filetype=markdown
+  > i{
+  > hello
+  {hello
+  @end
+  @clear
+
+
+
