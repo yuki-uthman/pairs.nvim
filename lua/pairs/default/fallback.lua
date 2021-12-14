@@ -12,7 +12,8 @@ M.backspace = function()
 end
 
 M.space = function()
-  return keys.space
+  utils.feedkey("<Space>", "n")
+  -- return keys.space
 end
 
 return M

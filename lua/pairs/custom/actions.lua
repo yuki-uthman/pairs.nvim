@@ -26,7 +26,8 @@ function M.enter_and_indent()
 end
 
 function M.expand_with_space()
-  return "  " .. keys.left
+  utils.feedkey("  ", "n")
+  utils.feedkey("<left>", "n")
 end
 
 function M.jump_over(pair)

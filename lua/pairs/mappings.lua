@@ -194,7 +194,7 @@ function M.space()
     ::to_global::
   end
 
-  return fallback.space()
+  fallback.space()
 end
 
 return M
