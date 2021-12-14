@@ -60,11 +60,9 @@ M["("] = {
 
   open = {
     conditions = {
-      custom_conditions.right_is_close_pair,
       custom_conditions.right_is_letter,
     },
     actions = {
-      custom_actions.jump_over,
       custom_actions.no_auto_close,
       fallback = custom_actions.open_pair
     }
