@@ -44,8 +44,9 @@ Typing opening curly parenthesis automatically inserts the closing pair and puts
 
 Typing the closing parenthesis would skip over.
   > )
-  >  .. now the cursor is outside
-  (cursor) .. now the cursor is outside
+  >  
+  > outside
+  (cursor) outside
   @end
   @clear
 
@@ -74,7 +75,8 @@ Backspace should behave normally if it is not empty.
 
 Typing space inside the empty parenthesis would insert space on each side.
   > i(
-  > <Space>cursor
+  > <Space> (0.1s)
+  > cursor
   ( cursor )
   @end
   @clear
@@ -90,9 +92,12 @@ Typing enter on an empty pair should not do anything special.
 
 
 Typing enter would indent the next line from the col position of the opening parenthesis.
-  > ifunction hello(
-  > arg1, arg2,<CR>
-  > arg3, arg4<ESC>
+  > ifunction 
+  > hello(
+  > arg1, 
+  > arg2,<CR>
+  > arg3, 
+  > arg4<ESC>
   function hello(arg1, arg2,
       arg3, arg4)
   @end

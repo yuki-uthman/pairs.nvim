@@ -22,8 +22,9 @@ Typing ` automatically inserts another ` and puts the cursor in the middle.
 If the next char is the tilda then skip over.
   > i`
   > Hello`
-  >  .. cursor is not outside
-  `Hello` .. cursor is not outside
+  >  
+  > outside
+  `Hello` outside
   @end
   @clear
 
@@ -73,7 +74,8 @@ Pressing backspace deletes both tilda if its empty.
 
 Backspace behaves normally if there is some letters inside the quote.
   > i`
-  > Hello world
+  > Hello 
+  > world
   > <bs>
   `Hello worl`
   @end

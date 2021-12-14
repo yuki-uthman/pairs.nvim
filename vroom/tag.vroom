@@ -53,8 +53,9 @@ Or before the cursor.
 Typing the closing pair would skip over if the next char is the closing pair.
   > i<
   > cursor>
-  >  now it is outside
-  <cursor> now it is outside
+  >  
+  > outside
+  <cursor> outside
   @end
   @clear
 

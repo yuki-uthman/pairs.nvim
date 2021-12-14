@@ -34,7 +34,9 @@ Source the user config.
 
 Typing opening curly braces automatically inserts the closing pair and puts the cursor in between.
   > i{
-  > key = value
+  > key 
+  > = 
+  > value
   {key = value}
   @end
   @clear
@@ -42,7 +44,9 @@ Typing opening curly braces automatically inserts the closing pair and puts the 
 
 Typing the closing braces would skip over.
   > i{
-  > key = value}
+  > key 
+  > = 
+  > value}
   > .method
   {key = value}.method
   @end
@@ -85,6 +89,15 @@ Typing space inside the empty braces would insert space on each side.
   @end
   @clear
 
+And with key = value within the bracket.
+> i{
+> key = value
+> Fki
+> <Space>
+{ key = value }
+@end
+@clear
+
 Pressing backspace should delete the space on both side.
   > i{
   > <Space>
@@ -107,7 +120,9 @@ the middle with correct indentation.
 
   > i{
   > <CR>
-  > key = value<ESC>
+  > key 
+  > = 
+  > value<ESC>
   {
     key = value
   }
@@ -117,7 +132,10 @@ the middle with correct indentation.
 It should do the same even if there are items in the pair as long as you press enter
 in the beginning of the item just after the opening pair.
   > i{
-  >  key = value<ESC>
+  >  
+  > key 
+  > = 
+  > value<ESC>
   { key = value }
 
   > Fki<CR>
@@ -127,8 +145,13 @@ in the beginning of the item just after the opening pair.
   @end
   @clear
 
-  > iconditions = {
-  >  key = value<ESC>
+  > iconditions 
+  > = 
+  > {
+  >  
+  > key 
+  > = 
+  > value<ESC>
   conditions = { key = value }
 
   > Fki<CR>
@@ -139,9 +162,14 @@ in the beginning of the item just after the opening pair.
   @clear
 
 Pressing enter removes extra spaces before expaning.
-  > iconditions = {
-  >   key = value <ESC>
-  conditions = {  key = value  }
+  > iconditions 
+  > = 
+  > {
+  >  
+  > key 
+  > = 
+  > value<ESC>
+  conditions = { key = value }
 
 Should not have any trailing whitespaces.
   > Fki<CR>
@@ -158,7 +186,9 @@ Should also work on pairs that are nested.
   > <CR>
   > {
   > <CR>
-  > key = value<ESC>
+  > key 
+  > = 
+  > value<ESC>
   {
     {
       key = value
@@ -183,7 +213,9 @@ When there are items in the pair you can achieve the same effect by pressing
 backspace in the beginning of the line, here before the letter k.
   > i{
   > <CR>
-  > key = value<ESC>
+  > key 
+  > = 
+  > value<ESC>
   {
     key = value
   }
@@ -193,7 +225,9 @@ backspace in the beginning of the line, here before the letter k.
 
 
 The cursor should be placed in the begining of the line when they are put back.
-  > Here is the 
+  > Here 
+  > is 
+  > the 
   {Here is the key = value}
   @end
   @clear
@@ -203,7 +237,9 @@ This should work even if there is any punctuation symbol after the closing pair.
   > i{
   > }
   > ,<Left><Left><CR>
-  > key = value<ESC>
+  > key 
+  > = 
+  > value<ESC>
   {
     key = value
   },
@@ -232,7 +268,9 @@ This should work also on nested pairs.
   > <CR>
   > {
   > <CR>
-  > key = value<ESC>I<BS>
+  > key 
+  > = 
+  > value<ESC>I<BS>
   {
     {key = value}
   }

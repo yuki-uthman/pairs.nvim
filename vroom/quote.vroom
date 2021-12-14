@@ -27,7 +27,9 @@ Typing single or double quote inserts 2 quotes and put the cursor in between.
 If the next char is a quote then skip over the quote.
   > i'
   > Hello'
-  >  .. '
+  >  
+  > .. 
+  > '
   > world'
   'Hello' .. 'world'
   @end
@@ -35,7 +37,9 @@ If the next char is a quote then skip over the quote.
 
   > i"
   > Hello"
-  >  .. "
+  >  
+  > .. 
+  > "
   > world"
   "Hello" .. "world"
   @end
@@ -69,14 +73,16 @@ Pressing backspace deletes both quotes if its empty.
 
 Backspace behaves normally if there is some letters inside the quote.
   > i'
-  > Hello world
+  > Hello 
+  > world
   > <bs>
   'Hello worl'
   @end
   @clear
 
   > i"
-  > Hello world
+  > Hello 
+  > world
   > <bs>
   "Hello worl"
   @end
@@ -87,7 +93,8 @@ Needs to exit insert mode for the following mapping to work for some reason.
 
 If the quote is typed as an apostrophe...
   > iI'
-  > m fine
+  > m 
+  > fine
   I'm fine
   @end
   @clear
@@ -129,14 +136,16 @@ Also check to see if the quote can be inserted inside the quote.
 But it should be able to autocomplete inside the parethesis.
   > iprint(
   > '
-  > Hello world
+  > Hello 
+  > world
   print('Hello world')
   @end
   @clear
 
   > iprint(
   > "
-  > Hello world
+  > Hello 
+  > world
   print("Hello world")
   @end
   @clear

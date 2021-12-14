@@ -50,8 +50,9 @@ Typing the closing pair would skip over if the next char is another closing pair
   :set filetype=markdown
   > i*
   > cursor* (0.1s)
-  >  now it is outside
-  *cursor* now it is outside
+  >  
+  > outside
+  *cursor* outside
   @end
   @clear
 
