@@ -30,6 +30,10 @@ Plugin and maktaba installation.
   ~ Hello
   @clear
 
+
+Source the user config.
+  :execute 'source' .. g:plugindir .. '/vroom/config/default.vim'
+
 Typing opening curly parenthesis automatically inserts the closing pair and puts the cursor in between.
   > i(
   ()

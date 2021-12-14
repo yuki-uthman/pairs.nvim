@@ -8,6 +8,9 @@ Plugin and maktaba installation.
   ~ Hello
   @clear
 
+Source the user config.
+  :execute 'source' .. g:plugindir .. '/vroom/config/default.vim'
+
 Typing ` automatically inserts another ` and puts the cursor in the middle.
   > i`
   > cursor
@@ -75,3 +78,5 @@ Backspace behaves normally if there is some letters inside the quote.
   `Hello worl`
   @end
   @clear
+
+

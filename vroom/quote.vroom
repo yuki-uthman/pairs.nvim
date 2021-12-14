@@ -7,6 +7,8 @@ Plugin and maktaba installation.
   :call Hello()
   ~ Hello
 
+Source the user config.
+  :execute 'source' .. g:plugindir .. '/vroom/config/default.vim'
 
 Typing single or double quote inserts 2 quotes and put the cursor in between.
   > i'

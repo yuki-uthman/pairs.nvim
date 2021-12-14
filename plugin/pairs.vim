@@ -6,4 +6,4 @@ endfunction
 
 lua << EOF
 
-require 'pairs'.setup {}
+-- require 'pairs'.setup {}

@@ -29,6 +29,8 @@ Plugin and maktaba installation.
   :call Hello()
   ~ Hello
 
+Source the user config.
+  :execute 'source' .. g:plugindir .. '/vroom/config/default.vim'
 
 Typing opening curly braces automatically inserts the closing pair and puts the cursor in between.
   > i{
@@ -225,12 +227,14 @@ This should work also on nested pairs.
   @end
   @clear
 
+  :set cin ts=2 sw=2 et
   > i{
-  > <CR>{
-  > <CR>key = value<ESC>I<BS>
+  > <CR>
+  > {
+  > <CR>
+  > key = value<ESC>I<BS>
   {
     {key = value}
   }
   @end
   @clear
-

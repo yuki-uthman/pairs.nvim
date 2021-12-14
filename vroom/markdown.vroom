@@ -5,17 +5,14 @@ Plugin and maktaba installation.
   :execute 'source' g:bootstrapfile
   :call maktaba#LateLoad()
 
-By default star symbol (*) is not being mapped to anything.
-  > i*hello
-  *hello
-  @end
-  @clear
 
-Source the user config to add the star pair to just markdown files.
+Adding a new pair to only markdown files.
+
+
+Source the user config to add the star pair (*) to just markdown files.
   :execute 'source' .. g:plugindir .. '/vroom/config/markdown.vim'
 
-
-Still no auto close for files other than markdown.
+No auto close for files other than markdown.
   :set filetype=vim
   > i*
   > hello
@@ -23,7 +20,7 @@ Still no auto close for files other than markdown.
   @end
   @clear
 
-But for markdown the star should be registered as a pair.
+But for markdown the star should be registered as one of the pair.
 
 1. Auto close
 Typing the opening pair automatically inserts the closing pair and puts the cursor in between.
@@ -49,7 +46,7 @@ Or before the cursor.
 
 
 2. Skip over
-Typing the closing pair would skip over if the next char is the closing pair.
+Typing the closing pair would skip over if the next char is another closing pair.
   :set filetype=markdown
   > i*
   > cursor* (0.1s)
@@ -76,7 +73,7 @@ Backspace should behave normally if it is not empty.
   @end
   @clear
 
-4. Enter key should behave as it is.
+4. No expansion with enter.
   :set filetype=markdown
   > i* (0.1s)
   > <CR>
@@ -85,7 +82,10 @@ Backspace should behave normally if it is not empty.
   @end
   @clear
 
-
-
-
-
+5. No expansion with space.
+  :set filetype=markdown
+  > i* (0.1s)
+  > <Space>
+  * *
+  @end
+  @clear
