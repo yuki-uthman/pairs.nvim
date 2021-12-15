@@ -1,0 +1,85 @@
+Plugin and maktaba installation.
+  :set nocompatible
+  :let g:plugindir = fnamemodify($VROOMFILE, ':p:h:h')
+  :let g:bootstrapfile = g:plugindir . '/bootstrap.vim'
+  :execute 'source' g:bootstrapfile
+  :call maktaba#LateLoad()
+  :call Hello()
+  ~ Hello
+
+Source the user config.
+  :execute 'source' .. g:plugindir .. '/vroom/config/default.vim'
+
+Typing single or double quote inserts 2 quotes and put the cursor in between.
+  > i"
+  > Hello
+  "Hello"
+  @end
+  @clear
+
+
+If the next char is a quote then skip over the quote.
+  > i"
+  > Hello"
+  >  
+  > .. 
+  > "
+  > world"
+  "Hello" .. "world"
+  @end
+  @clear
+
+
+No auto close if there is a letter in front of the cursor.
+  > ihello<Esc>I"
+  "hello
+  @end
+  @clear
+
+Pressing backspace deletes both quotes if its empty.
+  > iHello"
+  > <bs>
+  Hello
+  @end
+  @clear
+
+
+Backspace behaves normally if there is some letters inside the quote.
+  > i"
+  > Hello 
+  > world
+  > <bs>
+  "Hello worl"
+  @end
+  @clear
+
+
+Needs to exit insert mode for the following mapping to work for some reason.
+
+No auto close after the backslash.
+  > i\<esc>
+  \
+
+  > a"
+  \"
+  @end
+  @clear
+
+
+Also check to see if the quote can be inserted inside the quote.
+  > i"
+  > \
+  > "
+  "\""
+  @end
+  @clear
+
+
+But it should be able to autocomplete inside the parethesis.
+  > iprint(
+  > "
+  > Hello 
+  > world
+  print("Hello world")
+  @end
+  @clear
