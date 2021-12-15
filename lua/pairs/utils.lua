@@ -75,4 +75,11 @@ function M.escape(s)
   return vim.api.nvim_replace_termcodes(s, true, true, true)
 end
 
+function M.trim(input)
+  if not input then
+    return false
+  end
+  return string.match(input, '^%s*(.-)%s*$')
+end
+
 return M

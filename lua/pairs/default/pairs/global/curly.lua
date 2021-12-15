@@ -1,124 +1,19 @@
-local custom_actions    = require "pairs.custom.actions"
-local custom_conditions = require "pairs.custom.conditions"
+local action    = require "pairs.custom.actions"
+local condition = require "pairs.custom.conditions"
 
 local utils = require 'pairs.utils'
 local keys  = require 'pairs.keys'
 
-local function trim(input)
-  if not input then
-    return false
-  end
-  return string.match(input, '^%s*(.-)%s*$')
-end
 
 local M = {}
 
-M["'"] = {
-  left = "'",
-  right = "'",
-  open = {
-    conditions = {
-      custom_conditions.left_is_backward_slash,
-      custom_conditions.right_is_close_pair,
-      custom_conditions.right_is_letter,
-      custom_conditions.left_is_alphanumeric,
-    },
-
-    actions = {
-      custom_actions.no_auto_close,
-      custom_actions.jump_over,
-      custom_actions.no_auto_close,
-      custom_actions.no_auto_close,
-    }
-  },
-
-}
-
-M["\""] = {
-  left = "\"",
-  right = "\"",
-  open = {
-    conditions = {
-      custom_conditions.left_is_backward_slash,
-      custom_conditions.right_is_close_pair,
-      custom_conditions.right_is_letter,
-      custom_conditions.left_is_alphanumeric,
-    },
-
-    actions = {
-      custom_actions.no_auto_close,
-      custom_actions.jump_over,
-      custom_actions.no_auto_close,
-      custom_actions.no_auto_close,
-    }
-  },
-}
-
-M["("] = {
-  left = "(",
-  right = ")",
-
-  open = {
-    conditions = {
-      custom_conditions.right_is_letter,
-    },
-    actions = {
-      custom_actions.no_auto_close,
-      fallback = custom_actions.open_pair
-    }
-  },
-
-  enter = {
-    conditions = {
-      custom_conditions.empty,
-      custom_conditions.right_is_close_pair
-    },
-
-    actions = {
-      function()
-        utils.feedkey("<CR>", "n")
-      end,
-      function(pair)
-        -- find the position of opening parenthesis
-        -- local pos = vim.fn.searchpairpos('(', '', ')', 'bn')
-        -- local line, col = pos[1], pos[2]
-
-        -- local current_line = vim.api.nvim_win_get_cursor(0)[1]
-
-        -- local indent_level = current_line - line + 1
-        -- local indent = string.rep("  ", indent_level)
-
-        -- next line starts from the opening parenthesis col like in cindent
-        -- local extra_space = string.rep(" ", col - 1) .. indent
-
-        -- delete the whole line and add the space to accomodate
-        -- different indent styles across file types
-        utils.feedkey("<CR>", "n")
-        -- return keys.enter .. keys.delete_line .. extra_space
-      end
-    }
-
-  },
-
-
-  space = {
-    conditions = {
-      custom_conditions.empty
-    },
-
-    actions = {
-      empty = custom_actions.expand_with_space
-    }
-  }
-}
-
-M["{"] = {
+M = {
   left = "{",
   right = "}",
 
   enter = {
     conditions = {
-      custom_conditions.empty,
+      condition.empty,
       function(pair)
 
         local before_cursor = utils.get_line_before_cursor(pair)
@@ -136,7 +31,7 @@ M["{"] = {
     },
 
     actions = {
-      custom_actions.enter_and_indent,
+      action.enter_and_indent,
       function(pair)
         local before_cursor = utils.get_line_before_cursor()
         local before_cursor = string.match(before_cursor, "%s*$")
@@ -175,7 +70,7 @@ M["{"] = {
 
   space = {
     conditions = {
-      custom_conditions.empty,
+      condition.empty,
       function()
 
         local before_cursor = utils.get_left_char()
@@ -190,14 +85,14 @@ M["{"] = {
       end
     },
 
-    actions= {
-      empty = custom_actions.expand_with_space,
+    actions = {
+      empty = action.expand_with_space,
     }
   },
 
   backspace = {
     conditions = {
-      custom_conditions.empty,
+      condition.empty,
 
       function(pair)
 
@@ -253,7 +148,7 @@ M["{"] = {
           return false
         end
 
-        local before_cursor = trim(utils.get_line_before_cursor())
+        local before_cursor = utils.trim(utils.get_line_before_cursor())
 
         if above .. before_cursor .. below ==  "{}" then
           return true
@@ -265,7 +160,7 @@ M["{"] = {
     },
 
     actions = {
-      custom_actions.delete_left_and_right,
+      action.delete_left_and_right,
       function(pair)
         local pos = vim.fn.searchpos(pair.right, 'nc', vim.fn.line('.'))
         local lnum, col = pos[1], pos[2]
@@ -304,12 +199,4 @@ M["{"] = {
 
 }
 
-M["`"] = {
-  left = "`",
-  right = "`",
-}
-
-
 return M
-
-
