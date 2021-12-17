@@ -2,48 +2,34 @@ local utils = require 'pairs.utils'
 
 local M = {}
 
-local function right_char_is_(regex, string)
-  return function(pair)
-    local right  = utils.get_right_char()
-    if string.find(right, regex) then
-      return string
-    end
-  end
-end
-
-local function left_char_is_(regex, string)
-  return function(pair)
-    local left  = utils.get_left_char()
-    if string.find(left, regex) then
-      return string
-    end
-  end
-end
-
 function M.empty(pair)
-  if utils.get_neighbours() == pair.left .. pair.right then
-    return "empty"
+  if M.left_is_open_pair(pair) and M.right_is_close_pair(pair)  then
+    return 'empty'
   end
 end
 
 function M.left_is_open_pair(pair)
-  if utils.get_left_char() == pair.left then
-    return "left_is_open_pair"
-  end
+  return utils.left_char_match("%" .. pair.left)
 end
 
 function M.right_is_close_pair(pair)
-  if utils.get_right_char() == pair.right then
-    return "right_is_close_pair"
-  else
-    return false
-  end
+  return utils.right_char_match("%" .. pair.right)
 end
 
-M.right_is_letter = right_char_is_("%a", "right_is_letter")
-M.left_is_letter  = left_char_is_("%a", "left_is_letter")
+function M.right_is_letter()
+  return utils.right_char_match("%a")
+end
 
-M.left_is_alphanumeric = left_char_is_("%w", "left_is_alphanumeric")
-M.left_is_backward_slash = left_char_is_("\\", "left_is_backward_slash")
+function M.left_is_letter()
+  return utils.left_char_match("%a")
+end
+
+function M.left_is_alphanumeric()
+  return utils.left_char_match("%w")
+end
+
+function M.left_is_backward_slash()
+  return utils.left_char_match("\\")
+end
 
 return M

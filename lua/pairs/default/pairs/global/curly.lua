@@ -4,7 +4,6 @@ local condition = require "pairs.custom.conditions"
 local utils = require 'pairs.utils'
 local keys  = require 'pairs.keys'
 
-
 local M = {}
 
 M = {
@@ -16,11 +15,8 @@ M = {
       condition.empty,
       function(pair)
 
-        local before_cursor = utils.get_line_before_cursor(pair)
-        local before_cursor = string.match(before_cursor, "({)%s*$")
-
-        local after_cursor = utils.get_line_after_cursor(pair)
-        local after_cursor = string.match(after_cursor, "%s*(})%p*")
+        local before_cursor = utils.left_of_cursor_match("({)%s*$")
+        local after_cursor = utils.right_of_cursor_match("%s*(})%p*")
 
         if before_cursor == "{" and after_cursor == "}" then
           return true
@@ -33,8 +29,8 @@ M = {
     actions = {
       action.enter_and_indent,
       function(pair)
-        local before_cursor = utils.get_line_before_cursor()
-        local before_cursor = string.match(before_cursor, "%s*$")
+
+        local before_cursor = utils.left_of_cursor_match("%s*$")
 
         if #before_cursor > 0 then
           for i = 1, #before_cursor do
@@ -47,11 +43,10 @@ M = {
         utils.feedkey("<C-O>", "n")
         utils.feedkey("f" .. pair.right, "n")
 
-        local before_cursor = utils.get_line(0)
-        local before_cursor = string.match(before_cursor, "(%s*)}$")
+        local after_cursor = utils.right_of_cursor_match("(%s*)}$")
 
-        if before_cursor and #before_cursor > 0 then
-          for i = 1, #before_cursor do
+        if after_cursor and #after_cursor > 0 then
+          for i = 1, #after_cursor do
             utils.feedkey("<BS>", "n")
           end
         end
@@ -127,6 +122,8 @@ M = {
 
         local before_cursor = utils.get_line_before_cursor(pair)
         local before_cursor = string.match(before_cursor, "({)%s*$")
+
+        local left = utils.left_of_cursor_match("({)%s*$")
 
         local above = utils.get_line(-1)
         if not above then
