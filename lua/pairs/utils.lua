@@ -83,52 +83,60 @@ function M.trim(input)
 end
 
 function M.right_char_match(regex)
-  local right  = M.get_right_char()
-  return string.match(right, regex)
+  local string  = M.get_right_char()
+  if not string then
+    return nil
+  end
+
+  return string.match(string, regex)
 end
 
 function M.left_char_match(regex)
-  local left  = M.get_left_char()
-  return string.match(left, regex)
+  local string  = M.get_left_char()
+  if not string then
+    return nil
+  end
+
+  return string.match(string, regex)
 end
 
 function M.right_of_cursor_match(regex)
   local string = M.get_line_after_cursor()
+  if not string then
+    return nil
+  end
+
   return string.match(string, regex)
 end
 
 function M.left_of_cursor_match(regex)
   local string = M.get_line_before_cursor()
+  if not string then
+    return nil
+  end
+
   return string.match(string, regex)
 end
 
 function M.above_match(regex)
 
-  local above = M.get_line(-1)
-  if not above then
-    return false
+  local string = M.get_line(-1)
+  if not string then
+    return nil
   end
 
-  local match = string.match(above, regex)
-  if not match then
-    return false
-  end
-
+  local match = string.match(string, regex)
   return match
 end
 
 function M.below_match(regex)
 
-  local below = M.get_line(1)
-  if not below then
-    return false
+  local string = M.get_line(1)
+  if not string then
+    return nil
   end
 
-  local match = string.match(above, regex)
-  if not match then
-    return false
-  end
-
+  local match = string.match(string, regex)
   return match
 end
 

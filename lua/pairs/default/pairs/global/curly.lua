@@ -6,6 +6,41 @@ local keys  = require 'pairs.keys'
 
 local M = {}
 
+local function inside_pair(pair)
+  local left = utils.left_of_cursor_match("({)%s*$")
+  local right = utils.right_of_cursor_match("%s*(})%p*")
+
+  if left == pair.left and right == pair.right then
+    return true
+  end
+end
+
+local function space_on_both_side(pair)
+
+  local left  = utils.left_of_cursor_match("({%s*)$")
+  local right = utils.right_of_cursor_match("(%s*})%p*$")
+
+  if not left or not right then
+    return nil
+  elseif #left == #right then
+    return true
+  end
+end
+
+local function to_one_liner(pair)
+
+  local above = utils.above_match(".-({)%s*$")
+  local below = utils.below_match("%s*(})%p*")
+  local left = utils.trim(utils.get_line_before_cursor())
+
+  if not above or not below or not left then
+    return nil
+  elseif above .. left .. below ==  "{}" then
+    return true
+  end
+end
+
+
 M = {
   left = "{",
   right = "}",
@@ -13,27 +48,17 @@ M = {
   enter = {
     conditions = {
       condition.empty,
-      function(pair)
-
-        local before_cursor = utils.left_of_cursor_match("({)%s*$")
-        local after_cursor = utils.right_of_cursor_match("%s*(})%p*")
-
-        if before_cursor == "{" and after_cursor == "}" then
-          return true
-        else
-          return false
-        end
-      end
+      inside_pair
     },
 
     actions = {
       action.enter_and_indent,
       function(pair)
 
-        local before_cursor = utils.left_of_cursor_match("%s*$")
+        local left = utils.left_of_cursor_match("%s*$") or ""
 
-        if #before_cursor > 0 then
-          for i = 1, #before_cursor do
+        if #left > 0 then
+          for i = 1, #left do
             utils.feedkey("<BS>", "n")
           end
         end
@@ -43,10 +68,10 @@ M = {
         utils.feedkey("<C-O>", "n")
         utils.feedkey("f" .. pair.right, "n")
 
-        local after_cursor = utils.right_of_cursor_match("(%s*)}$")
+        local right = utils.right_of_cursor_match("(%s*)}$") or ""
 
-        if after_cursor and #after_cursor > 0 then
-          for i = 1, #after_cursor do
+        if #right > 0 then
+          for i = 1, #right do
             utils.feedkey("<BS>", "n")
           end
         end
@@ -68,12 +93,10 @@ M = {
       condition.empty,
       function()
 
-        local before_cursor = utils.get_left_char()
+        local left = utils.get_left_char()
+        local right = utils.right_of_cursor_match("%S(})%p*")
 
-        local after_cursor = utils.get_line_after_cursor()
-        local after_cursor = string.match(after_cursor, "%S(})%p*")
-
-        if before_cursor == "{" and after_cursor == "}" then
+        if left == "{" and right == "}" then
           return "empty"
         end
 
@@ -87,77 +110,11 @@ M = {
 
   backspace = {
     conditions = {
-      condition.empty,
-
-      function(pair)
-
-        local before_cursor = utils.get_line_before_cursor(pair)
-        if not before_cursor then
-          return false
-        end
-
-        local before_cursor = string.match(before_cursor, "({%s*)$")
-        if not before_cursor then
-          return false
-        end
-
-        local after_cursor = utils.get_line_after_cursor(pair)
-        if not after_cursor then
-          return false
-        end
-
-        local after_cursor = string.match(after_cursor, "(%s*})%p*$")
-        if not before_cursor then
-          return false
-        end
-
-        if #before_cursor == #after_cursor then
-          return true
-        else
-          return false
-        end
-      end,
-
-      function(pair)
-
-        local before_cursor = utils.get_line_before_cursor(pair)
-        local before_cursor = string.match(before_cursor, "({)%s*$")
-
-        local left = utils.left_of_cursor_match("({)%s*$")
-
-        local above = utils.get_line(-1)
-        if not above then
-          return false
-        end
-
-        local above = string.match(above, ".-({)%s*$")
-        if not above then
-          return false
-        end
-
-        local below = utils.get_line(1)
-        if not below then
-          return false
-        end
-
-        local below = string.match(below, "%s*(})%p*")
-        if not below then
-          return false
-        end
-
-        local before_cursor = utils.trim(utils.get_line_before_cursor())
-
-        if above .. before_cursor .. below ==  "{}" then
-          return true
-        else
-          return false
-        end
-      end
-
+      space_on_both_side,
+      to_one_liner
     },
 
     actions = {
-      action.delete_left_and_right,
       function(pair)
         local pos = vim.fn.searchpos(pair.right, 'nc', vim.fn.line('.'))
         local lnum, col = pos[1], pos[2]
