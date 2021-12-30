@@ -1,3 +1,4 @@
+local default   = require "pairs.default.actions"
 local action    = require "pairs.custom.actions"
 local condition = require "pairs.custom.conditions"
 

@@ -1,15 +1,14 @@
 
 lua << EOF
 
-local global = {
-    ["<"] = {
-      left = "<",
-      right = ">"
-    }
-  }
+local core  = require 'pairs.core'
+
+local tag = core.new { left = "<", right = ">" }
 
 require 'pairs'.setup {
   pairs = {
-    global = global
+    global = {
+      ["<"] = tag
+    }
   }
 }

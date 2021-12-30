@@ -1,8 +1,8 @@
+local core = require "pairs.core"
+local utils = require 'pairs.utils'
+
 local action    = require "pairs.custom.actions"
 local condition = require "pairs.custom.conditions"
-
-local utils = require 'pairs.utils'
-local keys  = require 'pairs.keys'
 
 
 local M = {}
@@ -65,4 +65,4 @@ M = {
   }
 }
 
-return M
+return core.new(M)

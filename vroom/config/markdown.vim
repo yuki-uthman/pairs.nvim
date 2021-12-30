@@ -1,18 +1,14 @@
 
 lua << EOF
 
-local utils = require 'pairs.utils'
-local keys  = require 'pairs.keys'
+local core  = require 'pairs.core'
+
+local star = core.new { left = "*", right = "*" }
 
 require 'pairs'.setup {
   pairs = {
     markdown = {
-      ["*"] = {
-        left = "*",
-        right = "*",
-      }
+      ["*"] = star
     }
-
-
   }
 }

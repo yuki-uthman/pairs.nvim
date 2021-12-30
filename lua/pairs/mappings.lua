@@ -1,24 +1,25 @@
 local actions  = require 'pairs.default.actions'
 local fallback = require 'pairs.default.fallback'
-local keys     = require 'pairs.keys'
 local pairz    = require 'pairs.default.pairs'
 local utils    = require 'pairs.utils'
 
 local M = {}
 
 local function find_pair(type)
-  local ft = vim.bo.filetype
-  local pair
+  local filetype = vim.bo.filetype
 
-  if pairz[ft] == nil then
-    pair = pairz["global"][type]
-  elseif pairz[ft][type] == false then
-    pair = nil
-  else
-    pair = pairz[ft][type]
+  if pairz[filetype] == nil then return pairz["global"][type] end
+  if pairz[filetype][type] == false then return nil end
+
+  return pairz[filetype][type]
+end
+
+function open_action_for(pair)
+  for number, condition in ipairs(pair.open.conditions) do
+    if condition(pair) then
+      return pair.open.actions[number]
+    end
   end
-
-  return pair
 end
 
 
@@ -31,25 +32,13 @@ function M.open(type)
     return
   end
 
-  if pair.open then
-    for number, condition in ipairs(pair.open.conditions) do
-      local condition = condition(pair)
-      if condition then
-        pair.open.actions[number](pair)
-        return
-      end
-    end
+  local action = open_action_for(pair)
+  if action then
+    action(pair)
   else
-    for number, condition in ipairs(actions.open.conditions) do
-      local condition = condition(pair)
-      if condition then
-        actions.open.actions[number](pair)
-        return
-      end
-    end
+    actions.open.actions.fallback(pair)
   end
 
-  actions.open.actions.fallback(pair)
 end
 
 function M.close(type)
@@ -60,21 +49,10 @@ function M.close(type)
     return
   end
 
-  if pair.close then
-    for number, condition in ipairs(pair.close.conditions) do
-      local condition = condition(pair)
-      if condition then
-        pair.close.actions[number](pair)
-        return
-      end
-    end
-  else
-    for number, condition in ipairs(actions.close.conditions) do
-      local condition = condition(pair)
-      if condition then
-        actions.close.actions[number](pair)
-        return
-      end
+  for number, condition in ipairs(pair.close.conditions) do
+    if condition(pair) then
+      pair.close.actions[number](pair)
+      return
     end
   end
 
@@ -102,8 +80,7 @@ function M.backspace()
         -- check for default backspace conditions
         -- ie. if it is an empty pair
         for number, condition in ipairs(actions.backspace.conditions) do
-          local condition = condition(pair)
-          if condition then
+          if condition(pair) then
             actions.backspace.actions[number](pair)
             return
           end
@@ -114,8 +91,7 @@ function M.backspace()
       end
 
       for number, condition in ipairs(pair.backspace.conditions) do
-        local condition = condition(pair)
-        if condition then
+        if condition(pair) then
           pair.backspace.actions[number](pair)
           return
         end
@@ -148,8 +124,7 @@ function M.enter()
       end
 
       for number, condition in ipairs(pair.enter.conditions) do
-        local condition = condition(pair)
-        if condition then
+        if condition(pair) then
           pair.enter.actions[number](pair)
           return
         end
