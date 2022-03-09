@@ -1,4 +1,4 @@
-local utils = require 'pairs.utils'
+local utils = require 'pairz.utils'
 
 local M = {}
 

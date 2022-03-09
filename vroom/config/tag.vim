@@ -1,12 +1,12 @@
 
 lua << EOF
 
-local core  = require 'pairs.core'
+local core  = require 'pairz.core'
 
 local tag = core.new { left = "<", right = ">" }
 
-require 'pairs'.setup {
-  pairs = {
+require 'pairz'.setup {
+  pairz = {
     global = {
       ["<"] = tag
     }

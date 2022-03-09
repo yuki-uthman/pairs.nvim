@@ -1,4 +1,4 @@
 
 lua << EOF
 
-require 'pairs'.setup {}
+require 'pairz'.setup {}

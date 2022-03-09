@@ -1,5 +1,5 @@
-local action    = require "pairs.custom.actions"
-local condition = require "pairs.custom.conditions"
+local action    = require "pairz.custom.actions"
+local condition = require "pairz.custom.conditions"
 
 local M = {}
 

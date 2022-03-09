@@ -1,4 +1,4 @@
-local actions = require "pairs.default.actions"
+local actions = require "pairz.default.actions"
 
 local M = {}
 

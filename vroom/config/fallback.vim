@@ -1,10 +1,10 @@
 
 lua << EOF
 
-local utils = require 'pairs.utils'
-local keys  = require 'pairs.keys'
+local utils = require 'pairz.utils'
+local keys  = require 'pairz.keys'
 
-require 'pairs'.setup {
+require 'pairz'.setup {
 
   fallback = {
     enter = function()

@@ -1,8 +1,8 @@
-local core = require "pairs.core"
-local utils = require 'pairs.utils'
+local core = require "pairz.core"
+local utils = require 'pairz.utils'
 
-local action    = require "pairs.custom.actions"
-local condition = require "pairs.custom.conditions"
+local action    = require "pairz.custom.actions"
+local condition = require "pairz.custom.conditions"
 
 
 local M = {}

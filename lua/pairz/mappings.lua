@@ -1,7 +1,7 @@
-local actions  = require 'pairs.default.actions'
-local fallback = require 'pairs.default.fallback'
-local pairz    = require 'pairs.default.pairs'
-local utils    = require 'pairs.utils'
+local actions  = require 'pairz.default.actions'
+local fallback = require 'pairz.default.fallback'
+local pairz    = require 'pairz.default.pairz'
+local utils    = require 'pairz.utils'
 
 local M = {}
 
@@ -115,7 +115,7 @@ function M.enter()
       goto to_global
     end
 
-    -- if the pair matches any pairs
+    -- if the pair matches any pairz
     for name, pair in pairs(pairz[ft]) do
 
       -- skip if enter is not implemented
@@ -148,7 +148,7 @@ function M.space()
       goto to_global
     end
 
-    -- if the pair matches any pairs
+    -- if the pair matches any pairz
     for _, pair in pairs(pairz[ft]) do
 
       -- skip if space is not implemented

@@ -1,4 +1,4 @@
-local core = require "pairs.core"
+local core = require "pairz.core"
 
 -- local M = {}
 

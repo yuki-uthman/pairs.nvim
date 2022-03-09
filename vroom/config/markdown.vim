@@ -1,12 +1,12 @@
 
 lua << EOF
 
-local core  = require 'pairs.core'
+local core  = require 'pairz.core'
 
 local star = core.new { left = "*", right = "*" }
 
-require 'pairs'.setup {
-  pairs = {
+require 'pairz'.setup {
+  pairz = {
     markdown = {
       ["*"] = star
     }

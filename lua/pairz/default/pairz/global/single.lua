@@ -1,6 +1,6 @@
-local default   = require "pairs.default.actions"
-local action    = require "pairs.custom.actions"
-local condition = require "pairs.custom.conditions"
+local default   = require "pairz.default.actions"
+local action    = require "pairz.custom.actions"
+local condition = require "pairz.custom.conditions"
 
 local M = {}
 

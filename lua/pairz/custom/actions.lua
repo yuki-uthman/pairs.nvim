@@ -1,5 +1,5 @@
-local keys  = require 'pairs.keys'
-local utils = require 'pairs.utils'
+local keys  = require 'pairz.keys'
+local utils = require 'pairz.utils'
 
 
 local M = {}

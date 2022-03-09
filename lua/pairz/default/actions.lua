@@ -1,7 +1,7 @@
-local custom_actions    = require 'pairs.custom.actions'
-local custom_conditions = require 'pairs.custom.conditions'
-local utils             = require 'pairs.utils'
-local keys              = require 'pairs.keys'
+local custom_actions    = require 'pairz.custom.actions'
+local custom_conditions = require 'pairz.custom.conditions'
+local utils             = require 'pairz.utils'
+local keys              = require 'pairz.keys'
 
 local M = {}
 
