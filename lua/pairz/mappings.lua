@@ -1,27 +1,9 @@
-local actions  = require 'pairz.default.actions'
-local fallback = require 'pairz.default.fallback'
-local pairz    = require 'pairz.default.pairz'
-local utils    = require 'pairz.utils'
+local default_actions = require 'pairz.default.actions'
+local fallback        = require 'pairz.default.fallback'
+local pairz           = require 'pairz.default.pairz'
+local utils           = require 'pairz.utils'
 
 local M = {}
-
-local function find_pair(type)
-  local filetype = vim.bo.filetype
-
-  if pairz[filetype] == nil then return pairz["global"][type] end
-  if pairz[filetype][type] == false then return nil end
-
-  return pairz[filetype][type]
-end
-
-function open_action_for(pair)
-  for number, condition in ipairs(pair.open.conditions) do
-    if condition(pair) then
-      return pair.open.actions[number]
-    end
-  end
-end
-
 
 function M.open(type)
 
@@ -32,12 +14,10 @@ function M.open(type)
     return
   end
 
-  local action = open_action_for(pair)
-  if action then
-    action(pair)
-  else
-    actions.open.actions.fallback(pair)
-  end
+  local done = execute(pair, "open")
+  if done then return end
+
+  default_actions.open.actions.fallback(pair)
 
 end
 
@@ -49,58 +29,29 @@ function M.close(type)
     return
   end
 
-  for number, condition in ipairs(pair.close.conditions) do
-    if condition(pair) then
-      pair.close.actions[number](pair)
-      return
-    end
-  end
+  local done = execute(pair, "close")
+  if done then return end
 
   utils.feedkey(pair.right, "n")
 end
 
 function M.backspace()
 
-  for _, ft in pairs({vim.bo.filetype, "global"}) do
+  for _, filetype in pairs({get_current_filetype(), "global"}) do
 
     -- filetype not found
-    if not pairz[ft] then
-      goto to_global
+    if not pairz[filetype] then goto global end
+
+    for _, pair in pairs(pairz[filetype]) do
+
+      if pair then
+        local executed = execute(pair, "backspace")
+        if executed then return end
+      end
+
     end
 
-    for _, pair in pairs(pairz[ft]) do
-
-      -- pair has been disabled
-      if not pair then
-        goto next
-      end
-      -- if custom backspace is not implemented
-      if not pair.backspace then
-
-        -- check for default backspace conditions
-        -- ie. if it is an empty pair
-        for number, condition in ipairs(actions.backspace.conditions) do
-          if condition(pair) then
-            actions.backspace.actions[number](pair)
-            return
-          end
-        end
-
-        -- if no it is not an empty pair skip to the next pair
-        goto next
-      end
-
-      for number, condition in ipairs(pair.backspace.conditions) do
-        if condition(pair) then
-          pair.backspace.actions[number](pair)
-          return
-        end
-      end
-
-      ::next::
-    end
-
-    ::to_global::
+    ::global::
   end
 
   fallback.backspace()
@@ -108,7 +59,7 @@ end
 
 function M.enter()
 
-  for _, ft in pairs({vim.bo.filetype, "global"}) do
+  for _, ft in pairs({get_current_filetype(), "global"}) do
 
     -- filetype not found
     if not pairz[ft] then
@@ -141,7 +92,7 @@ end
 
 function M.space()
 
-  for _, ft in pairs({vim.bo.filetype, "global"}) do
+  for _, ft in pairs({get_current_filetype(), "global"}) do
 
     -- filetype not found
     if not pairz[ft] then
@@ -171,5 +122,35 @@ function M.space()
 
   fallback.space()
 end
+
+function find_pair(type)
+  if pairz[get_current_filetype()] == nil then return pairz["global"][type] end
+  if pairz[get_current_filetype()][type] == false then return nil end
+
+  return pairz[get_current_filetype()][type]
+end
+
+function get_current_filetype()
+  return vim.bo.filetype
+end
+
+function execute(pair, key)
+  for number, condition in ipairs(pair[key].conditions) do
+    if condition(pair) then
+      pair[key].actions[number](pair)
+      return true
+    end
+  end
+end
+
+function execute_default(pair, key)
+  for number, condition in ipairs(default_actions[key].conditions) do
+    if condition(pair) then
+      default_actions[key].actions[number](pair)
+      return
+    end
+  end
+end
+
 
 return M

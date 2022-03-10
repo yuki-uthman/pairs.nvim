@@ -1,3 +1,4 @@
+local core      = require "pairz.core"
 local default   = require "pairz.default.actions"
 local action    = require "pairz.custom.actions"
 local condition = require "pairz.custom.conditions"
@@ -25,4 +26,4 @@ M = {
 
 }
 
-return M
+return core.new(M)
