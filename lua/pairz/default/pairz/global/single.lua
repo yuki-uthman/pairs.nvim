@@ -26,4 +26,4 @@ M = {
 
 }
 
-return core.new(M)
+return core:new(M)

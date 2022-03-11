@@ -35,6 +35,14 @@ function M.close(type)
   utils.feedkey(pair.right, "n")
 end
 
+function find_pair(type)
+  if pairz[get_current_filetype()] == nil then return pairz["global"][type] end
+  if pairz[get_current_filetype()][type] == false then return nil end
+
+  return pairz[get_current_filetype()][type]
+end
+
+
 function M.backspace()
 
   for _, filetype in pairs({get_current_filetype(), "global"}) do
@@ -121,13 +129,6 @@ function M.space()
   end
 
   fallback.space()
-end
-
-function find_pair(type)
-  if pairz[get_current_filetype()] == nil then return pairz["global"][type] end
-  if pairz[get_current_filetype()][type] == false then return nil end
-
-  return pairz[get_current_filetype()][type]
 end
 
 function get_current_filetype()

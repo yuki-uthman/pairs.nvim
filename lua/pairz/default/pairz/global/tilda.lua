@@ -7,7 +7,7 @@ local core = require "pairz.core"
 --   right = "`",
 -- }
 
-local M = core.new { left = "`", right = "`" }
+local M = core:new { left = "`", right = "`" }
 
 
 return M
