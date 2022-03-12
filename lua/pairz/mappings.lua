@@ -111,12 +111,8 @@ function M.space()
         goto next
       end
 
-      for _, condition in ipairs(pair.space.conditions) do
-        local condition = condition(pair)
-        if condition then
-          return pair.space.actions[condition](pair)
-        end
-      end
+      local executed = pair:execute("space")
+      if executed then return end
 
       ::next::
     end

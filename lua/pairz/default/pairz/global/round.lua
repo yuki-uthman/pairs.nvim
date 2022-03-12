@@ -60,7 +60,7 @@ M = {
     },
 
     actions = {
-      empty = action.expand_with_space
+      action.expand_with_space
     }
   }
 }
