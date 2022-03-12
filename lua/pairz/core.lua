@@ -24,6 +24,15 @@ function M:new (o)
   return o
 end
 
+function M:execute(key)
+  for number, condition in ipairs(self[key].conditions) do
+    if condition(self) then
+      self[key].actions[number](self)
+      return true
+    end
+  end
+end
+
 -- Default
 -- if left and right are of the same char eg. quote
 -- it would skip over if another pair is on the right of the cursor
