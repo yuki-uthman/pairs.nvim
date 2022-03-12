@@ -82,12 +82,8 @@ function M.enter()
         goto next
       end
 
-      for number, condition in ipairs(pair.enter.conditions) do
-        if condition(pair) then
-          pair.enter.actions[number](pair)
-          return
-        end
-      end
+      local executed = pair:execute("enter")
+      if executed then return end
 
       ::next::
     end
