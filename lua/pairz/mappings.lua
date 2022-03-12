@@ -42,89 +42,44 @@ function find_pair(type)
   return pairz[get_current_filetype()][type]
 end
 
-
-function M.backspace()
-
+function M.execute(key)
   for _, filetype in pairs({get_current_filetype(), "global"}) do
 
-    -- filetype not found
-    if not pairz[filetype] then goto global end
+    if filetypeEnabled(filetype) then
+      for _, pair in pairs(pairz[filetype]) do
 
-    for _, pair in pairs(pairz[filetype]) do
+        if pair and pair[key] then
+          local executed = pair:execute(key)
+          if executed then return end
+        end
 
-      if pair then
-        local executed = pair:execute("backspace")
-        if executed then return end
       end
-
     end
-
-    ::global::
   end
 
-  fallback.backspace()
+  fallback[key]()
+end
+
+function M.backspace()
+  M.execute("backspace")
 end
 
 function M.enter()
-
-  for _, ft in pairs({get_current_filetype(), "global"}) do
-
-    -- filetype not found
-    if not pairz[ft] then
-      goto to_global
-    end
-
-    -- if the pair matches any pairz
-    for name, pair in pairs(pairz[ft]) do
-
-      -- skip if enter is not implemented
-      if not pair or not pair.enter then
-        goto next
-      end
-
-      local executed = pair:execute("enter")
-      if executed then return end
-
-      ::next::
-    end
-
-    ::to_global::
-  end
-
-  fallback.enter()
+  M.execute("enter")
 end
 
 function M.space()
-
-  for _, ft in pairs({get_current_filetype(), "global"}) do
-
-    -- filetype not found
-    if not pairz[ft] then
-      goto to_global
-    end
-
-    -- if the pair matches any pairz
-    for _, pair in pairs(pairz[ft]) do
-
-      -- skip if space is not implemented
-      if not pair or not pair.space then
-        goto next
-      end
-
-      local executed = pair:execute("space")
-      if executed then return end
-
-      ::next::
-    end
-
-    ::to_global::
-  end
-
-  fallback.space()
+  M.execute("space")
 end
 
 function get_current_filetype()
   return vim.bo.filetype
+end
+
+function filetypeEnabled(filetype)
+  if pairz[filetype] then
+    return true
+  end
 end
 
 return M
