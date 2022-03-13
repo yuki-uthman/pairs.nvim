@@ -4,12 +4,12 @@ local utils           = require 'pairz.utils'
 
 local M = {}
 
-function M.open(type)
+function M.open(key)
 
-  local pair = find_pair(type)
+  local pair = find_pair(key)
 
   if not pair then
-    utils.feedkey(type, "n")
+    utils.feedkey(key, "n")
     return
   end
 
@@ -20,11 +20,11 @@ function M.open(type)
 
 end
 
-function M.close(type)
+function M.close(key)
 
-  local pair = find_pair(type)
+  local pair = find_pair(key)
   if not pair then
-    utils.feedkey(type, "n")
+    utils.feedkey(key, "n")
     return
   end
 
@@ -34,11 +34,11 @@ function M.close(type)
   fallback.close(pair)
 end
 
-function find_pair(type)
-  if pairz[get_current_filetype()] == nil then return pairz["global"][type] end
-  if pairz[get_current_filetype()][type] == false then return nil end
+function find_pair(key)
+  if pairz[get_current_filetype()] == nil then return pairz["global"][key] end
+  if pairz[get_current_filetype()][key] == false then return nil end
 
-  return pairz[get_current_filetype()][type]
+  return pairz[get_current_filetype()][key]
 end
 
 function M.execute(key)
