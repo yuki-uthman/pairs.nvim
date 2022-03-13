@@ -1,4 +1,3 @@
-local default_actions = require 'pairz.default.actions'
 local fallback        = require 'pairz.default.fallback'
 local pairz           = require 'pairz.default.pairz'
 local utils           = require 'pairz.utils'
@@ -17,7 +16,7 @@ function M.open(type)
   local executed = pair:execute("open")
   if executed then return end
 
-  default_actions.open.actions.fallback(pair)
+  fallback.open(pair)
 
 end
 

@@ -33,6 +33,16 @@ function M:execute(key)
   end
 end
 
+function M:fallback(key)
+  self[key].fallback()
+end
+
+
+function M:open()
+  M:execute("open")
+end
+
+
 -- Default
 -- if left and right are of the same char eg. quote
 -- it would skip over if another pair is on the right of the cursor
@@ -48,8 +58,7 @@ M.open = {
     custom_actions.no_auto_close,
     custom_actions.no_auto_close,
     custom_actions.no_auto_close,
-    fallback = custom_actions.open_pair
-  }
+  },
 }
 
 -- Default

@@ -1,5 +1,3 @@
-local default   = require "pairz.default.actions"
-
 local single = require 'pairz.default.pairz.global.single'
 local double = require 'pairz.default.pairz.global.double'
 local round  = require 'pairz.default.pairz.global.round'
