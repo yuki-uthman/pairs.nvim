@@ -37,12 +37,6 @@ function M:fallback(key)
   self[key].fallback()
 end
 
-
-function M:open()
-  M:execute("open")
-end
-
-
 -- Default
 -- if left and right are of the same char eg. quote
 -- it would skip over if another pair is on the right of the cursor
