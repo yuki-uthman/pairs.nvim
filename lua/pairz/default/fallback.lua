@@ -6,6 +6,10 @@ local M = {}
 
 M.open = custom_actions.open_pair
 
+M.close = function(pair)
+  utils.feedkey(pair.right, "n")
+end
+
 M.enter = function()
   utils.feedkey("<CR>", "n")
 end

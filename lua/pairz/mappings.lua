@@ -31,7 +31,7 @@ function M.close(type)
   local executed = pair:execute("close")
   if executed then return end
 
-  utils.feedkey(pair.right, "n")
+  fallback.close(pair)
 end
 
 function find_pair(type)
