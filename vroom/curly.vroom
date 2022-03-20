@@ -275,3 +275,26 @@ This should work also on nested pairs.
   @clear
 
 
+
+Deleting the closing bracket deletes the opening bracket.
+  > i{
+  > value
+  {value}
+
+  > <ESC>A<BS>
+  value
+  @end
+  @clear
+
+
+
+Deleting the opening bracket deletes the closing bracket.
+  > i{
+  > value
+  {value}
+
+  > <ESC>I<right><BS>
+  value
+  @end
+  @clear
+

@@ -17,13 +17,12 @@ local function inside_pair(pair)
 end
 
 local function space_on_both_side(pair)
-
   local left  = utils.left_of_cursor_match("({%s*)$")
   local right = utils.right_of_cursor_match("(%s*})%p*$")
 
   if not left or not right then
     return nil
-  elseif #left == #right then
+  elseif #left == #right and #left > 1 then
     return true
   end
 end
@@ -37,6 +36,32 @@ local function to_one_liner(pair)
   if not above or not below or not left then
     return nil
   elseif above .. left .. below ==  "{}" then
+    return true
+  end
+end
+
+local function deleting_close(pair)
+  local left_char = utils.get_left_char(1)
+  if left_char ~= pair.right then
+    return false
+  end
+
+  local left = utils.left_of_cursor_match("{[^{}]-}$")
+  if left then
+    print(left)
+    return true
+  end
+end
+
+local function deleting_open(pair)
+  local left_char = utils.get_left_char(1)
+  if left_char ~= pair.left then
+    return false
+  end
+
+  local right = utils.right_of_cursor_match("^[^}]-}")
+  if right then
+    print(right)
     return true
   end
 end
@@ -113,7 +138,10 @@ M = {
   backspace = {
     conditions = {
       space_on_both_side,
-      to_one_liner
+      to_one_liner,
+      condition.empty,
+      deleting_close,
+      deleting_open,
     },
 
     actions = {
@@ -149,7 +177,24 @@ M = {
         utils.feedkey("<right>", "n")
 
       end,
+      action.delete_left_and_right,
+      function(pair)
+        local pos = vim.fn.searchpos(pair.left, 'bcn')
+        print(vim.inspect(pos))
+        local lnum, col = pos[1], pos[2]
 
+        vim.api.nvim_buf_set_text(0, lnum - 1, col - 1, lnum - 1, col, {''} )
+
+        utils.feedkey("<bs>", "n")
+      end,
+      function(pair)
+        local pos = vim.fn.searchpos(pair.right, 'nc', vim.fn.line('.'))
+        local lnum, col = pos[1], pos[2]
+
+        vim.api.nvim_buf_set_text(0, lnum - 1, col - 1, lnum - 1, col, {''} )
+
+        utils.feedkey("<bs>", "n")
+      end
     }
   }
 
