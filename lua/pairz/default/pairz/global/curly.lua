@@ -48,7 +48,7 @@ local function deleting_close(pair)
 
   local left = utils.left_of_cursor_match("{[^{}]-}$")
   if left then
-    print(left)
+    -- print(left)
     return true
   end
 end
@@ -61,7 +61,7 @@ local function deleting_open(pair)
 
   local right = utils.right_of_cursor_match("^[^}]-}")
   if right then
-    print(right)
+    -- print(right)
     return true
   end
 end
@@ -180,7 +180,7 @@ M = {
       action.delete_left_and_right,
       function(pair)
         local pos = vim.fn.searchpos(pair.left, 'bcn')
-        print(vim.inspect(pos))
+        -- print(vim.inspect(pos))
         local lnum, col = pos[1], pos[2]
 
         vim.api.nvim_buf_set_text(0, lnum - 1, col - 1, lnum - 1, col, {''} )
