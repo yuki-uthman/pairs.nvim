@@ -298,3 +298,47 @@ Deleting the opening bracket deletes the closing bracket.
   @end
   @clear
 
+
+It should not delete anything if the brackets are not matched.
+  > i{
+  > value}<ESC>
+  {value}
+
+  > x
+  {value
+
+  > A,<Space>
+  {value, 
+
+  > {
+  {value, {}
+
+  > value
+  {value, {value}
+
+  > <ESC>I<right><BS>
+  value, {value}
+  @end
+  @clear
+
+
+  > i{
+  > value}
+  {value}
+
+  > ,<Space>
+  {value}, 
+
+  > {
+  {value}, {}
+
+  > <ESC>x
+  {value}, }
+
+  > ivalue
+  {value}, value}
+
+  > <ESC>A<BS>
+  {value}, value
+  @end
+  @clear

@@ -59,7 +59,7 @@ local function deleting_open(pair)
     return false
   end
 
-  local right = utils.right_of_cursor_match("^[^}]-}")
+  local right = utils.right_of_cursor_match("^[^{]-}")
   if right then
     -- print(right)
     return true
