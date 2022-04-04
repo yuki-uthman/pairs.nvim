@@ -37,6 +37,15 @@ function M.expand_with_space(pair)
   utils.feedkey(" ", "n")
 end
 
+function M.delete_surrounding(pair)
+  local lnum = vim.fn.getcurpos()[2]
+  local col = utils.get_close_pos(pair)
+  vim.api.nvim_buf_set_text(0, lnum - 1, col - 2, lnum - 1, col - 1, {''})
+
+  utils.feedkey("<BS>", "n")
+end
+
+
 function M.jump_over(pair)
   utils.feedkey("<right>", "n")
 end

@@ -144,14 +144,7 @@ M = {
     },
 
     actions = {
-      function(pair)
-        local pos = vim.fn.searchpos(pair.right, 'nc', vim.fn.line('.'))
-        local lnum, col = pos[1], pos[2]
-
-        vim.api.nvim_buf_set_text(0, lnum - 1, col - 2, lnum - 1, col - 1, {''} )
-
-        utils.feedkey("<bs>", "n")
-      end,
+      action.delete_surrounding,
       function(pair)
 
         utils.feedkey("<C-G>u", "n")
