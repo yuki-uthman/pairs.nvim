@@ -136,7 +136,7 @@ M = {
 
   backspace = {
     conditions = {
-      space_on_both_side,
+      condition.space_on_both_side,
       to_one_liner,
       condition.empty,
       deleting_close,
