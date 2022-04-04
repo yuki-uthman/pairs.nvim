@@ -8,12 +8,11 @@ local condition = require "pairz.custom.conditions"
 local M = {}
 
 local function inside_pair(pair)
-  local left = utils.left_of_cursor_match("({)%s*$")
-  local right = utils.right_of_cursor_match("%s*(})%p*")
 
-  if left == pair.left and right == pair.right then
+  if utils.get_close_pos(pair) then
     return true
   end
+
 end
 
 local function space_on_both_side(pair)

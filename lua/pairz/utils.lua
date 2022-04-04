@@ -140,4 +140,40 @@ function M.below_match(regex)
   return match
 end
 
+function M.get_close_pos(pair)
+
+  local nested_count = 0
+  local open = string.byte(pair.left)
+  local close = string.byte(pair.right)
+
+  local string = M.get_line_after_cursor()
+
+  for idx = 1, #string do
+
+    if nested_count ~= 0 then
+      -- print("Nested count not 0")
+
+      if string:byte(idx) == open then
+        -- print("Target found at:", idx)
+        nested_count = nested_count + 1
+
+      elseif string:byte(idx) == close then
+        nested_count = nested_count - 1
+      end
+
+    elseif nested_count == 0 then
+      -- print("Nested count is 0")
+      if string:byte(idx) == open then
+        nested_count = nested_count + 1
+
+      elseif string:byte(idx) == close then
+        local col = vim.fn.getcurpos()[3]
+        return col + idx - 1
+      end
+
+    end
+  end
+
+end
+
 return M
