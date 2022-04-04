@@ -26,11 +26,13 @@ function M.enter_and_indent()
 end
 
 function M.expand_with_space(pair)
+  local save = vim.fn.getcurpos()
 
-  local pos = vim.fn.searchpos(pair.right, 'nc', vim.fn.line('.'))
-  local lnum, col = pos[1], pos[2]
-
-  vim.api.nvim_buf_set_text(0, lnum - 1, col - 1, lnum - 1, col - 1, {' '} )
+  local lnum = vim.fn.getcurpos()[2]
+  local col = utils.get_close_pos(pair)
+  vim.fn.setpos('.', {0, lnum, col})
+  vim.api.nvim_buf_set_text(0, lnum - 1, col - 1, lnum - 1, col - 1, {' '})
+  vim.fn.setpos('.', save)
 
   utils.feedkey(" ", "n")
 end
