@@ -49,12 +49,31 @@ local function right_has_space(pair)
   end
 end
 
-function M.space_on_both_side(pair)
+function M.both_side_has_space(pair)
 
   if left_has_space(pair) and right_has_space(pair) then
     return true
   end
 
+end
+
+function M.both_side_no_space(pair)
+  local left = utils.get_left_char()
+  local right = utils.get_right_char()
+
+  if left == pair.left and right ~= " " then
+  else
+    return false
+  end
+
+  local close_col = utils.get_close_pos(pair)
+  left = utils.get_line(0):sub(close_col - 1, close_col - 1)
+
+  if left == " " then
+    return false
+  end
+
+  return true
 end
 
 return M

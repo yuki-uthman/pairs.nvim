@@ -62,7 +62,21 @@ M = {
     actions = {
       action.expand_with_space
     }
+  },
+
+  backspace = {
+    conditions = {
+      condition.both_side_has_space,
+      condition.empty,
+    },
+
+    actions = {
+      action.delete_surrounding,
+      action.delete_left_and_right,
+    }
   }
+
+
 }
 
 return core:new(M)

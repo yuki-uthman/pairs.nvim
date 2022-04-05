@@ -116,16 +116,7 @@ M = {
   space = {
     conditions = {
       condition.empty,
-      function()
-
-        local left = utils.get_left_char()
-        local right = utils.right_of_cursor_match("%S(})%p*")
-
-        if left == "{" and right == "}" then
-          return "empty"
-        end
-
-      end
+      condition.both_side_no_space
     },
 
     actions = {
@@ -136,7 +127,7 @@ M = {
 
   backspace = {
     conditions = {
-      condition.space_on_both_side,
+      condition.both_side_has_space,
       to_one_liner,
       condition.empty,
       deleting_close,
