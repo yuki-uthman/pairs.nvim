@@ -42,6 +42,11 @@ end
 
 local function right_has_space(pair)
   local close_col = utils.get_close_pos(pair)
+
+  if not close_col then
+    return false
+  end
+
   local right = utils.get_line(0):sub(close_col - 1, close_col - 0)
 
   if right == " " .. pair.right then
